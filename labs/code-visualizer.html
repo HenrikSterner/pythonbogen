@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pyCode · Kodevisualisering</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #697386;
+      --paper: #f7f8fb;
+      --panel: #ffffff;
+      --line: #dfe4ec;
+      --blue: #356ae6;
+      --blue-soft: #eaf0ff;
+      --purple: #7456d8;
+      --green: #16835b;
+      --orange: #c56b24;
+      --code: #121a2b;
+      --code-panel: #1a2438;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body { color: var(--ink); background: var(--paper); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, select, textarea { font: inherit; }
+    button, select { border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink); cursor: pointer; }
+    button { padding: 8px 12px; transition: .15s ease; }
+    button:hover { border-color: #b8c3d4; background: #f8faff; }
+    button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #b8caff; outline-offset: 1px; }
+    .app { min-height: 100vh; }
+    .topbar { min-height: 64px; display: flex; align-items: center; gap: 12px; padding: 12px clamp(16px, 3vw, 38px); background: #fff; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; font-size: 17px; font-weight: 760; letter-spacing: -.02em; white-space: nowrap; }
+    .brand-mark { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 9px; background: var(--blue); color: white; font-weight: 800; }
+    .topbar a { color: var(--muted); font-size: 13px; text-decoration: none; }
+    .topbar a:hover { color: var(--blue); }
+    .page { width: min(1440px, calc(100% - 32px)); margin: 0 auto; padding: 29px 0 42px; }
+    .intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 23px; }
+    .eyebrow { margin: 0 0 7px; color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(25px, 3vw, 38px); letter-spacing: -.045em; line-height: 1.05; }
+    .intro p { max-width: 580px; margin: 10px 0 0; color: var(--muted); line-height: 1.5; }
+    .hint { padding: 10px 13px; border: 1px solid #dbe4ff; border-radius: 10px; color: #49619a; background: #f2f5ff; font-size: 12px; white-space: nowrap; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 16px; padding: 11px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 4px 18px rgb(30 49 90 / 5%); }
+    .toolbar select { min-width: 190px; padding: 8px 10px; }
+    .toolbar-separator { width: 1px; height: 27px; margin: 0 3px; background: var(--line); }
+    .primary { border-color: var(--blue); background: var(--blue); color: white; font-weight: 700; }
+    .primary:hover { border-color: #2859ca; background: #2859ca; }
+    .step-button { display: inline-flex; align-items: center; gap: 6px; }
+    .step-button strong { font-size: 15px; line-height: 1; }
+    .speed { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; color: var(--muted); font-size: 12px; }
+    .speed input { accent-color: var(--blue); }
+    .workspace { display: grid; grid-template-columns: minmax(360px, .92fr) minmax(540px, 1.35fr); gap: 16px; align-items: start; }
+    .card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: var(--panel); box-shadow: 0 4px 18px rgb(30 49 90 / 5%); }
+    .card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 50px; padding: 13px 16px; border-bottom: 1px solid var(--line); }
+    .card-title { font-size: 13px; font-weight: 800; }
+    .card-subtitle { color: var(--muted); font-size: 11px; }
+    .editor { background: var(--code); }
+    .editor .card-header { border-bottom-color: #2a3854; color: white; background: var(--code-panel); }
+    .editor-badge { padding: 4px 8px; border-radius: 99px; color: #b9c9ee; background: #263756; font-size: 11px; }
+    .code-shell { position: relative; height: 445px; overflow: hidden; }
+    .code-layer, .code-input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 19px 18px 25px 60px; border: 0; font: 13px/1.75 Consolas, "Courier New", monospace; tab-size: 4; white-space: pre; overflow: auto; }
+    .code-layer { z-index: 1; color: #dce6f8; pointer-events: none; }
+    .code-input { z-index: 2; resize: none; color: transparent; caret-color: white; background: transparent; outline: none; }
+    .code-input::selection { color: transparent; background: rgb(121 159 255 / 35%); }
+    .gutter { position: absolute; z-index: 3; inset: 0 auto 0 0; width: 45px; padding: 19px 9px 25px 0; overflow: hidden; border-right: 1px solid #26344e; color: #63728e; font: 13px/1.75 Consolas, "Courier New", monospace; text-align: right; user-select: none; pointer-events: none; }
+    .code-line { display: block; min-height: 22.75px; margin: 0 -18px 0 -60px; padding-left: 60px; }
+    .code-line.active { color: #fff; background: rgb(70 108 197 / 33%); box-shadow: inset 3px 0 0 #74a0ff; }
+    .code-line .keyword { color: #c99cff; }
+    .code-line .string { color: #91e1aa; }
+    .code-line .number { color: #f5c86d; }
+    .code-line .comment { color: #72819a; font-style: italic; }
+    .code-line .builtin { color: #78d6e6; }
+    .editor-footer { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-top: 1px solid #2a3854; color: #8494b1; background: var(--code-panel); font-size: 11px; }
+    .editor-footer kbd { padding: 2px 5px; border: 1px solid #51627f; border-radius: 4px; color: #d4def0; }
+    .visualizer { display: grid; gap: 16px; }
+    .execution { border-color: #cfdcff; }
+    .execution-header { display: flex; align-items: center; gap: 10px; min-height: 59px; padding: 13px 16px; background: #f7f9ff; }
+    .step-count { color: var(--blue); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .progress { flex: 1; height: 6px; overflow: hidden; border-radius: 99px; background: #e1e7f5; }
+    .progress span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--blue); transition: width .2s ease; }
+    .line-pill { padding: 5px 8px; border-radius: 6px; color: #52627e; background: #e7ecf8; font: 11px Consolas, monospace; white-space: nowrap; }
+    .event { min-height: 43px; padding: 11px 16px; color: #3d4c64; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .event strong { color: var(--ink); }
+    .state-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(180px, .8fr); gap: 13px; padding: 14px; }
+    .call-tree-box { grid-column: 1 / -1; overflow: hidden; }
+    .state-box { min-width: 0; padding: 13px; border: 1px solid var(--line); border-radius: 10px; background: #fcfdff; }
+    .state-box h2 { margin: 0 0 11px; color: #58657a; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+    .frame { overflow: hidden; margin-bottom: 9px; border: 1px solid #dfe5f0; border-radius: 8px; background: white; }
+    .frame:last-child { margin-bottom: 0; }
+    .frame-head { display: flex; justify-content: space-between; padding: 8px 10px; color: #40506b; background: #f1f4fa; font-size: 12px; font-weight: 800; }
+    .frame-head span { color: #8994a7; font: 10px Consolas, monospace; font-weight: 400; }
+    .vars { display: grid; gap: 1px; padding: 5px 10px 7px; }
+    .var { display: grid; grid-template-columns: 1fr minmax(0, 1.45fr); gap: 9px; padding: 5px 0; border-bottom: 1px solid #f0f2f6; font: 12px Consolas, monospace; }
+    .var:last-child { border-bottom: 0; }
+    .var-name { color: #596a87; }
+    .var-value { overflow: hidden; color: var(--ink); text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+    .value-string { color: var(--green); }
+    .value-number { color: #a95e1f; }
+    .value-bool { color: var(--purple); }
+    .ref { padding: 2px 5px; border-radius: 4px; color: #4e55a2; background: #eef0ff; font-size: 11px; }
+    .empty { color: #9aa4b5; font-size: 12px; }
+    .heap-object { margin-bottom: 9px; padding: 9px 10px; border: 1px solid #dddff4; border-left: 3px solid var(--purple); border-radius: 7px; background: #fafaff; font: 12px Consolas, monospace; }
+    .heap-object:last-child { margin-bottom: 0; }
+    .heap-label { display: block; margin-bottom: 5px; color: var(--purple); font-size: 11px; font-weight: 800; }
+    #callTree { max-height: 430px; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable both-edges; }
+    .tree { display: flex; justify-content: center; width: max-content; min-width: 100%; padding: 8px 5px 14px; }
+    .tree-branch { position: relative; display: flex; flex-direction: column; align-items: center; padding: 0 7px; }
+    .tree-node { position: relative; z-index: 1; min-width: 132px; max-width: 210px; padding: 9px 11px; border: 1px solid #dfe5f0; border-radius: 8px; background: white; font: 12px Consolas, monospace; text-align: center; }
+    .tree-node.root { color: #52627e; background: #f1f4fa; font-family: inherit; font-weight: 800; }
+    .tree-branch.has-children > .tree-node::after { position: absolute; bottom: -12px; left: 50%; width: 1px; height: 12px; background: #cbd4e4; content: ''; }
+    .tree-children { position: relative; display: flex; justify-content: center; gap: 12px; padding-top: 26px; }
+    .tree-children::before { position: absolute; top: 12px; right: 7px; left: 7px; height: 1px; background: #cbd4e4; content: ''; }
+    .tree-children > .tree-branch::before { position: absolute; top: -14px; left: 50%; width: 1px; height: 14px; background: #cbd4e4; content: ''; }
+    .tree-call { display: block; overflow: hidden; color: #44546e; text-overflow: ellipsis; white-space: nowrap; }
+    .tree-status { display: block; margin-bottom: 4px; color: #a0aabd; font: 10px system-ui, sans-serif; }
+    .tree-node.active { border-color: #a7bfff; background: #f2f5ff; box-shadow: inset 3px 0 0 var(--blue); }
+    .tree-node.active .tree-status { color: var(--blue); font-weight: 800; }
+    .tree-node.returned { border-color: #cfe8dc; background: #f5fcf8; }
+    .tree-node.returned .tree-status { color: var(--green); }
+    .output { padding: 0 14px 14px; }
+    .output-inner { min-height: 78px; padding: 11px 13px; border-radius: 9px; color: #dce6f8; background: var(--code); font: 12px/1.6 Consolas, monospace; }
+    .output-title { margin-bottom: 5px; color: #8494b1; font: 10px system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+    .output-line { color: #9be3b0; }
+    .output-cursor { display: inline-block; width: 7px; height: 13px; margin-left: 4px; vertical-align: -2px; background: #719aff; }
+    .notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .note { padding: 13px; border: 1px solid var(--line); border-radius: 10px; background: white; }
+    .note strong { display: block; margin-bottom: 4px; font-size: 12px; }
+    .note span { color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .error { margin: 0 14px 14px; padding: 10px 12px; border: 1px solid #f2c8c8; border-radius: 8px; color: #9b3232; background: #fff5f5; font-size: 12px; }
+    @media (max-width: 900px) {
+      .workspace { grid-template-columns: 1fr; }
+      .code-shell { height: 390px; }
+      .intro { align-items: start; flex-direction: column; gap: 12px; }
+      .hint { white-space: normal; }
+    }
+    @media (max-width: 580px) {
+      .page { width: min(100% - 20px, 1440px); padding-top: 20px; }
+      .topbar { padding: 11px 15px; }
+      .topbar a { display: none; }
+      .toolbar-separator { display: none; }
+      .speed { width: 100%; margin-left: 0; }
+      .state-grid, .notes { grid-template-columns: 1fr; }
+      .code-shell { height: 350px; }
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">pyCode</span> pyCode</div>
+      <a href="index.html">← Til forsiden</a>
+    </header>
+
+    <main class="page">
+      <div class="intro">
+        <div>
+          <p class="eyebrow">Lær ved at se koden arbejde</p>
+          <h1>Kodevisualisering</h1>
+          <p>Gå igennem en lille Python-kodestump én linje ad gangen. Se hvordan variabler, funktioner, lister og output ændrer sig undervejs.</p>
+        </div>
+        <div class="hint">Tip: Brug <b>mellemrum</b> til næste trin</div>
+      </div>
+
+      <section class="toolbar" aria-label="Kontroller for kørsel">
+        <select id="exampleSelect" aria-label="Vælg eksempel">
+          <option value="condition">Betingelse · if / else</option>
+          <option value="loop">Løkke · for / range</option>
+          <option value="function">Funktion · kald og return</option>
+          <option value="list">Liste · heap og referencer</option>
+          <option value="listOps">Lister · 1D og 2D operationer</option>
+          <option value="recursive">Rekursion · kaldetræ</option>
+        </select>
+        <button id="runBtn" class="primary">▶ Kør fra start</button>
+        <button id="resetBtn">↺ Nulstil</button>
+        <span class="toolbar-separator"></span>
+        <button id="backBtn" class="step-button" title="Forrige trin (←)"><strong>←</strong> Forrige</button>
+        <button id="nextBtn" class="step-button primary" title="Træd ind i næste kald (mellemrum)">Træd ind <strong>→</strong></button>
+        <button id="stepOverBtn" title="Kør over et funktionskald">Træd over</button>
+        <button id="stepOutBtn" title="Kør til funktionen returnerer">Træd ud</button>
+        <button id="autoBtn">▶ Auto</button>
+        <label class="speed" for="speedRange">Hastighed <input id="speedRange" type="range" min="250" max="1400" step="50" value="750"></label>
+      </section>
+
+      <div class="workspace">
+        <section class="card editor" aria-label="Kodeeditor">
+          <div class="card-header"><span class="card-title">Din Python-kode</span><span class="editor-badge">Python · lille udsnit</span></div>
+          <div class="code-shell">
+            <pre id="codeLayer" class="code-layer" aria-hidden="true"></pre>
+            <textarea id="codeInput" class="code-input" spellcheck="false" aria-label="Python-kode"></textarea>
+            <div id="gutter" class="gutter" aria-hidden="true"></div>
+          </div>
+          <div class="editor-footer"><span>Redigér koden og tryk “Kør fra start”</span><span><kbd>Space</kbd> næste trin</span></div>
+        </section>
+
+        <section class="visualizer" aria-label="Programvisualisering">
+          <div class="card execution">
+            <div class="execution-header">
+              <span id="stepCount" class="step-count">Trin 0 / 0</span>
+              <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+              <span id="linePill" class="line-pill">Klar</span>
+            </div>
+            <div id="eventText" class="event">Tryk på <strong>Træd ind</strong> for at begynde. Brug <strong>Træd over</strong> for at springe et funktionskald over.</div>
+            <div class="state-grid">
+              <div class="state-box"><h2>Call stack · hukommelse</h2><div id="frames"></div></div>
+              <div class="state-box"><h2>Heap · objekter</h2><div id="heap"></div></div>
+              <div class="state-box call-tree-box"><h2>Rekursionstræ · funktionskald</h2><div id="callTree"></div></div>
+            </div>
+            <div class="output"><div class="output-inner"><div class="output-title">Programoutput</div><div id="output"></div></div></div>
+            <div id="error" class="error" hidden></div>
+          </div>
+          <div class="notes">
+            <div class="note"><strong>Call stack</strong><span>Aktive funktionskald ligger oven på det globale scope.</span></div>
+            <div class="note"><strong>Heap</strong><span>Lister er objekter. Variablerne peger på dem med en reference.</span></div>
+            <div class="note"><strong>Trin for trin</strong><span>Gå tilbage og frem for at sammenligne to øjeblikke i programmet.</span></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const EXAMPLES = {
+      condition: `tal = 7
+dobbelt = tal * 2
+if dobbelt > 10:
+    besked = "større end 10"
+else:
+    besked = "10 eller mindre"
+print(besked)`,
+      loop: `sum = 0
+for i in range(4):
+    sum = sum + i
+print(sum)`,
+      function: `def kvadrat(x):
+    resultat = x * x
+    return resultat
+
+tal = 4
+svar = kvadrat(tal)
+print(svar)`,
+      list: `tal = [10, 20, 30]
+første = tal[0]
+tal.append(40)
+print(tal)`,
+      listOps: `tal = [10, 20, 30]
+første = tal[0]
+tal.append(40)
+antal = len(tal)
+
+matrix = [[1, 2], [3, 4]]
+celle = matrix[1][0]
+matrix[0][1] = 99
+matrix.append([5, 6])
+rækker = len(matrix)
+
+print(tal)
+print(matrix)`,
+      recursive: `def fakultet(n):
+    if n <= 1:
+        return 1
+    return n * fakultet(n - 1)
+
+resultat = fakultet(4)
+print(resultat)`
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const input = $('codeInput');
+    let trace = [];
+    let traceIndex = 0;
+    let autoTimer = null;
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    }
+
+    function highlightLine(line) {
+      let html = escapeHtml(line);
+      html = html.replace(/(#.*)$/g, '<span class="comment">$1</span>');
+      html = html.replace(/(&quot;.*?&quot;|&#39;.*?&#39;)/g, '<span class="string">$1</span>');
+      html = html.replace(/\b(def|return|if|else|for|in|range|True|False|None)\b/g, '<span class="keyword">$1</span>');
+      html = html.replace(/\b(print|len)\b/g, '<span class="builtin">$1</span>');
+      html = html.replace(/\b\d+(?:\.\d+)?\b/g, '<span class="number">$&</span>');
+      return html || ' ';
+    }
+
+    function renderCode(lineNumber) {
+      const lines = input.value.split('\n');
+      $('codeLayer').innerHTML = lines.map((line, index) => `<span class="code-line${index + 1 === lineNumber ? ' active' : ''}">${highlightLine(line)}</span>`).join('');
+      $('gutter').innerHTML = lines.map((_, index) => `<span class="code-line${index + 1 === lineNumber ? ' active' : ''}">${index + 1}</span>`).join('');
+    }
+
+    function stripComment(text) {
+      let quote = null;
+      for (let i = 0; i < text.length; i += 1) {
+        if ((text[i] === '"' || text[i] === "'") && text[i - 1] !== '\\') quote = quote === text[i] ? null : (quote || text[i]);
+        if (text[i] === '#' && !quote) return text.slice(0, i).trim();
+      }
+      return text.trim();
+    }
+
+    function indentation(line) { return (line.match(/^\s*/) || [''])[0].replace(/\t/g, '    ').length; }
+
+    function parseProgram(source) {
+      const lines = source.split('\n');
+      function nextMeaningful(index) {
+        while (index < lines.length && !stripComment(lines[index])) index += 1;
+        return index;
+      }
+      function block(start, indent) {
+        const nodes = [];
+        let index = start;
+        while (index < lines.length) {
+          const clean = stripComment(lines[index]);
+          if (!clean) { index += 1; continue; }
+          const level = indentation(lines[index]);
+          if (level < indent) break;
+          if (level > indent) throw new Error(`Linje ${index + 1}: uventet indrykning.`);
+          if (clean === 'else:') break;
+          const line = index + 1;
+          if (/^if\s+(.+):$/.test(clean)) {
+            const match = clean.match(/^if\s+(.+):$/); const bodyStart = nextMeaningful(index + 1);
+            const childIndent = bodyStart < lines.length ? indentation(lines[bodyStart]) : indent + 4;
+            const thenBlock = block(bodyStart, childIndent); index = thenBlock.index;
+            let elseBlock = [];
+            const possibleElse = nextMeaningful(index);
+            if (possibleElse < lines.length && indentation(lines[possibleElse]) === indent && stripComment(lines[possibleElse]) === 'else:') {
+              const elseStart = nextMeaningful(possibleElse + 1); const elseIndent = elseStart < lines.length ? indentation(lines[elseStart]) : indent + 4;
+              const parsedElse = block(elseStart, elseIndent); elseBlock = parsedElse.nodes; index = parsedElse.index;
+            }
+            nodes.push({ type: 'if', line, condition: match[1], body: thenBlock.nodes, otherwise: elseBlock }); continue;
+          }
+          if (/^for\s+([\p{L}_][\p{L}\p{N}_]*)\s+in\s+(.+):$/u.test(clean)) {
+            const match = clean.match(/^for\s+([\p{L}_][\p{L}\p{N}_]*)\s+in\s+(.+):$/u); const bodyStart = nextMeaningful(index + 1);
+            const childIndent = bodyStart < lines.length ? indentation(lines[bodyStart]) : indent + 4; const parsed = block(bodyStart, childIndent);
+            nodes.push({ type: 'for', line, variable: match[1], iterable: match[2], body: parsed.nodes }); index = parsed.index; continue;
+          }
+          if (/^def\s+([\p{L}_][\p{L}\p{N}_]*)\s*\((.*?)\):$/u.test(clean)) {
+            const match = clean.match(/^def\s+([\p{L}_][\p{L}\p{N}_]*)\s*\((.*?)\):$/u); const bodyStart = nextMeaningful(index + 1);
+            const childIndent = bodyStart < lines.length ? indentation(lines[bodyStart]) : indent + 4; const parsed = block(bodyStart, childIndent);
+            nodes.push({ type: 'def', line, name: match[1], params: match[2].split(',').map((part) => part.trim()).filter(Boolean), body: parsed.nodes }); index = parsed.index; continue;
+          }
+          nodes.push({ type: 'statement', line, text: clean }); index += 1;
+        }
+        return { nodes, index };
+      }
+      return block(0, 0).nodes;
+    }
+
+    function splitArgs(text) {
+      const args = []; let start = 0; let depth = 0; let quote = null;
+      for (let i = 0; i < text.length; i += 1) {
+        const char = text[i];
+        if ((char === '"' || char === "'") && text[i - 1] !== '\\') quote = quote === char ? null : (quote || char);
+        if (!quote && '([{'.includes(char)) depth += 1;
+        if (!quote && ')]}'.includes(char)) depth -= 1;
+        if (char === ',' && !quote && depth === 0) { args.push(text.slice(start, i).trim()); start = i + 1; }
+      }
+      if (text.slice(start).trim()) args.push(text.slice(start).trim());
+      return args;
+    }
+
+    function formatValue(value) {
+      if (value === undefined) return 'None';
+      if (value === null) return 'None';
+      if (typeof value === 'string') return `<span class="value-string">&quot;${escapeHtml(value)}&quot;</span>`;
+      if (typeof value === 'boolean') return `<span class="value-bool">${value ? 'True' : 'False'}</span>`;
+      if (typeof value === 'number') return `<span class="value-number">${value}</span>`;
+      if (Array.isArray(value)) return `[${value.map((item) => typeof item === 'string' ? `&quot;${escapeHtml(item)}&quot;` : escapeHtml(formatPlain(item))).join(', ')}]`;
+      if (value && value.__ref) return `<span class="ref">↗ ${value.__ref}</span>`;
+      return escapeHtml(formatPlain(value));
+    }
+
+    function formatPlain(value) {
+      if (value === undefined || value === null) return 'None';
+      if (typeof value === 'string') return `"${value}"`;
+      if (Array.isArray(value)) return `[${value.map(formatPlain).join(', ')}]`;
+      if (typeof value === 'boolean') return value ? 'True' : 'False';
+      return String(value);
+    }
+
+    function formatHeapItem(value) {
+      if (value && value.__ref) return `<span class="ref">↗ ${escapeHtml(value.__ref)}</span>`;
+      return escapeHtml(formatPlain(value));
+    }
+
+    function createRuntime() {
+      const runtime = { frames: [{ name: 'global', locals: {} }], functions: {}, output: [], snapshots: [], callTree: { name: 'global', args: [], status: 'root', children: [] }, callStack: [], heapSerial: 0 };
+      function currentFrame() { return runtime.frames[runtime.frames.length - 1]; }
+      function env() {
+        const values = {};
+        Object.assign(values, runtime.frames[0].locals);
+        if (runtime.frames.length > 1) Object.assign(values, currentFrame().locals);
+        return values;
+      }
+      function cloneForSnapshot(value, heap, seen) {
+        if (Array.isArray(value)) {
+          if (seen.has(value)) return { __ref: seen.get(value) };
+          const ref = `list_${Object.keys(heap).length + 1}`; seen.set(value, ref); heap[ref] = value.map((item) => cloneForSnapshot(item, heap, seen)); return { __ref: ref };
+        }
+        return value;
+      }
+      function snapshot(line, event) {
+        const heap = {}; const seen = new WeakMap();
+        const frames = runtime.frames.map((frame) => ({ name: frame.name, locals: Object.fromEntries(Object.entries(frame.locals).map(([key, value]) => [key, cloneForSnapshot(value, heap, seen)])) }));
+        runtime.snapshots.push({ line, event, frames, heap, output: runtime.output.slice(), callTree: JSON.parse(JSON.stringify(runtime.callTree)) });
+      }
+      function translate(expression) {
+        return expression.replace(/\bTrue\b/g, 'true').replace(/\bFalse\b/g, 'false').replace(/\bNone\b/g, 'null').replace(/\band\b/g, '&&').replace(/\bor\b/g, '||').replace(/\bnot\s+/g, '!');
+      }
+      function evaluate(expression) {
+        const source = expression.trim();
+        if (!source) return undefined;
+        const values = env();
+        const names = Object.keys(values).filter((name) => /^[\p{L}_][\p{L}\p{N}_]*$/u.test(name));
+        const args = names.map((name) => values[name]);
+        const functionNames = Object.keys(runtime.functions);
+        functionNames.forEach((name) => { names.push(name); args.push((...params) => callFunction(name, params)); });
+        names.push('len'); args.push((value) => value.length);
+        names.push('range'); args.push((limit) => Array.from({ length: Number(limit) }, (_, index) => index));
+        names.push('__floorDiv'); args.push((a, b) => Math.floor(a / b));
+        const jsExpression = translate(source).replace(/(\S+)\s*\/\/\s*(\S+)/g, '__floorDiv($1,$2)');
+        return Function(...names, `"use strict"; return (${jsExpression});`)(...args);
+      }
+      function assign(name, value, operation) {
+        const frame = currentFrame(); const oldValue = frame.locals[name];
+        if (!operation) frame.locals[name] = value;
+        else if (operation === '+=') frame.locals[name] = oldValue + value;
+        else if (operation === '-=') frame.locals[name] = oldValue - value;
+        else if (operation === '*=') frame.locals[name] = oldValue * value;
+        else frame.locals[name] = value;
+      }
+      function readTarget(target) {
+        const match = target.match(/^([\p{L}_][\p{L}\p{N}_]*)(.*)$/u); if (!match) throw new Error(`Ogyldigt listeudtryk: ${target}`);
+        let value = Object.prototype.hasOwnProperty.call(currentFrame().locals, match[1]) ? currentFrame().locals[match[1]] : runtime.frames[0].locals[match[1]];
+        const indexes = [...match[2].matchAll(/\[([^\]]+)\]/g)];
+        if (indexes.length && indexes.map((part) => part[0]).join('') !== match[2].replace(/\s/g, '')) throw new Error(`Ogyldigt listeudtryk: ${target}`);
+        for (const index of indexes) value = value[evaluate(index[1])];
+        return value;
+      }
+      function assignTarget(target, value, operation) {
+        const match = target.match(/^([\p{L}_][\p{L}\p{N}_]*)(.*)$/u); if (!match) throw new Error(`Ogyldigt mål: ${target}`);
+        const indexes = [...match[2].matchAll(/\[([^\]]+)\]/g)];
+        if (!indexes.length) { assign(match[1], value, operation); return; }
+        if (indexes.map((part) => part[0]).join('') !== match[2].replace(/\s/g, '')) throw new Error(`Ogyldigt mål: ${target}`);
+        let container = Object.prototype.hasOwnProperty.call(currentFrame().locals, match[1]) ? currentFrame().locals[match[1]] : runtime.frames[0].locals[match[1]];
+        for (let index = 0; index < indexes.length - 1; index += 1) container = container[evaluate(indexes[index][1])];
+        const lastIndex = evaluate(indexes[indexes.length - 1][1]); const oldValue = container[lastIndex];
+        if (!operation) container[lastIndex] = value;
+        else if (operation === '+=') container[lastIndex] = oldValue + value;
+        else if (operation === '-=') container[lastIndex] = oldValue - value;
+        else if (operation === '*=') container[lastIndex] = oldValue * value;
+        else container[lastIndex] = value;
+      }
+      function executeStatement(node) {
+        const text = node.text;
+        if (/^print\s*\((.*)\)$/.test(text)) {
+          const args = splitArgs(text.match(/^print\s*\((.*)\)$/)[1]).map(evaluate); runtime.output.push(args.map(formatPlain).join(' ')); return `Output: ${args.map(formatPlain).join(' ')}`;
+        }
+        const appendMatch = text.match(/^((?:[\p{L}_][\p{L}\p{N}_]*)(?:\s*\[[^\]]+\])*)\.append\((.*)\)$/u);
+        if (appendMatch) { const list = readTarget(appendMatch[1]); if (!Array.isArray(list)) throw new Error(`Linje ${node.line}: ${appendMatch[1]} er ikke en liste.`); list.push(evaluate(appendMatch[2])); return `${appendMatch[1]}.append(...) tilføjer et element`; }
+        const assignment = text.match(/^((?:[\p{L}_][\p{L}\p{N}_]*)(?:\s*\[[^\]]+\])*)\s*(\+=|-=|\*=|=)\s*(.+)$/u);
+        if (assignment) { const value = evaluate(assignment[3]); assignTarget(assignment[1], value, assignment[2] === '=' ? null : assignment[2]); return `${assignment[1]} = ${formatPlain(readTarget(assignment[1]))}`; }
+        evaluate(text); return `Udtryk evalueret: ${text}`;
+      }
+      function executeBlock(nodes) {
+        for (const node of nodes) {
+          if (node.type === 'def') { runtime.functions[node.name] = node; snapshot(node.line, `Funktionen <strong>${node.name}()</strong> er defineret`); continue; }
+          if (node.type === 'statement') {
+            const returnMatch = node.text.match(/^return\s+(.+)$/);
+            if (returnMatch) {
+              const returnedValue = evaluate(returnMatch[1]);
+              const activeCall = runtime.callStack[runtime.callStack.length - 1];
+              if (activeCall) { activeCall.status = 'returned'; activeCall.returnValue = returnedValue; }
+              snapshot(node.line, `<strong>return</strong> ${formatPlain(returnedValue)}`);
+              return { returned: true, value: returnedValue };
+            }
+            const result = executeStatement(node); snapshot(node.line, result); continue;
+          }
+          if (node.type === 'if') {
+            const result = Boolean(evaluate(node.condition)); snapshot(node.line, `Betingelsen er <strong>${result ? 'sand' : 'falsk'}</strong> · ${node.condition}`); const returned = executeBlock(result ? node.body : node.otherwise); if (returned) return returned; continue;
+          }
+          if (node.type === 'for') {
+            const values = evaluate(node.iterable); if (!Array.isArray(values)) throw new Error(`Linje ${node.line}: løkken forventer en liste eller range().`);
+            for (let index = 0; index < values.length; index += 1) { assign(node.variable, values[index]); snapshot(node.line, `Løkke: <strong>${node.variable} = ${formatPlain(values[index])}</strong> · iteration ${index + 1} af ${values.length}`); const returned = executeBlock(node.body); if (returned) return returned; }
+          }
+        }
+      }
+      function callFunction(name, params) {
+        const fn = runtime.functions[name]; const locals = {}; fn.params.forEach((param, index) => { locals[param] = params[index]; });
+        const parent = runtime.callStack[runtime.callStack.length - 1] || runtime.callTree;
+        const call = { name: `${name}()`, args: params, status: 'active', children: [] };
+        parent.children.push(call); runtime.callStack.push(call);
+        runtime.frames.push({ name: `${name}()`, locals });
+        const result = executeBlock(fn.body);
+        if (call.status === 'active') { call.status = 'returned'; call.returnValue = undefined; }
+        runtime.frames.pop(); runtime.callStack.pop();
+        return result ? result.value : undefined;
+      }
+      return { runtime, executeBlock, snapshot, currentFrame };
+    }
+
+    function runCode() {
+      stopAuto(); $('error').hidden = true;
+      try {
+        const program = parseProgram(input.value); const engine = createRuntime();
+        const first = program.find((node) => node.line);
+        engine.snapshot(first ? first.line : null, 'Programmet er klar. Tryk på Næste for at starte.');
+        engine.executeBlock(program); trace = engine.runtime.snapshots;
+        traceIndex = 0; render();
+      } catch (error) {
+        trace = [{ line: null, event: 'Programmet kunne ikke køres endnu.', frames: [{ name: 'global', locals: {} }], heap: {}, output: [], callTree: { name: 'global', args: [], status: 'root', children: [] } }]; traceIndex = 0; $('error').textContent = error.message; $('error').hidden = false; render();
+      }
+    }
+
+    function renderValue(value) { return formatValue(value); }
+    function renderCallTree(node, root = false) {
+      const label = root ? 'global' : `${node.name}(${(node.args || []).map(formatPlain).join(', ')})`;
+      const status = root ? 'program' : (node.status === 'active' ? 'aktivt' : `returnerede ${formatPlain(node.returnValue)}`);
+      const classes = `tree-node${root ? ' root' : ''}${node.status === 'active' ? ' active' : ''}${node.status === 'returned' ? ' returned' : ''}`;
+      const children = (node.children || []).map((child) => renderCallTree(child)).join('');
+      return `<div class="tree-branch${children ? ' has-children' : ''}"><div class="${classes}"><span class="tree-status">${escapeHtml(status)}</span><span class="tree-call">${escapeHtml(label)}</span></div>${children ? `<div class="tree-children">${children}</div>` : ''}</div>`;
+    }
+    function render() {
+      const state = trace[traceIndex] || { frames: [], heap: {}, output: [], callTree: { name: 'global', children: [] } }; const total = Math.max(trace.length - 1, 0);
+      $('stepCount').textContent = `Trin ${Math.min(traceIndex, total)} / ${total}`;
+      $('progressBar').style.width = `${total ? (traceIndex / total) * 100 : 0}%`;
+      $('linePill').textContent = state.line ? `Linje ${state.line}` : 'Klar';
+      $('eventText').innerHTML = state.event || 'Programmet er klar.';
+      renderCode(state.line);
+      $('frames').innerHTML = state.frames.length ? state.frames.slice().reverse().map((frame) => {
+        const entries = Object.entries(frame.locals);
+        return `<div class="frame"><div class="frame-head">${escapeHtml(frame.name)}<span>${frame.name === 'global' ? 'globalt scope' : 'aktivt kald'}</span></div><div class="vars">${entries.length ? entries.map(([name, value]) => `<div class="var"><span class="var-name">${escapeHtml(name)}</span><span class="var-value">${renderValue(value)}</span></div>`).join('') : '<span class="empty">Ingen lokale variabler endnu</span>'}</div></div>`;
+      }).join('') : '<span class="empty">Ingen aktiv frame.</span>';
+      const heapEntries = Object.entries(state.heap);
+      $('heap').innerHTML = heapEntries.length ? heapEntries.map(([name, value]) => `<div class="heap-object"><span class="heap-label">${name} · list</span>[${value.map(formatHeapItem).join(', ')}]</div>`).join('') : '<span class="empty">Heap er tom.</span>';
+      $('callTree').innerHTML = `<div class="tree">${renderCallTree(state.callTree || { name: 'global', children: [] }, true)}</div>`;
+      $('output').innerHTML = state.output.length ? state.output.map((line) => `<div class="output-line">&gt; ${escapeHtml(line)}</div>`).join('') + '<span class="output-cursor"></span>' : '<span class="empty">Intet output endnu</span><span class="output-cursor"></span>';
+      $('backBtn').disabled = traceIndex === 0; $('nextBtn').disabled = traceIndex >= total;
+    }
+
+    function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } $('autoBtn').textContent = '▶ Auto'; }
+    function nextStep() { if (traceIndex < trace.length - 1) { traceIndex += 1; render(); } else stopAuto(); }
+    function stepOver() {
+      if (traceIndex >= trace.length - 1) return;
+      const depth = trace[traceIndex].frames.length; let target = traceIndex + 1;
+      while (target < trace.length - 1 && trace[target].frames.length > depth) target += 1;
+      traceIndex = target; render();
+    }
+    function stepOut() {
+      if (traceIndex >= trace.length - 1) return;
+      const depth = trace[traceIndex].frames.length; let target = traceIndex + 1;
+      while (target < trace.length - 1 && trace[target].frames.length >= depth) target += 1;
+      traceIndex = target; render();
+    }
+    $('nextBtn').addEventListener('click', nextStep);
+    $('stepOverBtn').addEventListener('click', stepOver);
+    $('stepOutBtn').addEventListener('click', stepOut);
+    $('backBtn').addEventListener('click', () => { if (traceIndex > 0) { traceIndex -= 1; render(); } });
+    $('runBtn').addEventListener('click', runCode);
+    $('resetBtn').addEventListener('click', () => { stopAuto(); traceIndex = 0; render(); });
+    $('autoBtn').addEventListener('click', () => { if (autoTimer) { stopAuto(); return; } if (traceIndex >= trace.length - 1) traceIndex = 0; $('autoBtn').textContent = 'Ⅱ Pause'; autoTimer = setInterval(nextStep, Number($('speedRange').value)); });
+    $('exampleSelect').addEventListener('change', (event) => { input.value = EXAMPLES[event.target.value]; runCode(); });
+    input.addEventListener('input', () => { renderCode(trace[traceIndex]?.line || null); });
+    input.addEventListener('scroll', () => { $('codeLayer').scrollTop = input.scrollTop; $('codeLayer').scrollLeft = input.scrollLeft; $('gutter').scrollTop = input.scrollTop; });
+    document.addEventListener('keydown', (event) => { if (event.code === 'Space' && document.activeElement !== input) { event.preventDefault(); nextStep(); } if (event.key === 'ArrowRight' && document.activeElement !== input) nextStep(); if (event.key === 'ArrowLeft' && document.activeElement !== input) $('backBtn').click(); });
+    input.value = EXAMPLES.condition;
+    runCode();
+  </script>
+  <footer class="site-copyright">Copyright (C) Henrik Sterner (udvikler) og Kathrine Bohus Madsen · Værktøj til lærebogen <em>Python i Gymnasiet</em></footer>
+</body>
+</html>

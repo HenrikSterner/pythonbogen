@@ -1,0 +1,251 @@
+<p class="sample-intro">Originaluddrag fra <em>Introduktion til Python i Gymnasiet</em>. Læs hele kapitel 1. Kapitelteksten bevarer bogens henvisninger til VS Code; VygotskAI er et supplerende arbejdsrum.</p><p>I det følgende kapitel skal vi skrive vores første program men inden da skal vi have installeret et udviklingsmiljø samt Python, så vores program kan køre.</p>
+<h3>Installation af udviklingsmiljø og Python</h3>
+<p>Udviklingsmiljøet er det sted, hvor vi skriver vores kode. Det kan være en simpel teksteditor eller et mere avanceret IDE (Integrated Development Environment). Der findes mange forskellige udviklingsmiljøer.</p>
+<p>Vi vælger at bruge Visual Studio Code, da det er open source, platformsuafhængigt, gratis og har mange funktioner, der gør det nemt at arbejde mere effektivt med Python.</p>
+<p>Visual Studio Code er udviklet af Microsoft og kan downloades fra <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">Visual Studio Codes hjemmeside</a>.</p>
+<p>Når du har downloadet og installeret Visual Studio Code til dit operativsystem, skal du også installere Python. Du kan installere Python ved at downloade Python fra <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer">Pythons officielle hjemmeside</a>. Denne hjemmeside vil automatisk foreslå den nyeste version af Python, der passer til dit operativsystem. Følg installationsvejledningen for at installere Python.</p>
+<p>Når du har installeret Python, skal du sikre dig, at det er korrekt installeret. Dette kan du gøre ved at åbne en terminal eller kommandoprompt og skrive følgende kommando:</p>
+<pre class="book-code"><code class="language-bash">python --version</code></pre>
+<p>Hvis installationen er korrekt, vil du se den version af Python, du har installeret. Hvis du får en fejlmeddelelse, skal du kontrollere, at Python er korrekt installeret og tilføjet til din systems sti (PATH).</p>
+<p>Som udgangspunkt for dette kursus vil vi bruge Python 3.10 eller nyere. Det er vigtigt at have en opdateret version af Python, da ældre versioner kan mangle funktioner eller have sikkerhedsproblemer.</p>
+<p>Udover Visual Studio Code, skal du installere Python-udvidelsen for at få fuld understøttelse af Python i editoren. Du kan installere Python-udvidelsen ved</p>
+<p>Du kan også installere andre nyttige udvidelser som "Pylance" for bedre kodeanalyse og autofuldførelse.</p>
+<p>Når du har installeret Visual Studio Code og Python, er du klar til at begynde at skrive dit første Python-program.</p>
+<h3>Kort gennemgang af Visual Studio Code</h3>
+<p>Visual Studio Code (VS Code) er en moderne og fleksibel teksteditor, der er velegnet til programmering. Nedenfor vil vil vi se nogle grundlæggende funktioner, du skal kende for at komme i gang.</p>
+<h4>Filhåndtering</h4>
+<p>Du kan åbne, gemme og lukke filer ved at bruge menulinjen eller genvejstasterne. For at åbne en fil, kan du bruge Ctrl + O (Windows) eller Cmd + O (Mac). For at gemme en fil, brug Ctrl + S (Windows) eller Cmd + S (Mac).</p>
+<h4>Terminal</h4>
+<p>VS Code har en indbygget terminal, som du kan åbne ved at vælge "Terminal" i menulinjen og derefter "Ny terminal". Dette giver dig mulighed for at køre kommandoer direkte fra editoren uden at skifte til en separat terminal. Du kan også bruge genvejstasten Ctrl + (backtick),(Windows/Mac), for at åbne terminalen hurtigt.</p>
+<h4>Syntaksfremhævning</h4>
+<p>Når du åbner en Python-fil (med filendelsen .py), vil VS Code automatisk anvende syntaksfremhævning, hvilket gør det nemmere at læse og skrive kode. Du kan også ændre temaet for syntaksfremhævning i indstillingerne.</p>
+<h4>Autofuldførelse</h4>
+<p>VS Code tilbyder autofuldførelse, som hjælper dig med at skrive kode hurtigere. Når du begynder at skrive en funktion eller et variabelnavn, vil editoren foreslå mulige fuldførelser baseret på det, du har skrevet indtil videre.</p>
+<h4>Fejlmarkering</h4>
+<p>Hvis der er syntaksfejl i din kode, vil VS Code markere dem med røde streger. Du kan holde musen over fejlen for at få en beskrivelse af problemet.</p>
+<h4>Kør kode</h4>
+<h4>Udvidelser</h4>
+<p>VS Code har et stort udvalg af udvidelser, der kan forbedre din programmeringsoplevelse.</p>
+<p>Du kan installere udvidelser ved at gå til udvidelsesmarkedet (Extensions) i venstre sidepanel og søge efter relevante udvidelser. Som tidligere nævnt anbefaler vi at du installere "Python"-udvidelsen fra Microsoft samt "Pylance" for bedre kodeanalyse.</p>
+<p>Du kan tilgå udvidelsesmarkedet ved at klikke på ekstensionikonet i venstre</p>
+<h4>Indstillinger</h4>
+<p>Du kan tilpasse VS Code ved at ændre indstillingerne. Dette kan gøres ved at</p>
+<p>Disse grundlæggende funktioner kan hjælpe dig med at komme i gang med at bruge Visual Studio Code effektivt til Python-programmering. Når du bliver mere fortrolig med editoren, kan du udforske flere avancerede funktioner og tilpasninger.</p>
+<p>Herunder en illustration af hovedmenuen i Visual Studio Code med korte beskrivelser af deres betydning</p>
+<figure><img src="assets/book/image56.png" alt="" loading="lazy"></figure>
+<h3>Hello World-program</h3>
+<p>Nu er vi klar til at skrive vores første Python-program. Det klassiske første program er "Hej, Verden!", som simpelthen udskriver teksten "Hej, Verden!" på skærmen.</p>
+<p>Åbn Visual Studio Code og opret en ny fil med filendelsen .py, for eksempel <code>hello_world.py</code>. Det er vigtigt at bruge .py-endelsen, da det fortæller Visual Studio Code, at dette er en Python-fil, og editoren vil give dig den rette syntaksfremhævning og funktionalitet.</p>
+<p>For at oprette en ny fil i Visual Studio Code, kan du klikke på "Fil" i menulinjen og derefter vælge "Ny fil". Alternativt kan du bruge genvejstasten Ctrl + N (Windows) eller Cmd + N (Mac).</p>
+<p>Når du har en ny fil åben, skal du gemme den med et passende navn. Vælg "Gem som" fra "Fil"-menuen eller brug genvejstasten Ctrl + S (Windows) eller Cmd + S (Mac). Vælg en mappe, hvor du vil gemme filen, og navngiv den <code>hello_world.py</code>. Sørg for at inkludere .py-endelsen, så Visual Studio Code genkender det som en Python-fil. Når du har valgt mappen og navnet, skal du klikke på "Gem".</p>
+<h4>1a Opgave</h4>
+<p>Dan en ny Python-fil i Visual Studio Code.</p>
+<h4>1b Opgave</h4>
+<p>Afprøv terminalen i Visual Studio Code ved at skrive den kommando, der viser din Python-version. Dvs.</p>
+<pre class="book-code"><code class="language-bash">python --version</code></pre>
+<p>Når du har oprettet filen, kan du begynde at skrive din kode.</p>
+<p>I dette tilfælde er koden meget simpel. Du skal blot bruge funktionen <code>print()</code> til at udskrive teksten "Hello, World!".</p>
+<p>Skriv følgende kode i filen:</p>
+<pre class="book-code"><code class="language-python">print(&quot;Hej, Verden!&quot;)</code></pre>
+<p>Gem filen, og åbn en terminal i Visual Studio Code. Du kan gøre dette ved at vælge "Terminal" i menulinjen og derefter "Ny terminal".</p>
+<p>I terminalen skal du navigere til den mappe, hvor du gemte <code>hello_world.py</code>-filen. Du kan bruge cd-kommandoen til at ændre bibliotek.</p>
+<pre class="book-code"><code class="language-bash">cd sti/til/din/mappe</code></pre>
+<p>Når du er i den rigtige mappe, kan du køre dit program ved at skrive følgende kommando:</p>
+<pre class="book-code"><code class="language-bash">python `hello_world.py`</code></pre>
+<p>Hvis alt er korrekt opsat, vil du se outputtet:</p>
+<pre class="program-output"><code>Hello, World!</code></pre>
+<p>Tillykke! Du har nu skrevet og kørt dit første Python-program</p>
+<p>Når vi kører et Python-program, bliver Python-koden bliver først oversat til bytekode. Derefter udfører Python-fortolkeren bytekodens instruktioner på den computer, programmet køres på.</p>
+<h4>1c Opgave</h4>
+<p>Udform filen <code>hello_world.py</code>, så den indeholder dette program:</p>
+<pre class="book-code"><code class="language-python">print(&quot;Hej, Verden!&quot;, &quot;Velkommen til Python-programmering!&quot;, &quot;Lad os lære at kode!&quot;)</code></pre>
+<p>Hvad gør programmet, når du kører det?</p>
+<p>Har du ikke lyst til at starte terminalen hver gang for at køre din kode, kan du også trykke på run-ikonet.</p>
+<h4>1d Opgave</h4>
+<p>Udfør en ændring i programmet, så det i stedet skriver Velkommen til Python-programmering!.</p>
+<p>Vi kan udvide vores programmer yderligere ved at tilføje flere funktioner eller interaktioner. For eksempel kan vi bede brugeren om at indtaste deres navn og derefter udskrive en personlig hilsen:</p>
+<pre class="book-code"><code class="language-python">name = input(&quot;Indtast dit navn: &quot;)
+print(&quot;Hej&quot;)
+print(name)</code></pre>
+<p>Dette program bruger funktionen <code>input()</code> til at få input fra brugeren og gemmer det i variablen name. Når du kører dette program, vil det bede brugeren om at indtaste deres navn og derefter udskrive en hilsen med det indtastede navn.</p>
+<p>Skriver vi eksempelvis "Alice" som input, vil outputtet være:</p>
+<pre class="program-output"><code>Hej
+Alice</code></pre>
+<p>Bemærk, at når du bruger <code>input()</code>, vil programmet vente på, at brugeren indtaster noget, før det fortsætter. Dette er en vigtig del af interaktiv programmering, hvor programmet kan reagere på brugerens input.</p>
+<p>De to funktioner <code>print()</code>- og <code>input()</code> er grundlæggende funktioner i Python (dvs. de er en del af standardbiblioteket i Python), der bruges til at udskrive tekst til konsollen og få input fra brugeren. Disse funktioner vil være nyttige i mange af de programmer, vi vil skrive i fremtiden.</p>
+<h4>1e Opgave</h4>
+<p>Skriv et program <code>greeting.py</code>, der spørger brugeren om navn og derefter skriver en personlig hilsen.</p>
+<h4>1f Opgave</h4>
+<p>Sammensæt <code>greeting.py</code>, så programmet også spørger om alder og derefter skriver både en hilsen og en aldersbesked.</p>
+<h3>Sekvens af kommandoer</h3>
+<p>I Python udføres kommandoer i den rækkefølge, de er skrevet. Dette kaldes sekventiel udførelse. Når du skriver et program, skal du tænke over, hvordan kommandoerne påvirker hinanden, og hvordan de skal udføres i den rigtige rækkefølge for at opnå det ønskede resultat.</p>
+<p>For eksempel, i vores "Hello, World!"-program, udføres print("Hej, Verden!")-kommandoen først, og derefter afsluttes programmet. Hvis vi tilføjer flere <code>print()</code>-kommandoer, vil de blive udført i den rækkefølge, de er skrevet. Dette betyder, at hvis du skriver flere <code>print()</code>-kommandoer, vil de blive udført en efter en i den rækkefølge, de er skrevet i koden.</p>
+<pre class="book-code"><code class="language-python">print(&quot;Hej, Verden!&quot;)
+print(&quot;Velkommen til Python-programmering!&quot;)
+print(&quot;Lad os lære at kode!&quot;)</code></pre>
+<pre class="program-output"><code>Hej, Verden!
+Velkommen til Python-programmering!
+Lad os lære at kode!</code></pre>
+<p>Mere formelt kan vi sige, at Python udfører kommandoer i den rækkefølge, de er skrevet i koden, medmindre der er kontrolstrukturer (såsom betingelser eller løkker, som vi vil se på senere), der ændrer denne rækkefølge. Dette er en grundlæggende egenskab ved de fleste programmeringssprog og er vigtig at forstå, når du skriver programmer.</p>
+<h3>Kommentarer i Python</h3>
+<p>I Python kan du tilføje kommentarer i din kode for at gøre den mere læsbar og forståelig. Kommentarer er tekst, der ignoreres af Python-fortolkeren, og de bruges ofte til at forklare, hvad koden gør. Du kan tilføje en kommentar ved at bruge #-symbolet. Nedenfor ses et eksempel, hvor kommentaren står på sin egen linje og et eksempel, hvor kommentaren står efter en kodelinje.</p>
+<pre class="book-code"><code class="language-python"># Dette er en kommentar</code></pre>
+<pre class="book-code"><code class="language-python">print(&quot;Hej, Verden!&quot;)# Dette udskriver en hilsen</code></pre>
+<p>Kommentarer kan være nyttige til at forklare komplekse dele af din kode eller til at minde dig selv om, hvad du har tænkt, da du skrev koden. Det er en god praksis at skrive kommentarer, især når du arbejder på større projekter eller deler din kode med andre.</p>
+<p>Kommentarer kan også bruges til at deaktivere dele af koden midlertidigt, så du kan teste andre dele uden at fjerne koden helt.</p>
+<pre class="book-code"><code class="language-python"># print(&quot;Dette vil ikke blive udført&quot;)
+print(&quot;Hej, Verden!&quot;)</code></pre>
+<p>Denne kode vil kun udskrive "Hej, Verden!" og ignorere den kommenterede linje. Dette kan være nyttigt, når du fejlsøger eller tester din kode.</p>
+<p>Kommentarer kan også være flere linjer lange. For at skrive en kommentar, der strækker sig over flere linjer, kan du bruge tre citationstegn (triple quotes) i stedet for #.</p>
+<pre class="book-code"><code class="language-python">&quot;&quot;&quot;
+Dette er en kommentar, der strækker sig over
+flere linjer.
+&quot;&quot;&quot;
+print(&quot;Hej, Verden!&quot;)</code></pre>
+<p>Denne type kommentar er nyttig, når du har brug for at skrive en længere forklaring eller dokumentation for din kode. Det er dog vigtigt at bemærke, at denne metode også kan bruges til at definere multilinjetekststrenge i Python, så det er ikke kun begrænset til kommentarer.</p>
+<p>Kommentarer er en vigtig del af god kodepraksis, da de hjælper med at gøre din kode mere læsbar og forståelig for både dig selv og andre, der måtte læse din kode senere.</p>
+<p>Det er en god idé altid at skrive kommentarer, der forklarer, hvad din kode gør, især hvis det ikke er umiddelbart indlysende. Dette kan hjælpe dig selv og andre med at forstå koden bedre, når I vender tilbage til den senere.</p>
+<h4>1g Opgave</h4>
+<p>Udfør en kommentering af <code>greeting.py</code> fra opgave 1e ved at tilføje to kommentarer, der forklarer, hvad programmet gør.</p>
+<h4>1h Opgave</h4>
+<p>Fortæl, hvorfor kommentarer kan gøre kode lettere at forstå, når man vender tilbage til den senere.</p>
+<h3>Dansk eller engelsk?</h3>
+<p>Når du skriver kode, er det en god idé at vælge et sprog til dine kommentarer og variabelnavne. Det anbefales generelt at bruge engelsk, da det er det mest udbredte sprog i programmeringsverdenen. Dette gør det lettere for andre udviklere at læse og forstå din kode, især hvis du deler den online eller arbejder i et internationalt team.</p>
+<p>Hvis du skriver kode, der kun er beregnet til dig selv eller et lille team, kan du dog vælge at bruge dansk, hvis det føles mere naturligt for dig. Det vigtigste er, at du er konsekvent i dit valg af sprog og sikrer, at dine kommentarer og variabelnavne er klare og letforståelige.</p>
+<p>Hvis du vælger at bruge engelsk, kan det også hjælpe dig med at lære tekniske termer og koncepter, der ofte bruges i programmering. Mange dokumentationer, tutorials og ressourcer er skrevet på engelsk, så det kan være en fordel at være fortrolig med sproget.</p>
+<p>En anden væsentlig grund ved at vælge engelsk er, at du ikke vil møde problemer med æ, ø og å i dine variabelnavne eller kommentarer. Disse bogstaver kan forårsage problemer i nogle programmeringssprog eller værktøjer, da de ikke altid understøttes korrekt. Ved at bruge engelsk undgår du disse potentielle problemer.</p>
+<p>Du skal i denne sammenhæng være opmærksom på, at du selvfølgelig godt kan printe danske tegn i din kode, når du bruger <code>print()</code>.</p>
+<h4>1i Opgave</h4>
+<p>Forklar, hvorfor det ofte er en fordel at bruge engelske variabelnavne og kommentarer i kode.</p>
+<h3>Folderstruktur</h3>
+<p>For at holde dine Python-projekter organiseret, er det en god idé at oprette en mappe til hvert projekt. Dette gør det nemmere at finde og administrere dine filer. Her er et eksempel på, hvordan du kan organisere dine projekter:</p>
+<p>projekter/</p>
+<p>├── hello_world/</p>
+<p>│ ├── <code>hello_world.py</code></p>
+<p>│ └── <code>README.md</code></p>
+<p>├── projekt1/</p>
+<p>│ ├── <code>script1.py</code></p>
+<p>│ └── <code>script2.py</code></p>
+<p>├──projekt2/</p>
+<p>├── <code>main.py</code></p>
+<p>└── <code>utils.py</code></p>
+<p>I dette eksempel har vi en overordnet mappe kaldet projekter, som indeholder flere undermapper for hvert projekt. Hver undermappe indeholder de relevante Python-filer og eventuelt en <code>README.md</code>-fil, der beskriver projektet. Ved store projekter kan det overvejes om der bør være endnu flere underbiblioteker til eksempelvis billeder/lyd eller noget helt tredje.</p>
+<p>I dette tilfælde har vi en mappe kaldet hello_world, som indeholder vores <code>hello_world.py</code>-fil. Du kan oprette en sådan mappe ved at højreklikke i filudforskeren i Visual Studio Code og vælge "Ny mappe". Navngiv mappen hello_world, og gem din Python-fil derinde.</p>
+<p>Når du har oprettet mappen, kan du flytte din <code>hello_world.py</code>-fil ind i den. Dette hjælper med at holde dine projekter organiseret og gør det nemmere at finde de relevante filer senere.</p>
+<h4>Hver gang du starter et ny projekt</h4>
+<p>Her ses en opskrift, så du automatisk får en selvstændig mappe til hvert projekt.</p>
+<p>Når du opretter et nyt projekt skal du åbne et nyt vindue og vælge åbn. Herefter navigeres hen til den mappe, hvor du har dine python-projekter og inde fra denne mappe skal du vælge Ny mappe og gå ind i den og vælge Åbn. Så oprettes en ny mappe til det nye projekt.</p>
+<h3>Fejlfinding</h3>
+<p>At teste og finde fejl er en stor del af processen at programmere.</p>
+<p>Ingen kan programmere uden at begå fejl. At begå fejl og finde fejl er en vigtig del af at lære at programmere og leder ofte til bedre kode.</p>
+<p>Vi skelner mellem to former for fejl nemlig syntaksfejl og semantiske fejl.</p>
+<h4>Syntaksfejl</h4>
+<p>Ved syntaksfejl forstås fejl, hvor programmeringssprogets regler (grammatik) ikke er overholdt. Det kan være en manglende slutparentes eller et manglende citationstegn.</p>
+<pre class="book-code"><code class="language-python">navn = &quot;sara</code></pre>
+<p>En editor som Visual Studio Code vil opdage og markere de syntaksfejl, der kan opdages inden kørslen.</p>
+<p>Python er dog et programmeringssprog, hvor nogle syntaksfejl først kan opdages under kørslen af programmet.</p>
+<h4>Semantiske fejl</h4>
+<p>Ved semantiske fejl forstås fejl i det koden gør. At koden ikke gør det, man forventer. Disse fejl opdages først under kørslen eller efter kørslen. Det kan være, at der divideres med 0, eller at der er et minus i stedet for et plus.</p>
+<p>Fejl der opdages under kørslen kaldes runtime error. Disse fejl kan være svære at finde. Det kan ske, at oversætteren, som er det program, der oversætter pythonkode til maskinkode (kode som computeren kan forstå), opdager fejlen et helt andet sted, end der hvor den er skrevet. Den fejlmeddelelse, der kommer, kan derfor være meget svær at bruge til at finde fejlen. Hvis man ikke selv kan finde fejlen, kan det være en mulighed at kopiere fejlmeddelelsen og kopiere koden til en chatbot med generativ AI og bede den om at finde fejlen.</p>
+<p>Fejl efter kørslen opdages, fx hvis du får et output, som ikke var det forventede.</p>
+<p>For at lokalisere disse fejl, kan det være en hjælp at printe de relevante variable vha <code>print()</code> undervejs i koden.</p>
+<p>Ved denne type fejl kan man også få hjælp af generativ AI, men det er en vigtig øvelse selv at finde fejlen. Ved selv at finde denne type fejl, får man en bedre forståelse af at programmere.</p>
+<p>I næste afsnit vil vi se nærmere på, hvornår generativ AI kan hjælpe dig med at lære at programmere, og hvornår den kan stå i vejen for, at du lærer at programmere.</p>
+<h4>1j Opgave</h4>
+<p>Kig på denne kode. Forudsig hvad der vil blive udskrevet i terminalen.</p>
+<pre class="book-code"><code class="language-python">kage = 1
+print(&quot;Start: Du har&quot;, kage, &quot;kage.&quot;)
+kage = kage + 1
+print(&quot;Du bager en kage. Nu har du&quot;, kage, &quot;kager.&quot;)
+kage = kage - 2
+print(&quot;Du spiser to kager. Nu har du&quot;, kage, &quot;kager.&quot;)
+kage = &quot;kage&quot;
+print(&quot;Nu er kage ikke længere et tal:&quot;, kage)
+kage = kage + 1
+print(&quot;Hvad sker der nu?&quot;)</code></pre>
+<h4>1k Opgave</h4>
+<p>Kør programmet og forklar hvorfor programmet til sidst går galt.</p>
+<h4>1l Opgave</h4>
+<p>Tilpas selv kage-programmet, så det ikke længere fejler.</p>
+<h4>1m Opgave</h4>
+<p>Tilpas din rettelse i kage-programmet på baggrund af AI-feedback, så løsningen bliver tydelig og let at forstå.</p>
+<h3>Programmering og generativ AI</h3>
+<p>Når man arbejder med at udvikle programmer, kan brugen af chatbots og sprogmodeller være en stor hjælp i forskellige situationer.</p>
+<p>Det kan være til at finde fejl i programmer, når man ikke kan forstå debuggerens besked. Her kan en promt være "Du skal finde fejlen, men må ikke foreslå løsninger".</p>
+<p>Det kan også være til at opnå forståelse af begreber, hvor chatbotten kan agere hjælpelærer eller til at give feedback på kode.</p>
+<p>Vi arbejder med en række forskellige niveauer for brug af AI, som er beskrevet i tabellen nedenfor. Det er vigtigt at følge disse retningslinjer, så du får mest muligt ud af både din egen læring og brugen af AI.</p>
+<p>Det er vigtigt at forstå, at selvom AI kan være en nyttig ressource, er det afgørende at udvikle dine egne færdigheder og forståelse af programmering. Brug AI som et supplement til din læring, men stol ikke udelukkende på det for at løse opgaver. Ved at arbejde gennem problemerne selv, vil du opbygge en stærkere forståelse af programmering og blive en mere kompetent udvikler.</p>
+<h4>Slå GitHub Copilot fra</h4>
+<p>Hvis man skal lære at programmere er det vigtig, at man ikke lader chatbotten skrive koden, og hvis du endelig skal have hjælp til programstumper, skal du selv formulere prompten. Derfor skal du i VS Code slå copilot fra. Dette gøres således i VS Code</p>
+<ol>
+<li>Åbn Settings (Ctrl + ,)</li>
+</ol>
+<ol>
+<li>Søg efter: Copilot</li>
+</ol>
+<ol>
+<li>Slå fra:</li>
+</ol>
+<ul>
+<li>GitHub Copilot: Enable</li>
+</ul>
+<ul>
+<li>GitHub Copilot Chat: Enable</li>
+</ul>
+<p>Det vil fremgå af opgaverne, om og hvordan du må bruge chatbot. Vi arbejder med en række forskellige niveauer for brug af AI, som er beskrevet i tabellen nedenfor. Det er vigtigt at følge disse retningslinjer, så du får mest muligt ud af både din egen læring og brugen af AI. Herunder er en oversigt over de forskellige niveauer for brug af AI i opgaverne med de tilhørende ikoner, som vil blive brugt i opgavebeskrivelserne.</p>
+<h4>1n Opgave</h4>
+<p>Medtag konkrete input/output-cases og mindst ét grænsetilfælde, så reglerne bliver præcise.</p>
+<p>Formulér en samlet prompt til en AI, der præcist beskriver et program, som spørger om navn og skriver en personlig hilsen, før du selv skriver kode.</p>
+<h4>1o Opgave</h4>
+<p>Udvikl selv programmet fra opgave 1n uden at kopiere AI-kode direkte.</p>
+<h4>1p Opgave</h4>
+<p>Medtag konkrete input/output-cases og mindst ét grænsetilfælde, så reglerne bliver præcise.</p>
+<p>Design en mere præcis prompt til en AI, hvor programmet både skal spørge om navn og alder, bruge engelske variabelnavne og være let at køre fra terminalen.</p>
+<p>Ifølge afsnittet om programmering og generativ AI, er det vigtigt at forstå, hvordan man kan bruge AI som et værktøj i programmering, uden at lade det erstatte ens egen læring og forståelse. AI kan hjælpe med at finde fejl, forklare begreber og give feedback.</p>
+<h3>Genvejstaster i Visual Studio Code</h3>
+<p>En af de store fordele ved at bruge Visual Studio Code er, at det har mange genvejstaster, der kan gøre din programmeringsoplevelse mere effektiv. Genvejstaster kan hjælpe dig med at navigere hurtigere i editoren, udføre kommandoer og redigere kode uden at skulle bruge musen. Faktisk er det ofte hurtigere at bruge genvejstaster end at klikke rundt i menuerne på skærmen. Derfor er det en god idé at lære nogle af de mest nyttige genvejstaster, så du kan arbejde mere effektivt.</p>
+<p>Her er nogle nyttige genvejstaster, du kan bruge:</p>
+<ul>
+<li><strong>Skjul/vis sidepanel</strong>: Ctrl + B (Windows) eller Cmd + B (Mac)</li>
+</ul>
+<ul>
+<li><strong>Åbn fil</strong>: Ctrl + O (Windows) eller Cmd + O (Mac)</li>
+</ul>
+<ul>
+<li><strong>Gem fil</strong>: Ctrl + S (Windows) eller Cmd + S (Mac)</li>
+</ul>
+<ul>
+<li><strong>Ny fil</strong>: Ctrl + N (Windows) eller Cmd + N (Mac)</li>
+</ul>
+<ul>
+<li><strong>Åbn terminal</strong>: Ctrl + (backtick/accent grave) </li>
+</ul>
+<ul>
+<li><strong>Søg i filer</strong>: Ctrl + Shift + F (Windows) eller Cmd + Shift +</li>
+<p>F (Mac)</p>
+</ul>
+<ul>
+<li><strong>Skift mellem åbne filer</strong>: Ctrl + Tab </li>
+</ul>
+<ul>
+<li><strong>Åbn kommandopaletten</strong>: Ctrl + Shift + P (Windows) eller Cmd +</li>
+<p>Shift + P (Mac)</p>
+</ul>
+<ul>
+<li><strong>Kopier linje</strong>: Alt + Shift + Up/Down (Windows) eller Option +</li>
+<p>Shift + Up/Down (Mac)</p>
+</ul>
+<ul>
+<li><strong>Slet linje</strong>: Ctrl + Shift + K (Windows) eller Cmd + Shift + K</li>
+<p>(Mac)</p>
+</ul>
+<ul>
+<li><strong>Indryk linje</strong>: Tab (indrykker) eller Shift + Tab (fjerner indryk)</li>
+</ul>
+<ul>
+<li><strong>Kommenter/afkommenter linje</strong>: Ctrl + / (Windows) eller Cmd +</li>
+<p>/ (Mac)</p>
+</ul>
+<p>I starten vil du måske ikke huske alle genvejstaster, men efterhånden som du bliver mere fortrolig med Visual Studio Code, vil du finde ud af, at genvejstasterne kan spare dig for meget tid og gøre din programmeringsoplevelse mere effektiv.</p>
+<h4>1q Opgave</h4>
+<p>Kombinér brugen af mindst tre genvejstaster fra kapitlet, og skriv bagefter hvilke du brugte, og hvad de gør.</p>

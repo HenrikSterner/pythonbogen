@@ -1,0 +1,114 @@
+[
+  {
+    "number": "01",
+    "title": "Dit første program",
+    "description": "Sæt et udviklingsmiljø op, skriv Python, og følg vejen fra instruktion til resultat.",
+    "group": "Kom i gang",
+    "file": "01-dit-foerste-program.md"
+  },
+  {
+    "number": "02",
+    "title": "Variabler og deres datatyper",
+    "description": "Gem og undersøg tal, tekst og andre værdier.",
+    "group": "Kom i gang",
+    "file": "02-variabler-og-deres-datatyper.md"
+  },
+  {
+    "number": "03",
+    "title": "Forgreninger og betinget udførelse",
+    "description": "Lad et program vælge mellem forskellige handlinger.",
+    "group": "Kom i gang",
+    "file": "03-forgreninger-betinget-udfoerelse.md"
+  },
+  {
+    "number": "04",
+    "title": "Løkker og lister",
+    "description": "Gentag instruktioner, og arbejd med samlinger af værdier.",
+    "group": "Kom i gang",
+    "file": "04-loekker-og-lister.md"
+  },
+  {
+    "number": "05",
+    "title": "Funktioner",
+    "description": "Del programmer op i genbrugelige, navngivne opgaver.",
+    "group": "Kom i gang",
+    "file": "05-funktioner.md"
+  },
+  {
+    "number": "06",
+    "title": "Rekursion",
+    "description": "Undersøg funktioner, der løser et problem gennem mindre delproblemer.",
+    "group": "Struktur og genbrug",
+    "file": "06-rekursion.md"
+  },
+  {
+    "number": "07",
+    "title": "Objektorienteret programmering",
+    "description": "Arbejd med klasser, objekter og sammenhænge mellem kode og model.",
+    "group": "Struktur og genbrug",
+    "file": "07-objektorienteret-programmering.md"
+  },
+  {
+    "number": "08",
+    "title": "OOP og biblioteker i praksis",
+    "description": "Saml kode i større programmer med klasser og biblioteker.",
+    "group": "Struktur og genbrug",
+    "file": "08-oop-og-biblioteker-i-praksis.md"
+  },
+  {
+    "number": "09",
+    "title": "Regulære udtryk",
+    "description": "Find mønstre i tekst og bearbejd dem med Python.",
+    "group": "Struktur og genbrug",
+    "file": "09-regulaere-udtryk.md"
+  },
+  {
+    "number": "10",
+    "title": "Arkitektur for brugerhåndtering",
+    "description": "Undersøg hvordan systemer opdeler data, logik og præsentation.",
+    "group": "Systemer og data",
+    "file": "10-arkitektur-for-brugerhaandtering.md"
+  },
+  {
+    "number": "11",
+    "title": "Arkitektur for dataudtræk gennem API",
+    "description": "Arbejd med strukturerede data og dataudtræk gennem API'er.",
+    "group": "Systemer og data",
+    "file": "11-arkitektur-for-dataudtraek-gennem-api.md"
+  },
+  {
+    "number": "12",
+    "title": "Maskinlæring",
+    "description": "Undersøg data, modeller og klassifikation.",
+    "group": "Undersøg og afprøv",
+    "file": "12-maskinlaering.md"
+  },
+  {
+    "number": "13",
+    "title": "Webscraping",
+    "description": "Find og bearbejd struktureret indhold fra websider.",
+    "group": "Undersøg og afprøv",
+    "file": "13-webscrabing.md"
+  },
+  {
+    "number": "14",
+    "title": "Test i Python",
+    "description": "Afprøv kode systematisk, og brug fejl til at forbedre løsningen.",
+    "group": "Undersøg og afprøv",
+    "file": "14-test-i-python.md"
+  },
+  {
+    "number": "15",
+    "title": "Samarbejde gennem GitHub",
+    "description": "Følg ændringer og arbejd videre med kode i samarbejde med andre.",
+    "group": "Undersøg og afprøv",
+    "file": "15-samarbejde-gennem-github.md"
+  },
+  {
+    "number": "16",
+    "title": "Opgavesamling",
+    "description": "Vælg flere opgaver på tværs af bogens emner.",
+    "group": "Undersøg og afprøv",
+    "file": "16-opgavesamling.md"
+  }
+]

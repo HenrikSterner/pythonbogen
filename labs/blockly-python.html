@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pyBlocks – Blok programmering til Python</title>
+  <style>
+    :root { --ink:#172033; --muted:#647084; --paper:#fff; --line:#d8dee8; --blue:#2563eb; --blue-soft:#eaf1ff; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body { color:var(--ink); background:#e9edf3; font-family:Arial,sans-serif; overflow:hidden; }
+    button, textarea { font:inherit; }
+    button { border:1px solid #b7c0cf; border-radius:5px; background:white; color:var(--ink); padding:7px 11px; cursor:pointer; }
+    button:hover { background:#f0f4fa; }
+    button.primary { color:white; background:var(--blue); border-color:var(--blue); }
+    button.primary:hover { background:#1d4ed8; }
+    .app { height:100%; display:grid; grid-template-rows:auto 1fr; }
+    .topbar { min-height:58px; display:flex; align-items:center; gap:8px; padding:9px 14px; background:var(--paper); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+    .brand { color:var(--ink); font-size:18px; font-weight:bold; text-decoration:none; margin-right:8px; white-space:nowrap; }
+    .brand span { color:var(--blue); }
+    .separator { width:1px; height:27px; background:var(--line); margin:0 3px; }
+    .spacer { flex:1; }
+    .status { color:var(--muted); font-size:12px; white-space:nowrap; }
+    .workspace-shell { min-height:0; display:grid; grid-template-columns:minmax(360px,1fr) minmax(360px,1fr); }
+    .blockly-pane, .python-pane { min-width:0; min-height:0; display:grid; grid-template-rows:auto 1fr; }
+    .blockly-pane { border-right:1px solid var(--line); background:#dfe6f0; }
+    .python-pane { background:#111827; }
+    .pane-heading { min-height:49px; display:flex; align-items:center; gap:10px; padding:10px 14px; }
+    .blockly-pane .pane-heading { background:var(--paper); border-bottom:1px solid var(--line); }
+    .python-pane .pane-heading { color:white; background:#1f2937; border-bottom:1px solid #374151; }
+    .pane-heading h1 { font-size:16px; margin:0; }
+    .pane-heading p { color:var(--muted); font-size:12px; margin:0; }
+    .python-pane .pane-heading p { color:#aab6c8; }
+    #blocklyDiv { min-height:0; width:100%; height:100%; }
+    .code-wrap { min-height:0; position:relative; padding:0; }
+    #pythonCode { width:100%; height:100%; display:block; resize:none; padding:22px; border:0; outline:0; color:#e5e7eb; background:#111827; font:14px/1.6 Consolas,'Courier New',monospace; tab-size:4; white-space:pre; }
+    .code-footer { position:absolute; right:15px; bottom:13px; display:flex; gap:8px; }
+    .code-footer button { color:#e5e7eb; background:#263244; border-color:#4b5b70; }
+    .code-footer button:hover { background:#34445b; }
+    .hint { padding:8px 14px; color:var(--muted); background:var(--blue-soft); border-bottom:1px solid #cbd9f7; font-size:12px; }
+    @media (max-width:760px) {
+      body { overflow:auto; }
+      .app { min-height:100vh; height:auto; }
+      .workspace-shell { grid-template-columns:1fr; grid-template-rows:minmax(420px,58vh) minmax(360px,42vh); }
+      .blockly-pane { border-right:0; border-bottom:1px solid var(--line); }
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="index.html">pyBlocks</a>
+      <div class="separator"></div>
+      <strong>Blok programmering → Python</strong>
+      <div class="spacer"></div>
+      <span class="status" id="status" role="status">Klar</span>
+      <button id="newButton" type="button">Ny</button>
+      <button id="sampleButton" type="button">Indlæs eksempel</button>
+      <button id="copyButton" class="primary" type="button">Kopiér Python</button>
+      <button id="saveButton" class="primary" type="button">Gem Python</button>
+      <a href="index.html"><button type="button">Forside</button></a>
+    </header>
+    <main class="workspace-shell">
+      <section class="blockly-pane" aria-label="Blok programmering-editor">
+        <div>
+          <div class="pane-heading"><h1>Blok programmering</h1><p>Træk blokke ind på lærredet</p></div>
+          <div class="hint">Start altid med den grønne <b>programstart</b>-blok.</div>
+        </div>
+        <div id="blocklyDiv"></div>
+      </section>
+      <section class="python-pane" aria-label="Genereret Python">
+        <div class="pane-heading"><h1>Genereret Python</h1><p>Opdateres automatisk</p></div>
+        <div class="code-wrap">
+          <textarea id="pythonCode" spellcheck="false" aria-label="Genereret Python-kode" readonly></textarea>
+          <div class="code-footer"><button id="saveButtonBottom" type="button">Gem som .py</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <xml id="toolbox" style="display:none">
+    <category name="Program" colour="#5b21b6"><block type="program_start"></block></category>
+    <category name="Variabler" colour="#a65c2b"><block type="typed_variable_set"></block><block type="typed_variable_get"></block></category>
+    <category name="Værdier" colour="#5b80a5">
+      <block type="math_number"></block><block type="logic_boolean"></block><block type="text"></block>
+      <block type="lists_create_with"><mutation items="3"></mutation></block><block type="lists_getIndex"></block>
+    </category>
+    <category name="Betingelser" colour="#5b80a5"><block type="controls_if"></block><block type="logic_compare"></block><block type="logic_operation"></block><block type="logic_negate"></block></category>
+    <category name="Løkker" colour="#5ba55b"><block type="controls_for"></block><block type="controls_whileUntil"></block><block type="controls_flow_statements"></block></category>
+    <category name="Funktioner" colour="#995ba5"><block type="procedures_defnoreturn"></block><block type="procedures_callnoreturn"></block><block type="procedures_ifreturn"></block></category>
+    <category name="Input / output" colour="#5b67a5">
+      <block type="input_value"></block><block type="output_value"></block><block type="text_print"></block>
+      <block type="text_prompt_ext"><value name="TEXT"><shadow type="text"><field name="TEXT">Hvad hedder du?</field></shadow></value></block>
+    </category>
+    <sep></sep>
+    <category name="Matematik" colour="#5b67a5"><block type="math_arithmetic"></block><block type="math_single"></block><block type="math_random_int"></block></category>
+    <category name="Lister" colour="#745ba5"><block type="lists_create_with"><mutation items="0"></mutation></block><block type="lists_repeat"></block><block type="lists_length"></block><block type="lists_isEmpty"></block><block type="lists_setIndex"></block></category>
+  </xml>
+
+  <script src="vendor/blockly/blockly.min.js"></script>
+  <script src="vendor/blockly/python_compressed.js"></script>
+  <script>
+    'use strict';
+    Blockly.defineBlocksWithJsonArray([
+      { type:'program_start', message0:'Når programmet starter %1', args0:[{type:'input_statement',name:'DO'}], style:'program_blocks', tooltip:'Programmets startpunkt. Læg de andre blokke ind her.' },
+      { type:'typed_variable_set', message0:'sæt %1 %2 til %3', args0:[{type:'field_dropdown',name:'TYPE',options:[['int','INT'],['string','STRING'],['bool','BOOL'],['liste','LIST']]},{type:'field_input',name:'NAME',text:'min_variabel'},{type:'input_value',name:'VALUE'}], previousStatement:null, nextStatement:null, style:'variable_blocks', tooltip:'Opret eller ændr en variabel.' },
+      { type:'typed_variable_get', message0:'værdien af %1', args0:[{type:'field_input',name:'NAME',text:'min_variabel'}], output:null, style:'variable_blocks', tooltip:'Læs værdien af en variabel.' },
+      { type:'input_value', message0:'læs %1 som %2', args0:[{type:'input_value',name:'PROMPT'},{type:'field_dropdown',name:'TYPE',options:[['string','STRING'],['int','INT'],['bool','BOOL']]}], output:null, style:'input_output_blocks', tooltip:'Læs input og konvertér det til den valgte type.' },
+      { type:'output_value', message0:'skriv %1', args0:[{type:'input_value',name:'VALUE'}], previousStatement:null, nextStatement:null, style:'input_output_blocks', tooltip:'Skriv en værdi til skærmen.' }
+    ]);
+
+    const python = window.python;
+    const generator = python.pythonGenerator;
+    const ORDER_ATOMIC = generator.ORDER_ATOMIC || 0;
+    const ORDER_NONE = generator.ORDER_NONE || 99;
+    function pythonName(name, fallback) {
+      let value = String(name || '').trim().replace(/[^a-zA-Z0-9_]/g,'_');
+      if (!value) value = fallback;
+      if (/^\d/.test(value)) value = '_' + value;
+      if (/^(False|None|True|and|as|assert|async|await|break|case|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|match|nonlocal|not|or|pass|raise|return|try|while|with|yield)$/.test(value)) value += '_';
+      return value;
+    }
+    function defaultValue(type) { return ({INT:'0',STRING:'""',BOOL:'False',LIST:'[]'})[type] || 'None'; }
+    generator.forBlock.program_start = function(block, gen) { return gen.statementToCode(block,'DO') || 'pass\n'; };
+    generator.forBlock.typed_variable_set = function(block, gen) {
+      const name = pythonName(block.getFieldValue('NAME'),'min_variabel');
+      const value = gen.valueToCode(block,'VALUE',ORDER_NONE) || defaultValue(block.getFieldValue('TYPE'));
+      return `${name} = ${value}\n`;
+    };
+    generator.forBlock.typed_variable_get = function(block) { return [pythonName(block.getFieldValue('NAME'),'min_variabel'),ORDER_ATOMIC]; };
+    generator.forBlock.input_value = function(block, gen) {
+      const prompt = gen.valueToCode(block,'PROMPT',ORDER_NONE) || '"Skriv en værdi: "';
+      const type = block.getFieldValue('TYPE');
+      if (type === 'INT') return [`int(input(${prompt}))`,ORDER_ATOMIC];
+      if (type === 'BOOL') return [`input(${prompt}).strip().lower() in ("true", "1", "ja", "yes")`,ORDER_ATOMIC];
+      return [`input(${prompt})`,ORDER_ATOMIC];
+    };
+    generator.forBlock.output_value = function(block, gen) { return `print(${gen.valueToCode(block,'VALUE',ORDER_NONE) || '""'})\n`; };
+
+    function initialWorkspace() {
+      const xml = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"><block type="program_start" x="40" y="30"></block></xml>');
+      Blockly.Xml.domToWorkspace(xml, workspace);
+    }
+    function updateCode() {
+      const code = generator.workspaceToCode(workspace).trimEnd() || '# Træk blokke ind i workspace’et for at generere Python.';
+      codeArea.value = code + (code.endsWith('\n') ? '' : '\n');
+      status.textContent = `${workspace.getAllBlocks(false).length} blokke · Python opdateret`;
+    }
+    function loadExample() {
+      workspace.clear();
+      const xml = Blockly.utils.xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml"><block type="program_start" x="35" y="25"><statement name="DO"><block type="typed_variable_set"><field name="TYPE">STRING</field><field name="NAME">navn</field><value name="VALUE"><shadow type="text"><field name="TEXT">Ada</field></shadow></value><next><block type="output_value"><value name="VALUE"><block type="typed_variable_get"><field name="NAME">navn</field></block></value><next><block type="controls_if"><value name="IF0"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value><statement name="DO0"><block type="output_value"><value name="VALUE"><shadow type="text"><field name="TEXT">Velkommen til Python!</field></shadow></value></block></statement></block></next></block></next></block></statement></block></xml>');
+      Blockly.Xml.domToWorkspace(xml, workspace);
+      setStatus('Eksempel indlæst');
+    }
+    function setStatus(message) { status.textContent = message; }
+
+    const workspace = Blockly.inject('blocklyDiv', {
+      toolbox:document.getElementById('toolbox'), grid:{spacing:20,length:3,colour:'#c5cfdd',snap:true},
+      zoom:{controls:true,wheel:true,startScale:0.9,maxScale:1.5,minScale:0.55}, trashcan:true,
+      move:{scrollbars:true,drag:true,wheel:true},
+      theme:Blockly.Theme.defineTheme('pyBlocksTheme',{base:Blockly.Themes.Classic,blockStyles:{program_blocks:{colourPrimary:'#188038',colourSecondary:'#137333',colourTertiary:'#0d652d'},variable_blocks:{colourPrimary:'#a65c2b',colourSecondary:'#8d4821',colourTertiary:'#713914'},input_output_blocks:{colourPrimary:'#5b67a5',colourSecondary:'#4c5790',colourTertiary:'#3d4678'}},componentStyles:{workspaceBackgroundColour:'#dfe6f0',toolboxBackgroundColour:'#f6f8fb',toolboxForegroundColour:'#172033',flyoutBackgroundColour:'#ffffff'}})
+    });
+    const codeArea = document.getElementById('pythonCode');
+    const status = document.getElementById('status');
+    workspace.addChangeListener(updateCode);
+    document.getElementById('newButton').addEventListener('click',() => { workspace.clear(); initialWorkspace(); setStatus('Nyt program oprettet'); });
+    document.getElementById('sampleButton').addEventListener('click',loadExample);
+    document.getElementById('copyButton').addEventListener('click',async() => {
+      try { await navigator.clipboard.writeText(codeArea.value); } catch (error) { codeArea.select(); document.execCommand('copy'); }
+      setStatus('Python-koden er kopieret');
+    });
+    async function savePythonFile() {
+      if (window.showSaveFilePicker) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName:'program.py',
+            types:[{description:'Python-fil',accept:{'text/x-python':['.py']}}]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(codeArea.value);
+          await writable.close();
+          setStatus('Python-koden er gemt');
+          return;
+        } catch (error) {
+          if (error && error.name === 'AbortError') return;
+        }
+      }
+      const blob = new Blob([codeArea.value],{type:'text/x-python'}), link = document.createElement('a');
+      link.href = URL.createObjectURL(blob); link.download = 'program.py'; link.click();
+      URL.revokeObjectURL(link.href); setStatus('program.py er gemt i Downloads');
+    }
+    document.getElementById('saveButton').addEventListener('click',savePythonFile);
+    document.getElementById('saveButtonBottom').addEventListener('click',savePythonFile);
+    window.addEventListener('resize',() => Blockly.svgResize(workspace));
+    initialWorkspace();
+    updateCode();
+  </script>
+  <footer class="site-copyright">Copyright (C) Henrik Sterner (udvikler) og Kathrine Bohus Madsen · Værktøj til lærebogen <em>Python i Gymnasiet</em></footer>
+</body>
+</html>

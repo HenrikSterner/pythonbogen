@@ -1,0 +1,140 @@
+[
+  {
+    "id": "pylab-turtle-laboratorium",
+    "title": "Turtle-laboratorium",
+    "description": "Tegn med Python Turtle, kør koden trin for trin og udforsk eksempler.",
+    "category": "Spil og Interaktive arenaer",
+    "topics": [
+      "begynder",
+      "visualisering"
+    ],
+    "level": "Begynder",
+    "prerequisites": "Ingen forudsætninger. Start med enkle instruktioner og eksempler.",
+    "goal": "Undersøg hvordan en sekvens, en løkke eller en funktion kan ændre et tegnet mønster.",
+    "chapter": "Kapitel 1–5",
+    "feature": "🐢",
+    "source": "turtle-laboratorium.html",
+    "href": "turtle-laboratorium.html"
+  },
+  {
+    "id": "pylab-kryds-og-bolle-laboratorium",
+    "title": "Kryds og bolle",
+    "description": "Spil mod en ven eller en AI, og undersøg midten, hjørner og gafler.",
+    "category": "Spil og Interaktive arenaer",
+    "topics": [
+      "spil",
+      "algoritmer"
+    ],
+    "level": "Begynder · videre",
+    "prerequisites": "Du kan begynde med spillet og gå videre med strategier og kode.",
+    "goal": "Afprøv spillets regler, og undersøg hvordan en strategi vælger sit næste træk.",
+    "chapter": "Kapitel 1–5",
+    "feature": "✳",
+    "source": "kryds-og-bolle-laboratorium.html",
+    "href": "kryds-og-bolle-laboratorium.html"
+  },
+  {
+    "id": "pylab-diagram-editor",
+    "title": "Klassediagram",
+    "description": "Skitsér klasser, attributter, metoder og relationer, før du skriver programmet.",
+    "category": "Software modellering",
+    "topics": [
+      "systemer",
+      "diagrammer"
+    ],
+    "level": "Begynder · videre",
+    "prerequisites": "Ingen forudsætninger for at tegne klasser; kode kræver grundlæggende Python.",
+    "goal": "Tegn klasser og relationer, og sammenhold din model med genereret kode.",
+    "chapter": "Kapitel 7–8",
+    "feature": "▱",
+    "source": "diagram-editor.html",
+    "href": "diagram-editor.html"
+  },
+  {
+    "id": "pylab-blockly-python",
+    "title": "Blok-programmering til Python",
+    "description": "Byg logikken med træk-og-slip-blokke og se den tilsvarende Python-kode.",
+    "category": "Software modellering",
+    "topics": [
+      "begynder",
+      "visualisering"
+    ],
+    "level": "Begynder",
+    "prerequisites": "Ingen forkundskaber. Byg logik med blokke.",
+    "goal": "Flyt og forbind blokke, og undersøg hvilken Python-struktur de beskriver.",
+    "chapter": "Kapitel 1–5",
+    "feature": "▦",
+    "source": "blockly-python.html",
+    "href": "blockly-python.html"
+  },
+  {
+    "id": "pylab-code-visualizer",
+    "title": "Kodevisualisering",
+    "description": "Følg variabler, funktioner, kald og output, mens et Python-program kører.",
+    "category": "Software modellering",
+    "topics": [
+      "begynder",
+      "visualisering",
+      "algoritmer"
+    ],
+    "level": "Begynder · videre",
+    "prerequisites": "Vælg et af eksemplerne, eller følg programmets trin.",
+    "goal": "Følg en Python-eksekvering trin for trin, og se variabler, kald og output ændre sig.",
+    "chapter": "Kapitel 1–6",
+    "feature": "⌁",
+    "source": "code-visualizer.html",
+    "href": "code-visualizer.html"
+  },
+  {
+    "id": "pylab-knn-laboratorium",
+    "title": "KNN-laboratorium",
+    "description": "Flyt datapunkter, justér k, se naboer stemme og vurder accuracy visuelt.",
+    "category": "Maskinlæring og kunstig intelligens",
+    "topics": [
+      "data",
+      "ai",
+      "maskinlæring"
+    ],
+    "level": "Videre",
+    "prerequisites": "Kendskab til koordinater er nyttigt, men ikke et krav for at flytte punkter.",
+    "goal": "Flyt datapunkter og justér k, så du kan undersøge naboer, klassifikation og outliers.",
+    "chapter": "Kapitel 12",
+    "feature": "◎",
+    "source": "knn-laboratorium.html",
+    "href": "knn-laboratorium.html"
+  },
+  {
+    "id": "pylab-agent-simulator",
+    "title": "Agentlaboratorium",
+    "description": "Eksperimentér med epidemi, økosystem og fiskestime i en levende simulator.",
+    "category": "Agentbaseret modellering, robotter og evolution",
+    "topics": [
+      "simulation",
+      "ai"
+    ],
+    "level": "Videre · fordybelse",
+    "prerequisites": "Start med simulatoren; udvalgte kodeprojekter kræver Python.",
+    "goal": "Ændr agenternes regler, og undersøg hvilke samlede bevægelser og mønstre der opstår.",
+    "chapter": "Kapitel 7–8",
+    "feature": "◌",
+    "source": "agent-simulator.html",
+    "href": "agent-simulator.html"
+  },
+  {
+    "id": "pylab-robot-laboratorium",
+    "title": "Robotlaboratorium",
+    "description": "Programmér en line follower og en sumorobot med sensorer og strategier.",
+    "category": "Agentbaseret modellering, robotter og evolution",
+    "topics": [
+      "simulation",
+      "algoritmer"
+    ],
+    "level": "Begynder · videre",
+    "prerequisites": "Start med de færdige roboteksempler og udforsk sensorerne.",
+    "goal": "Sammenhold robotternes sensorinput med de beslutninger, der styrer deres bevægelser.",
+    "chapter": "Programmering og informatik",
+    "feature": "↗",
+    "source": "robot-laboratorium.html",
+    "href": "robot-laboratorium.html"
+  }
+]

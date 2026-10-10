@@ -1,0 +1,6 @@
+{
+  "book": "PYTHONBook/content/chapters og assets",
+  "tutor": "VygotskAI-Tutor/docs/marketing/billeder og current installation documentation",
+  "labs": "VygotskAI-Tutor/resources/content/pylabs.json + python-i-gymnasiet/pyLab browser files",
+  "coverage": "python-i-gymnasiet/data/faglige_maal_med_kapiteldaekning.csv"
+}

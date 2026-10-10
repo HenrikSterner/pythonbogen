@@ -1,0 +1,101 @@
+/* Shared visual language for every py-laboratorium. */
+:root {
+  --ink: #172033;
+  --muted: #667386;
+  --paper: #fffdf9;
+  --panel: #ffffff;
+  --line: #d8ddd5;
+  --blue: #285aa9;
+  --blue-soft: #edf3ff;
+  --orange: #d17836;
+  --green: #2e8b67;
+  --shadow: 0 18px 50px rgb(30 42 58 / 12%);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: #e8edf3; }
+body {
+  color: var(--ink);
+  background: radial-gradient(circle at top left, #f4f7fb 0, #e8edf3 48%, #dfe6ee 100%);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+button, input, textarea, select { font: inherit; }
+button, select, input, textarea { border-radius: 9px; }
+button { transition: border-color .18s ease, background .18s ease, transform .18s ease; }
+button:hover { transform: translateY(-1px); }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid rgb(40 90 169 / 28%);
+  outline-offset: 2px;
+}
+
+.app, .page {
+  border: 1px solid rgb(255 255 255 / 65%);
+  box-shadow: var(--shadow);
+}
+
+.topbar {
+  background: linear-gradient(110deg, #fffdf9, #f1f6ff) !important;
+  border-bottom-color: var(--line) !important;
+}
+.brand-mark, .logo {
+  color: #fff !important;
+  background: var(--blue) !important;
+  box-shadow: 4px 4px 0 #c8d6f2 !important;
+}
+.brand-mark {
+  width: auto !important;
+  min-width: 42px;
+  padding: 0 8px;
+  font-size: 12px !important;
+  letter-spacing: -.04em;
+}
+.brand h1, .brand { color: var(--ink); }
+.brand p, .home, .theme-badge { color: var(--muted); }
+.home { color: var(--blue); font-weight: 700; }
+
+.hero, .intro {
+  background: linear-gradient(112deg, #fffdf9, #f1f6ff) !important;
+  border-bottom-color: var(--line) !important;
+}
+.eyebrow { color: var(--orange) !important; }
+.mission-card, .emergence-card, .rule-card, .hint, .about {
+  border-color: #d7e2f2 !important;
+  color: #536073 !important;
+  background: #f7faff !important;
+}
+.mission-card strong, .emergence-card strong, .rule-card strong { color: var(--blue) !important; }
+
+.panel, .sidebar, .inspector, .chart-card, .code-lab, .learn, .controls-panel,
+.section, .card, .workspace-card, .result-card, .preview-card {
+  border-color: var(--line) !important;
+}
+.primary, button.primary, .mode-tab.active, .case-tab.active {
+  border-color: var(--blue) !important;
+  color: #fff !important;
+  background: var(--blue) !important;
+}
+.secondary, button.secondary { border-color: #cbd5e1; color: var(--ink); background: #fff; }
+
+footer, .copyright {
+  border-top-color: var(--line) !important;
+  color: var(--muted) !important;
+}
+.site-copyright {
+  padding: 13px 20px 17px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  background: #fff;
+  font-size: 11px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* The diagram editor uses the same shared shell while keeping its canvas tools dense. */
+.diagram-editor .topbar, .app .topbar { color: var(--ink); }
+.app > .topbar .brand { font-weight: 800; letter-spacing: -.025em; }
+
+@media (max-width: 700px) {
+  .topbar { padding-left: 18px !important; padding-right: 18px !important; }
+  .hero { grid-template-columns: 1fr !important; }
+}

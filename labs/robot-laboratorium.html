@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robotlaboratorium · Python i browseren</title>
+<style>
+:root{--ink:#172033;--muted:#697487;--paper:#f7f8f4;--panel:#fff;--line:#d8ddd5;--blue:#285aa9;--blue-soft:#edf3ff;--orange:#d17836;--red:#c05252;--green:#2e8b67;--green-soft:#e9f7f0;--dark:#10252b;--shadow:0 18px 50px rgb(30 42 58/12%)}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}body{color:var(--ink);background:#e1e7e1;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,select,textarea,input{font:inherit}button,select{border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:8px 12px;cursor:pointer;font-weight:760}button:hover,select:hover{border-color:#9fb3a8;background:#f8fbf8}button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid #b9d2ff;outline-offset:2px}.app{width:min(1540px,calc(100% - 28px));min-height:100vh;margin:auto;background:var(--paper);box-shadow:var(--shadow)}.topbar{display:flex;align-items:center;gap:14px;padding:16px 26px;border-bottom:1px solid var(--line);background:#fff}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:11px;color:#fff;background:#c2634e;box-shadow:4px 4px 0 #e7c7bf;font:900 17px/1 Consolas,monospace}.brand h1{margin:0;font-size:clamp(20px,3vw,29px);letter-spacing:-.04em}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}.home{margin-left:auto;color:var(--blue);font-size:13px;text-decoration:none}.home:hover{text-decoration:underline}.hero{display:grid;grid-template-columns:minmax(0,1fr) 345px;gap:24px;align-items:end;padding:24px 28px 22px;border-bottom:1px solid var(--line);background:linear-gradient(112deg,#fff,#fff3ee)}.eyebrow{margin:0 0 6px;color:var(--orange);font-size:11px;font-weight:850;letter-spacing:.13em;text-transform:uppercase}.hero h2{margin:0;font-size:clamp(25px,4vw,42px);letter-spacing:-.055em;line-height:1.02}.hero p:not(.eyebrow){max-width:820px;margin:10px 0 0;color:#4f5b68;font-size:14px;line-height:1.55}.mission-card{padding:14px;border:1px solid #edcfc5;border-radius:10px;color:#73463e;background:#fffaf8;font-size:12px;line-height:1.5}.mission-card strong{display:block;margin-bottom:4px;color:#a34f3e;font-size:13px}.mode-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:15px 28px;border-bottom:1px solid var(--line);background:#fff}.mode-tab{padding:9px 13px;border:1px solid #c9c5bd;border-radius:8px;color:#566173;background:#fff;font-size:13px;font-weight:780}.mode-tab.active{border-color:var(--blue);color:var(--blue);background:var(--blue-soft)}.mode-tab[data-mode=sumo].active{border-color:var(--red);color:var(--red);background:#fff1ef}.workspace{display:grid;grid-template-columns:270px minmax(450px,1fr) 295px;min-height:700px}.sidebar,.learn{padding:20px;background:var(--panel)}.sidebar{border-right:1px solid var(--line)}.learn{border-left:1px solid var(--line)}.stage{min-width:0;padding:20px clamp(17px,3vw,31px) 30px}.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 11px}.section-title h3{margin:0;font-size:14px}.section-title span{color:var(--muted);font-size:11px}.controls{display:grid;gap:14px}.control-group{padding-bottom:13px;border-bottom:1px solid #d8ded7}.control-group h4{margin:0 0 10px;color:#697487;font-size:10px;letter-spacing:.12em;text-transform:uppercase}.control{margin:9px 0}.control-row{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#3f4b5d;font-size:12px}.control-row output{min-width:48px;color:var(--blue);font:700 12px Consolas,monospace;text-align:right}input[type=range]{width:100%;margin:7px 0 0;accent-color:var(--blue)}.sumo-controls input[type=range]{accent-color:var(--red)}.button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.primary{border-color:var(--blue);background:var(--blue);color:#fff}.primary:hover{border-color:#1d4384;background:#1d4384}.sumo .primary{border-color:var(--red);background:var(--red)}.sumo .primary:hover{border-color:#963c3c;background:#963c3c}.secondary{border-color:#c8cdd5;color:#536073;background:#fff}.keyboard-hint,.side-note{color:var(--muted);font-size:11px;line-height:1.45}.keyboard-hint{margin:12px 0 0}.mission-note{margin-top:16px;padding:12px;border-left:4px solid var(--orange);color:#596576;background:#fffdf8;font-size:11px;line-height:1.48}.mission-note strong{display:block;margin-bottom:4px;color:#73463e;font-size:12px}.canvas-wrap{position:relative;overflow:hidden;border:1px solid #24464a;border-radius:12px;background:var(--dark);box-shadow:0 5px 0 #c5d0ca}.canvas-wrap canvas{display:block;width:100%;height:auto;aspect-ratio:24/14;cursor:crosshair}.canvas-label{position:absolute;top:11px;left:13px;padding:5px 8px;border-radius:6px;color:#e7f3ff;background:rgb(9 27 31/78%);font:700 11px Consolas,monospace}.status-pill{position:absolute;right:13px;top:11px;padding:5px 8px;border-radius:999px;color:#dff4e9;background:rgb(27 92 65/88%);font-size:11px;font-weight:800}.status-pill.paused{color:#fff0cf;background:rgb(126 83 28/88%)}.stage-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.stage-head p{margin:2px 0 0;color:var(--muted);font-size:12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}.stat{padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff}.stat-label{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}.stat-value{margin-top:3px;font:800 18px/1.1 Consolas,monospace;color:var(--blue)}.stat-value.red{color:var(--red)}.log{margin-top:15px;padding:12px 13px;border-left:4px solid var(--orange);background:#fffdf8}.log strong{display:block;font-size:12px}.log p{margin:4px 0 0;color:#596576;font-size:12px;line-height:1.45}.learn h3{margin:0 0 10px;font-size:14px}.learn h4{margin:18px 0 6px;color:var(--orange);font-size:11px;letter-spacing:.1em;text-transform:uppercase}.learn p{margin:0;color:#536073;font-size:12px;line-height:1.52}.learn ul{margin:7px 0 0;padding-left:17px;color:#536073;font-size:12px;line-height:1.55}.sensor-card{margin-top:12px;padding:10px;border:1px solid #d2dcea;border-radius:9px;background:#f8fbff}.sensor-card code{display:block;margin-bottom:4px;color:var(--blue);font:700 12px Consolas,monospace}.sensor-card p{font-size:11px}.code-lab{padding:22px 28px 26px;border-top:1px solid var(--line);background:#fff}.code-lab-header{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.code-lab h3{margin:0;font-size:16px}.code-lab-header p{margin:4px 0 0;color:var(--muted);font-size:12px}.code-toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:14px 0 9px}.file-pill{padding:5px 8px;border:1px solid #cbd6e7;border-radius:999px;color:#34517e;background:#f5f8ff;font:700 11px Consolas,monospace}.code-toolbar button:last-child{margin-left:auto}.python-editor-wrap{position:relative;display:grid;min-height:350px}.python-editor-wrap .python-highlight,.python-editor-wrap .python-editor{grid-area:1/1;width:100%;height:100%;min-height:350px;margin:0;padding:15px;border:1px solid #c9d2df;border-radius:10px;font:12px/1.6 Consolas,"Courier New",monospace;tab-size:4;white-space:pre-wrap;overflow:auto}.python-highlight{z-index:0;pointer-events:none;color:#e7efff;background:#0f1d30}.python-editor{z-index:1;resize:vertical;border-color:transparent!important;color:transparent;background:transparent;caret-color:#fff;-webkit-text-fill-color:transparent}.python-editor::selection{background:rgb(135 170 255/35%)}.python-editor:focus{border-color:#83aaf4!important}.code-line{display:block;min-height:1.6em}.tok-comment{color:#8194ad;font-style:italic}.tok-string{color:#b9dc8a}.tok-keyword{color:#d79cff;font-weight:700}.tok-class{color:#72c8ff;font-weight:700}.tok-number{color:#ffbc77}.agent-status{min-height:18px;margin-top:9px;color:var(--muted);font-size:12px}.agent-status.ok{color:var(--green)}.agent-status.error{color:var(--red)}.code-caption{margin:8px 0 0;color:#536073;font-size:11px;line-height:1.45}.challenges{padding:22px 28px 27px;border-top:1px solid var(--line);background:#f7f8f4}.challenges h3{margin:0;font-size:16px}.challenges-intro{margin:4px 0 13px;color:var(--muted);font-size:12px}.challenge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.challenge{padding:12px;border:1px solid var(--line);border-radius:9px;background:#fff}.challenge strong{display:block;margin-bottom:4px;color:var(--orange);font-size:12px}.challenge p{margin:0;color:#536073;font-size:11px;line-height:1.48}.footer-note{padding:16px 28px 22px;border-top:1px solid var(--line);color:var(--muted);font-size:11px;line-height:1.5}@media(max-width:1120px){.workspace{grid-template-columns:240px minmax(400px,1fr)}.learn{grid-column:1/-1;border-top:1px solid var(--line);border-left:0}}@media(max-width:760px){.app{width:100%}.topbar,.hero,.mode-tabs,.code-lab,.challenges,.footer-note{padding-left:17px;padding-right:17px}.hero{display:block}.mission-card{margin-top:16px}.workspace{display:block}.sidebar,.learn{border:0;border-bottom:1px solid var(--line)}.stats{grid-template-columns:repeat(2,1fr)}.challenge-grid{grid-template-columns:1fr}.stage{padding-left:17px;padding-right:17px}}
+<style>
+.hidden{display:none!important}.route-box,.match-box{margin-top:15px;padding:11px;border:1px solid #d2dcea;border-radius:9px;background:#f8fbff}.route-box strong,.match-box strong{display:block;margin-bottom:4px;font-size:12px}.route-box p,.match-box p{margin:0;color:var(--muted);font-size:11px;line-height:1.45}.route-buttons{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.route-buttons button{min-height:32px;padding:6px 9px;font-size:11px}.route-status{display:block;margin-top:7px;color:var(--blue);font:700 10px Consolas,monospace}.match-box select{width:100%;margin-top:8px;padding:7px 8px}.match-help{margin-top:7px!important}.route-editing{cursor:crosshair!important}
+</style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="app">
+  <header class="topbar"><div class="brand-mark" aria-hidden="true">pyRobot</div><div class="brand"><h1>Robotlaboratorium</h1><p>Programmer en robot, og kvalificér dig til RoboCup-lignende konkurrencer</p></div><a class="home" href="index.html">← Til værktøjerne</a></header>
+  <section class="hero"><div><p class="eyebrow">Mål · mål · test · forbedr</p><h2>Kan din robot følge stregen – eller vinde ringen?</h2><p>Byg en intuition for robotprogrammering med 2D-koordinater, vinkler, hastighed og sensorer. Du ændrer Python-skabelonen, kører robotten i browseren og ser straks, hvad dine valg betyder.</p></div><div class="mission-card"><strong>Turneringsidé</strong>Start med en enkel if/else-strategi. Gå derefter over til P-regulering, hvor forskellen mellem venstre og højre sensor bestemmer, hvor hårdt robotten drejer.</div></section>
+  <nav class="mode-tabs" aria-label="Vælg robotkonkurrence"><button class="mode-tab active" data-mode="line">⟿ Tidsturnering · Line follower</button><button class="mode-tab" data-mode="sumo">◉ Sumobrydning</button></nav>
+  <section class="workspace">
+    <aside class="sidebar" id="sidebar">
+      <div class="section-title"><h3>Robotparametre</h3><span id="mode-name">Tidsturnering</span></div>
+      <div class="controls" id="controls"></div>
+      <div class="route-box" id="route-box"><strong>Lav din egen rute</strong><p>Tryk “Tegn ny rute”, og klik derefter punkterne ind i diagrammet i den rækkefølge, robotten skal følge.</p><div class="route-buttons"><button class="secondary" id="draw-route">✎ Tegn ny rute</button><button class="secondary" id="restore-route">↺ Standardrute</button></div><span class="route-status" id="route-status">Standardruten er aktiv.</span></div>
+      <div class="match-box hidden" id="match-box"><strong>Kampform</strong><select id="match-mode"><option value="human-ai">Menneske mod AI</option><option value="ai-ai">AI mod AI</option><option value="human-human">Menneske mod menneske</option></select><p class="match-help" id="match-help">Blå robot: piletaster. Den røde robot styres af AI.</p></div>
+      <div class="button-row"><button class="primary" id="toggle">▶ Start</button><button class="secondary" id="step">Ét step</button><button class="secondary" id="reset">↻ Nulstil</button></div>
+      <p class="keyboard-hint">Mellemrum: start / pause · Pil højre: ét step</p>
+      <div class="mission-note" id="mission-note"></div>
+    </aside>
+    <section class="stage">
+      <div class="stage-head"><div><div class="section-title"><h3 id="arena-title">Tidsturnering</h3></div><p id="arena-help">Følg den mørke streg fra start til mål. De to sensorer sidder foran robotten.</p></div><span class="status-pill" id="status-pill">PAUSET</span></div>
+      <div class="canvas-wrap"><canvas id="arena" width="960" height="560" aria-label="Robotarena"></canvas><div class="canvas-label" id="canvas-label">TID 0.0 s</div></div>
+      <div class="stats" id="stats"></div>
+      <div class="log"><strong id="log-title">Arenaen er klar.</strong><p id="log-text">Tryk på startmønsteret, justér en parameter, og start derefter robotten.</p></div>
+    </section>
+    <aside class="learn" id="learn"></aside>
+  </section>
+  <section class="code-lab" aria-labelledby="code-title">
+    <div class="code-lab-header"><div><h3 id="code-title">Python-værksted: robotens hjerne</h3><p id="code-subtitle">Koden nedenfor styrer sensorer, motorer og sving.</p></div></div>
+    <div class="code-toolbar"><span class="file-pill" id="file-pill">line_follower.py</span><button class="secondary" id="run-code">▶ Kør min kode</button><button class="secondary" id="download-code">↓ Download .py</button><button class="secondary" id="reset-code">↻ Gendan skabelon</button></div>
+    <div class="python-editor-wrap"><pre class="python-highlight" id="python-highlight" aria-hidden="true"></pre><textarea class="python-editor" id="python-editor" spellcheck="false" aria-label="Python-kode til robotten"></textarea></div>
+    <div class="agent-status" id="code-status">Skabelonen er klar. Ret en parameter, og klik på “Kør min kode”.</div>
+    <p class="code-caption">Simuleringen bruger de synlige Python-parametre direkte i browseren. Koden er skrevet, så du kan flytte den videre til en rigtig robot med tilsvarende sensor- og motorfunktioner.</p>
+  </section>
+  <section class="challenges"><h3 id="challenge-title">Laboratorie-opgaver: Tidsturnering</h3><p class="challenges-intro">Prøv én ændring ad gangen. Notér din tid og forklar, hvorfor robotten reagerer anderledes.</p><div class="challenge-grid" id="challenges"></div></section>
+  <p class="footer-note">En robot er et fysisk system: sensorer måler verden, programmet vælger en handling, og motorerne ændrer robot­<span aria-hidden="true">­</span>tens position. I laboratoriet er processen gjort synlig, så trial-and-error bliver til en metode.</p>
+</main>
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const W = 960, H = 560, SCALE = 38, ROBOT_R = 16, RING_RADIUS = Math.min(W,H)/2-42, OUT_RADIUS = RING_RADIUS-ROBOT_R+3;
+  const defaultLinePath = [
+    {x:92,y:454},{x:155,y:438},{x:214,y:385},{x:210,y:310},{x:274,y:255},
+    {x:365,y:270},{x:410,y:350},{x:486,y:405},{x:584,y:380},{x:627,y:290},
+    {x:694,y:218},{x:790,y:230},{x:858,y:178},{x:900,y:116}
+  ];
+  let linePath = defaultLinePath.map(point=>({...point}));
+  const defaults = {
+    line:{motorSpeed:2.5,kp:3.6,sensorThreshold:20,sensorSpacing:30,turnLimit:2.8},
+    sumo:{attackSpeed:2.7,sensorDistance:170,turnSpeed:2.8,edgeMargin:34,pushForce:2.8}
+  };
+  const configs = {
+    line:{
+      name:"Tidsturnering",file:"line_follower.py",title:"Tidsturnering · Line follower",
+      help:"Følg den mørke streg fra start til mål. De to sensorer sidder foran robotten.",
+      groups:[["Motor og regulering",[["motorSpeed","Motorhastighed",1,4,.1,""],["kp","Korrektionsstyrke Kp",.5,8,.1,""],["turnLimit","Maks. svinghastighed",.8,5,.1,""]]],["Sensorer",[["sensorThreshold","Sensor-tærskel",8,38,1," px"],["sensorSpacing","Sensorafstand",16,52,1," px"]]]],
+      challenges:[
+        ["Sensorbalance","Sæt Kp lavt og højt. Hvilken indstilling giver mindst zigzag, uden at robotten bliver langsom?"],
+        ["Den blinde kurve","Gør sensorafstanden større. Kan robotten nu opdage svinget tidligere, eller overskyder den?"],
+        ["Rekordforsøg","Find en kombination af motorhastighed og Kp, som gennemfører banen hurtigere end standarden."]
+      ],
+      mission:"Mål: gennemfør banen på kortest mulig tid. Kørsel uden for linjen koster fart, men robotten må gerne rette sig selv.",
+      physics:"Robotten har en position (x, y) og en vinkel θ. Hvert step flytter den i retningen cos(θ), sin(θ). Sensorerne måler afstanden til stregen.",
+      sensor:"sensor_venstre og sensor_højre returnerer et tal mellem 0 og 1. P-reguleringen bruger forskellen: fejl = venstre − højre.",
+      codeSubtitle:"Koden nedenfor styrer sensorer, motorer og sving."
+    },
+    sumo:{
+      name:"Sumobrydning",file:"sumo_robot.py",title:"Sumobrydning · Robot-kampsport",
+      help:"Skub den orange modstander ud af ringen. Den blå robot er din robot.",
+      groups:[["Angreb",[["attackSpeed","Angrebshastighed",1,4,.1,""],["turnSpeed","Drejehastighed",.8,5,.1,""],["pushForce","Skubbestyrke",.5,5,.1,""]]],["Sensorer og kant",[["sensorDistance","Modstandersensor",70,260,5," px"],["edgeMargin","Kantmargin",15,70,1," px"]]]],
+      challenges:[
+        ["Find modstanderen","Sæt modstandersensoren lavt. Hvor tæt skal robotten være, før den opdager modstanderen?"],
+        ["Kanten er farlig","Prøv en større kantmargin. Kan robotten undvige kanten uden at give op på angrebet?"],
+        ["Turneringsstrategi","Skift mellem angreb og søgning. Find en indstilling, der både finder modstanderen og holder sig i ringen."]
+      ],
+      mission:"Mål: skub modstanderen over ringens kant. En god robot angriber, når den ser modstanderen, men bakker væk fra kanten.",
+      physics:"Begge robotter har position, vinkel og fart. Ved sammenstød overføres et skub langs linjen mellem robotternes centre.",
+      sensor:"Modstandersensoren måler afstand og vinkel til den anden robot. Kantsensoren måler, hvor tæt robotten er på ringens yderkant.",
+      codeSubtitle:"Koden nedenfor vælger mellem angreb, søgning og undvigelse."
+    }
+  };
+  const codeTemplates = {
+    line:[
+      "# line_follower.py",
+      "# Robotten følger en mørk streg med to sensorer.",
+      "",
+      "MOTOR_HASTIGHED = 2.5",
+      "KP = 3.6",
+      "SENSOR_TAERSKEL = 20",
+      "SENSOR_AFSTAND = 30",
+      "MAKS_SVING = 2.8",
+      "",
+      "def styr_robot(sensor_venstre, sensor_hoejre):",
+      "    # Fejlen fortæller, hvilken side stregen er på.",
+      "    fejl = sensor_venstre - sensor_hoejre",
+      "    korrektion = KP * fejl",
+      "",
+      "    # Drej mod den sensor, der ser mest af stregen.",
+      "    venstre_motor = MOTOR_HASTIGHED + korrektion",
+      "    hoejre_motor = MOTOR_HASTIGHED - korrektion",
+      "",
+      "    # Motorerne holdes inden for deres maksimale område.",
+      "    venstre_motor = begræns(venstre_motor, -MAKS_SVING, MOTOR_HASTIGHED)",
+      "    hoejre_motor = begræns(hoejre_motor, -MAKS_SVING, MOTOR_HASTIGHED)",
+      "    return venstre_motor, hoejre_motor",
+      "",
+      "# Prøv især at ændre MOTOR_HASTIGHED og KP.",
+      "# Høj motorhastighed er hurtigt på lige stræk.",
+      "# En høj KP reagerer kraftigt, men kan give zigzag."
+    ].join("\n"),
+    sumo:[
+      "# sumo_robot.py",
+      "# Den blå robot konkurrerer mod en orange modstander.",
+      "",
+      "ANGREBS_HASTIGHED = 2.7",
+      "SENSOR_AFSTAND = 170",
+      "SVING_HASTIGHED = 2.8",
+      "KANT_MARGIN = 34",
+      "SKUBBEKRAFT = 2.8",
+      "",
+      "def vælg_handling(modstander_set, afstand_til_kant, vinkel_til_modstander):",
+      "    # Kanten har førsteprioritet: bak og drej ind mod midten.",
+      "    if afstand_til_kant < KANT_MARGIN:",
+      "        return \"undvig\", -1.2, SVING_HASTIGHED",
+      "",
+      "    # Angrib kun, når sensoren har fundet modstanderen.",
+      "    if modstander_set:",
+      "        return \"angrib\", ANGREBS_HASTIGHED, vinkel_til_modstander",
+      "",
+      "    # Ellers drejer robotten roligt og leder.",
+      "    return \"soeg\", 1.0, SVING_HASTIGHED * 0.6",
+      "",
+      "# Prøv at ændre KANT_MARGIN og SENSOR_AFSTAND.",
+      "# En modig robot angriber mere, men kan køre ud over kanten."
+    ].join("\n")
+  };
+  const state = {mode:"line",params:{...defaults.line},running:false,elapsed:0,step:0,robot:null,opponent:null,winner:null,lastTime:0,drafts:{},match:"human-ai",routeEditing:false,keys:new Set()};
+  const ctx = $("arena").getContext("2d");
+  const clamp = (v,min,max) => Math.max(min,Math.min(max,v));
+  const angleDiff = (a,b) => Math.atan2(Math.sin(a-b),Math.cos(a-b));
+  function distance(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+  function format(v,key){return (Number.isInteger(v)?v:v.toFixed(1))+(key==="sensorThreshold"||key==="sensorSpacing"||key==="sensorDistance"||key==="edgeMargin"?" px":"");}
+  function renderControls(){
+    const config=configs[state.mode], groups=config.groups;
+    $("controls").className="controls "+(state.mode==="sumo"?"sumo-controls":"");
+    $("controls").innerHTML=groups.map(group=>'<div class="control-group"><h4>'+group[0]+"</h4>"+group[1].map(item=>'<div class="control"><div class="control-row"><label for="control-'+item[0]+'">'+item[1]+'</label><output id="output-'+item[0]+'"></output></div><input id="control-'+item[0]+'" data-key="'+item[0]+'" type="range" min="'+item[2]+'" max="'+item[3]+'" step="'+item[4]+'" value="'+state.params[item[0]]+'"></div>').join("")+"</div>").join("");
+    $("controls").querySelectorAll("input").forEach(input=>input.addEventListener("input",()=>{state.params[input.dataset.key]=Number(input.value);updateOutputs();}));
+    updateOutputs();
+  }
+  function updateOutputs(){$("controls").querySelectorAll("input").forEach(input=>{const output=$("output-"+input.dataset.key);if(output)output.textContent=format(Number(input.value),input.dataset.key);});}
+  function resetLine(){const p=linePath[0]||{x:W/2,y:H/2},next=linePath[1]||{x:p.x+1,y:p.y};state.robot={x:p.x,y:p.y,angle:Math.atan2(next.y-p.y,next.x-p.x),lastTurn:0,progress:0};}
+  function resetSumo(){state.robot={x:W/2-105,y:H/2,angle:0,lastTurn:0,kx:0,ky:0};state.opponent={x:W/2+105,y:H/2,angle:Math.PI,lastTurn:0,kx:0,ky:0};}
+  function routePoint(event){const rect=$("arena").getBoundingClientRect();return {x:clamp((event.clientX-rect.left)/rect.width*W,38,W-38),y:clamp((event.clientY-rect.top)/rect.height*H,38,H-38)};}
+  function startRouteDrawing(){state.running=false;state.winner=null;state.routeEditing=true;linePath=[];resetLine();$("arena").classList.add("route-editing");$("route-status").textContent="Klik første punkt i diagrammet.";setLog("Tegn en ny rute.","Klik mindst to punkter i rækkefølge. Tryk derefter på “Afslut rute”.");render();}
+  function finishRouteDrawing(){if(linePath.length<2){$("route-status").textContent="Ruten skal have mindst to punkter.";return;}state.routeEditing=false;$("arena").classList.remove("route-editing");resetLine();$("route-status").textContent=linePath.length+" rutepunkter er aktive.";setLog("Ny rute gemt.","Tryk Start, når du vil teste robotten på din egen bane.");render();}
+  function restoreRoute(){state.routeEditing=false;linePath=defaultLinePath.map(point=>({...point}));$("arena").classList.remove("route-editing");$("route-status").textContent="Standardruten er aktiv.";resetSimulation();}
+  function resetSimulation(){state.running=false;state.elapsed=0;state.step=0;state.winner=null;if(state.mode==="line")resetLine();else resetSumo();setLog("Arenaen er nulstillet.","Ændr en parameter eller kør din Python-kode, og start derefter.");render();}
+  function nearestOnPath(x,y){let best={distance:Infinity,index:0,x:linePath[0].x,y:linePath[0].y};for(let i=0;i<linePath.length-1;i++){const a=linePath[i],b=linePath[i+1],dx=b.x-a.x,dy=b.y-a.y,len=dx*dx+dy*dy,t=clamp(((x-a.x)*dx+(y-a.y)*dy)/len,0,1),px=a.x+dx*t,py=a.y+dy*t,d=Math.hypot(x-px,y-py);if(d<best.distance)best={distance:d,index:i+t,x:px,y:py};}return best;}
+  function lineSensor(robot,side){const p=state.params,forward=p.sensorSpacing*.6+18,lateral=p.sensorSpacing/2,fx=Math.cos(robot.angle),fy=Math.sin(robot.angle),lx=Math.sin(robot.angle),ly=-Math.cos(robot.angle),x=robot.x+fx*forward+lx*lateral*side,y=robot.y+fy*forward+ly*lateral*side,near=nearestOnPath(x,y),signal=clamp(1-near.distance/p.sensorThreshold,0,1);return {x,y,signal,distance:near.distance};}
+  function updateLine(dt){
+    if(linePath.length<2)return;
+    const r=state.robot,p=state.params,left=lineSensor(r,-1),right=lineSensor(r,1),error=left.signal-right.signal;
+    let turn=clamp(-error*p.kp,-p.turnLimit,p.turnLimit);
+    if(left.signal<.05&&right.signal<.05)turn=r.lastTurn||.8;
+    r.lastTurn=turn;
+    const steering=Math.abs(turn)/Math.max(.1,p.turnLimit),speed=p.motorSpeed*(1-.38*steering),off=nearestOnPath(r.x,r.y).distance;
+    r.angle+=turn*dt;
+    r.x+=Math.cos(r.angle)*speed*SCALE*dt;
+    r.y+=Math.sin(r.angle)*speed*SCALE*dt;
+    r.progress=Math.max(r.progress,nearestOnPath(r.x,r.y).index);
+    if(off>72){r.x-=Math.cos(r.angle)*speed*SCALE*dt*.45;r.y-=Math.sin(r.angle)*speed*SCALE*dt*.45;}
+    if(r.progress>linePath.length-2.2&&distance(r,linePath[linePath.length-1])<48){state.winner="finish";state.running=false;setLog("Mål nået.","Robotten fulgte banen på "+state.elapsed.toFixed(2)+" sekunder.");}
+    if(state.elapsed>45){state.winner="timeout";state.running=false;setLog("Tiden er gået.","Prøv en lavere Kp eller justér sensorafstanden, så robotten bliver på stregen.");}
+  }
+  function sumoSensor(){const r=state.robot,o=state.opponent,p=state.params,d=distance(r,o),to=Math.atan2(o.y-r.y,o.x-r.x),angle=Math.abs(angleDiff(to,r.angle));return {seen:d<p.sensorDistance&&angle<1.05,distance:d,angle:angleDiff(to,r.angle)};}
+  function moveRobot(robot,speed,turn,dt){robot.angle+=turn*dt;robot.x+=Math.cos(robot.angle)*speed*SCALE*dt+robot.kx*dt;robot.y+=Math.sin(robot.angle)*speed*SCALE*dt+robot.ky*dt;robot.kx*=Math.pow(.08,dt);robot.ky*=Math.pow(.08,dt);}
+  function humanControl(robot,side){const blue=side==="blue",forward=blue?"ArrowUp":"w",back=blue?"ArrowDown":"s",left=blue?"ArrowLeft":"a",right=blue?"ArrowRight":"d";return {speed:state.keys.has(forward)?state.params.attackSpeed:state.keys.has(back)?-state.params.attackSpeed*.7:0,turn:state.keys.has(left)?-state.params.turnSpeed:state.keys.has(right)?state.params.turnSpeed:0};}
+  function aiControl(robot,target){const p=state.params,center={x:W/2,y:H/2},edge=RING_RADIUS-Math.hypot(robot.x-center.x,robot.y-center.y),toCenter=Math.atan2(center.y-robot.y,center.x-robot.x),toTarget=Math.atan2(target.y-robot.y,target.x-robot.x),seen=distance(robot,target)<p.sensorDistance&&Math.abs(angleDiff(toTarget,robot.angle))<1.05;if(edge<p.edgeMargin)return {speed:-1.25,turn:clamp(angleDiff(toCenter,robot.angle)*3.2,-p.turnSpeed,p.turnSpeed)};if(seen)return {speed:p.attackSpeed,turn:clamp(angleDiff(toTarget,robot.angle)*2.4,-p.turnSpeed,p.turnSpeed)};return {speed:1.1,turn:clamp(angleDiff(toTarget,robot.angle)*.8,-p.turnSpeed,p.turnSpeed)};}
+  function updateSumo(dt){
+    const r=state.robot,o=state.opponent,p=state.params,center={x:W/2,y:H/2};
+    const blueHuman=state.match==="human-ai"||state.match==="human-human",redHuman=state.match==="human-human";
+    const blue=blueHuman?humanControl(r,"blue"):aiControl(r,o),red=redHuman?humanControl(o,"red"):aiControl(o,r);
+    moveRobot(r,blue.speed,blue.turn,dt);moveRobot(o,red.speed,red.turn,dt);
+    const d=distance(r,o),minDistance=ROBOT_R*2+3;
+    if(d<minDistance){
+      const nx=(r.x-o.x)/(d||1),ny=(r.y-o.y)/(d||1),overlap=minDistance-d;
+      r.x+=nx*overlap*.55;r.y+=ny*overlap*.55;o.x-=nx*overlap*.45;o.y-=ny*overlap*.45;
+      const impact=p.pushForce*42+Math.max(0,blue.speed)*18+Math.max(0,red.speed)*12;
+      r.kx+=nx*impact*dt;r.ky+=ny*impact*dt;o.kx-=nx*impact*dt;o.ky-=ny*impact*dt;
+      setLog("Sammenstød!","Robotterne skubber langs linjen mellem deres centre. Brug vinklen til at få overtaget.");
+    }
+    if(Math.hypot(r.x-center.x,r.y-center.y)>OUT_RADIUS){state.winner="player";state.running=false;setLog("Du vinder runden!","Den røde robot blev skubbet ud af ringen.");}
+    else if(Math.hypot(o.x-center.x,o.y-center.y)>OUT_RADIUS){state.winner="opponent";state.running=false;setLog("Modstanderen vinder.","Din robot blev skubbet ud. Brug kantsensoren tidligere.");}
+    else if(state.elapsed>35){state.winner="draw";state.running=false;setLog("Runden ender uafgjort.","Gør søgningen mere målrettet, eller øg skubbestyrken forsigtigt.");}
+  }
+  function stepSimulation(dt){if(state.winner)return;state.elapsed+=dt;state.step++;if(state.mode==="line")updateLine(dt);else updateSumo(dt);render();}
+  function setLog(title,text){$("log-title").textContent=title;$("log-text").textContent=text;}
+  function drawLine(){
+    ctx.fillStyle="#dfe9df";ctx.fillRect(0,0,W,H);ctx.strokeStyle="rgba(46,139,103,.11)";ctx.lineWidth=1;for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.lineCap="round";ctx.lineJoin="round";
+    if(linePath.length>1){ctx.strokeStyle="#f8f4e9";ctx.lineWidth=56;ctx.beginPath();linePath.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();ctx.strokeStyle="#27383a";ctx.lineWidth=12;ctx.beginPath();linePath.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();}
+    if(linePath.length){const start=linePath[0],end=linePath[linePath.length-1];ctx.fillStyle="#2e8b67";ctx.beginPath();ctx.arc(start.x,start.y,20,0,Math.PI*2);ctx.fill();if(linePath.length>1){ctx.fillStyle="#d17836";ctx.beginPath();ctx.arc(end.x,end.y,20,0,Math.PI*2);ctx.fill();}ctx.fillStyle="#fff";ctx.font="800 11px Inter, sans-serif";ctx.fillText("START",start.x-20,start.y-29);if(linePath.length>1)ctx.fillText("MÅL",end.x-13,end.y-29);}
+    if(state.routeEditing){ctx.fillStyle="#285aa9";ctx.font="800 13px Inter, sans-serif";ctx.fillText("KLIK FOR AT TEGNE RUTEN",W/2-115,34);}
+    const r=state.robot;if(linePath.length>1){const left=lineSensor(r,-1),right=lineSensor(r,1);drawSensors([left,right]);}drawRobot(r,"#285aa9");
+  }
+  function drawSensors(sensors){sensors.forEach((s,i)=>{ctx.strokeStyle=i?"rgba(255,180,98,.7)":"rgba(135,170,255,.8)";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(state.robot.x,state.robot.y);ctx.lineTo(s.x,s.y);ctx.stroke();ctx.fillStyle=s.signal>.05?(i?"#ffbd77":"#83aaf4"):"#fff";ctx.beginPath();ctx.arc(s.x,s.y,6,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#12252b";ctx.stroke();});}
+  function drawRobot(r,color){ctx.save();ctx.translate(r.x,r.y);ctx.rotate(r.angle);ctx.fillStyle=color;ctx.beginPath();ctx.arc(0,0,ROBOT_R,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();ctx.fillStyle="#fff";ctx.beginPath();ctx.moveTo(ROBOT_R+6,0);ctx.lineTo(ROBOT_R-3,-5);ctx.lineTo(ROBOT_R-3,5);ctx.closePath();ctx.fill();ctx.restore();}
+  function drawSumo(){
+    ctx.fillStyle="#dce5ee";ctx.fillRect(0,0,W,H);ctx.fillStyle="#e6eef7";ctx.fillRect(0,0,W,H);ctx.strokeStyle="rgba(40,90,169,.1)";ctx.lineWidth=1;for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    const center={x:W/2,y:H/2},radius=RING_RADIUS;ctx.fillStyle="#f4f0dc";ctx.beginPath();ctx.arc(center.x,center.y,radius,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#bc524d";ctx.lineWidth=10;ctx.stroke();ctx.strokeStyle="#dfc99d";ctx.lineWidth=2;ctx.beginPath();ctx.arc(center.x,center.y,radius-23,0,Math.PI*2);ctx.stroke();ctx.fillStyle="#8c6f47";ctx.font="800 11px Inter, sans-serif";ctx.fillText("RINGEN ER HELT INDE I ARENAEN",center.x-81,center.y-radius+22);
+    const r=state.robot,o=state.opponent,sensor=sumoSensor();ctx.strokeStyle="rgba(192,82,82,.55)";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(r.x,r.y);ctx.lineTo(r.x+Math.cos(r.angle)*state.params.sensorDistance,r.y+Math.sin(r.angle)*state.params.sensorDistance);ctx.stroke();ctx.fillStyle=sensor.seen?"#c05252":"#fff";ctx.beginPath();ctx.arc(r.x+Math.cos(r.angle)*Math.min(sensor.distance,state.params.sensorDistance),r.y+Math.sin(r.angle)*Math.min(sensor.distance,state.params.sensorDistance),6,0,Math.PI*2);ctx.fill();ctx.stroke();drawRobot(r,"#285aa9");drawRobot(o,"#c05252");ctx.fillStyle="#285aa9";ctx.font="800 11px Inter, sans-serif";ctx.fillText(state.match==="ai-ai"?"BLÅ AI":"BLÅ",r.x-30,r.y-24);ctx.fillStyle="#a43f3f";ctx.fillText(state.match==="human-human"?"RØD":"RØD AI",o.x-29,o.y-24);
+  }
+  function render(){
+    if(state.mode==="line")drawLine();else drawSumo();
+    $("route-box").classList.toggle("hidden",state.mode!=="line");
+    $("match-box").classList.toggle("hidden",state.mode!=="sumo");
+    $("arena").classList.toggle("route-editing",state.routeEditing);
+    $("draw-route").textContent=state.routeEditing?"✓ Afslut rute":"✎ Tegn ny rute";
+    if(state.mode==="sumo")$("match-help").textContent=state.match==="ai-ai"?"Begge robotter styres af AI. Se, hvordan strategierne mødes.":state.match==="human-human"?"Blå robot: piletaster. Rød robot: W, A, S og D.":"Blå robot: piletaster. Den røde robot styres af AI.";
+    const config=configs[state.mode];$("mode-name").textContent=config.name;$("arena-title").textContent=config.title;$("arena-help").textContent=config.help;$("status-pill").textContent=state.winner?state.winner==="player"?"DU VINDER":state.winner==="opponent"?"TABT":"AFGJORT":state.running?"KØRER":"PAUSET";$("status-pill").classList.toggle("paused",!state.running&&!state.winner);$("canvas-label").textContent=state.mode==="line"?"TID "+state.elapsed.toFixed(1)+" s":"RUNDE "+state.elapsed.toFixed(1)+" s";
+    const cards=state.mode==="line"?[
+      ["Tid",state.elapsed.toFixed(2)+" s",""],
+      ["Banefremskridt",Math.round(state.robot.progress/(linePath.length-1)*100)+"%",""],
+      ["Sensor V",lineSensor(state.robot,-1).signal.toFixed(2),""],
+      ["Sensor H",lineSensor(state.robot,1).signal.toFixed(2),""]
+    ]:[
+      ["Tid",state.elapsed.toFixed(1)+" s","red"],
+      ["Modstander",Math.round(distance(state.robot,state.opponent))+" px",""],
+      ["Din sensor",sumoSensor().seen?"SET":"SØGER",""],
+      ["Step",state.step,""]
+    ];
+    $("stats").innerHTML=cards.map(card=>'<div class="stat"><div class="stat-label">'+card[0]+'</div><div class="stat-value '+card[2]+'">'+card[1]+"</div></div>").join("");
+  }
+  function renderLearn(){const c=configs[state.mode];$("learn").innerHTML="<h3>Sådan virker fysikken</h3><p>"+c.physics+"</p><h4>Sensorerne</h4><div class=\"sensor-card\"><code>"+(state.mode==="line"?"sensor_venstre / sensor_hoejre":"modstander_set / afstand_til_kant")+"</code><p>"+c.sensor+"</p></div><h4>Eksperimentér</h4><p>Skift kun én parameter ad gangen. Se på robotten, dens sensorer og tallene under arenaen. En god forklaring er lige så vigtig som en hurtig robot.</p><h4>Python på en rigtig robot</h4><p>Funktionerne kan kobles til motor-drivere og afstands- eller lys-sensorer. Her er browseren din sikre testbane, før koden møder hardware.</p>";}
+  function renderChallenges(){const c=configs[state.mode];$("challenge-title").textContent="Laboratorie-opgaver: "+c.name;$("challenges").innerHTML=c.challenges.map((x,i)=>'<article class="challenge"><strong>'+(i+1)+". "+x[0]+"</strong><p>"+x[1]+"</p></article>").join("");$("mission-note").innerHTML="<strong>Turneringsmål</strong>"+c.mission;}
+  function loadMode(mode){if(state.mode!==mode)state.drafts[state.mode]=$("python-editor").value;state.mode=mode;state.routeEditing=false;$("arena").classList.remove("route-editing");state.params={...defaults[mode],...(state.drafts[mode]?readParams(state.drafts[mode],mode):{})};$("python-editor").value=state.drafts[mode]||codeTemplates[mode];$("file-pill").textContent=configs[mode].file;$("code-subtitle").textContent=configs[mode].codeSubtitle;document.querySelectorAll(".mode-tab").forEach(t=>t.classList.toggle("active",t.dataset.mode===mode));renderControls();renderLearn();renderChallenges();resetSimulation();renderEditor();}
+  function readParams(source,mode){const mapping=mode==="line"?{MOTOR_HASTIGHED:"motorSpeed",KP:"kp",SENSOR_TAERSKEL:"sensorThreshold",SENSOR_AFSTAND:"sensorSpacing",MAKS_SVING:"turnLimit"}:{ANGREBS_HASTIGHED:"attackSpeed",SENSOR_AFSTAND:"sensorDistance",SVING_HASTIGHED:"turnSpeed",KANT_MARGIN:"edgeMargin",SKUBBEKRAFT:"pushForce"};const result={};Object.keys(mapping).forEach(name=>{const match=source.match(new RegExp("^\\s*"+name+"\\s*=\\s*(-?\\d+(?:\\.\\d+)?)","m"));if(match)result[mapping[name]]=Number(match[1]);});return result;}
+  function runCode(){state.drafts[state.mode]=$("python-editor").value;const parsed=readParams(state.drafts[state.mode],state.mode);state.params={...state.params,...parsed};renderControls();resetSimulation();state.running=true;setLog("Din kode kører.","Parametrene fra Python-skabelonen er indlæst i robotten.");render();}
+  function resetCode(){delete state.drafts[state.mode];$("python-editor").value=codeTemplates[state.mode];state.params={...defaults[state.mode]};renderControls();resetSimulation();$("code-status").textContent="Standardskabelonen er gendannet.";renderEditor();}
+  function escapeHtml(value){return value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  const pythonTokens=/(#.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(and|as|break|class|continue|def|elif|else|False|for|from|if|import|in|is|lambda|None|not|or|pass|return|True|while|with|yield)\b|\b(Vector|Robot|Sensor|Motor)\b|\b(\d+(?:\.\d+)?)\b/g;
+  function colourPython(line){let html="",cursor=0,match;pythonTokens.lastIndex=0;while((match=pythonTokens.exec(line))){html+=escapeHtml(line.slice(cursor,match.index));const kind=match[1]?"comment":match[2]?"string":match[3]?"keyword":match[4]?"class":"number";html+='<span class="tok-'+kind+'">'+escapeHtml(match[0])+"</span>";cursor=match.index+match[0].length;}return html+escapeHtml(line.slice(cursor));}
+  function renderEditor(){const editor=$("python-editor"),highlight=$("python-highlight");highlight.innerHTML=editor.value.split("\n").map(line=>'<span class="code-line">'+colourPython(line||" ")+"</span>").join("");highlight.scrollTop=editor.scrollTop;highlight.scrollLeft=editor.scrollLeft;}
+  function animate(time){const dt=Math.min(.05,(time-state.lastTime)/1000||0);state.lastTime=time;if(state.running)stepSimulation(dt);requestAnimationFrame(animate);}
+  document.querySelectorAll(".mode-tab").forEach(tab=>tab.addEventListener("click",()=>loadMode(tab.dataset.mode)));
+  $("draw-route").addEventListener("click",()=>state.routeEditing?finishRouteDrawing():startRouteDrawing());
+  $("restore-route").addEventListener("click",restoreRoute);
+  $("arena").addEventListener("click",event=>{if(state.mode!=="line"||!state.routeEditing)return;linePath.push(routePoint(event));if(linePath.length===1)resetLine();$("route-status").textContent=linePath.length+" rutepunkter. Klik “Afslut rute”, når du er færdig.";render();});
+  $("match-mode").addEventListener("change",event=>{state.match=event.target.value;resetSimulation();setLog("Kampformen er ændret.",""+$("match-help").textContent);});
+  $("toggle").addEventListener("click",()=>{if(state.winner)resetSimulation();state.running=!state.running;setLog(state.running?"Robotten kører.":"Robotten er sat på pause.",state.running?"Se på sensorværdierne og robottens valg.":"Ret en parameter, og fortsæt derefter.");render();});
+  $("step").addEventListener("click",()=>{state.running=false;stepSimulation(.12);});
+  $("reset").addEventListener("click",resetSimulation);
+  $("run-code").addEventListener("click",runCode);
+  $("reset-code").addEventListener("click",resetCode);
+  $("python-editor").addEventListener("input",()=>{state.drafts[state.mode]=$("python-editor").value;renderEditor();$("code-status").textContent="Koden er ændret. Klik på “Kør min kode”, når du vil teste den.";});
+  $("python-editor").addEventListener("scroll",()=>{const h=$("python-highlight");h.scrollTop=$("python-editor").scrollTop;h.scrollLeft=$("python-editor").scrollLeft;});
+  $("download-code").addEventListener("click",()=>{const blob=new Blob(["\ufeff",$("python-editor").value],{type:"text/x-python;charset=utf-8"}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=configs[state.mode].file;link.click();URL.revokeObjectURL(url);});
+  document.addEventListener("keydown",event=>{if(event.target.matches("textarea,input,select"))return;state.keys.add(event.key);if(event.code==="Space"){event.preventDefault();$("toggle").click();}if(event.code==="ArrowRight"&&!state.running){$("step").click();}});
+  document.addEventListener("keyup",event=>state.keys.delete(event.key));
+  window.addEventListener("blur",()=>state.keys.clear());
+  new ResizeObserver(()=>{$("python-highlight").style.height=$("python-editor").offsetHeight+"px";}).observe($("python-editor"));
+  loadMode("line");requestAnimationFrame(animate);
+})();
+</script>
+  <footer class="site-copyright">Copyright (C) Henrik Sterner (udvikler) og Kathrine Bohus Madsen · Værktøj til lærebogen <em>Python i Gymnasiet</em></footer>
+</body>
+</html>
