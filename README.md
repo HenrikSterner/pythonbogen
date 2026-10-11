@@ -35,6 +35,6 @@ Følgende links er arbejdsområder for dette site og bør genopbygges efter ænd
 
 ## Offentliggørelse
 
-Filerne kan publiceres som et statisk website. Hvis webstedet skal ligge under en sti som `/pythonbogen/`, afprøv direkte undersidelinks og relative stier på netop den værtsopsætning. Webprojektet indeholder ikke en download af VygotskAI-installeren. Bestilling og spørgsmål om bogen går til `kontakt@pythonbog.dk`.
+Filerne kan publiceres som et statisk website. Hvis webstedet skal ligge under en sti som `/pythonbogen/`, afprøv direkte undersidelinks og relative stier på netop den værtsopsætning. Webprojektet indeholder ikke en download af VygotskAI-installeren. Bestilling og spørgsmål om bogen går til `kontakt@pythonbogen.dk`.
 
 Se [INDHOLD-OG-KILDER.md](INDHOLD-OG-KILDER.md) for datakilder, udvalgte laboratorier og afklaringer før offentlig udgivelse.

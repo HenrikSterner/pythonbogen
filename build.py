@@ -16,14 +16,14 @@ TUTOR = CODE / "VygotskAI-Tutor"
 SOURCE = ROOT / "site_src"
 
 PAGE_TITLES = {
-    "index": ("Pythonbogen · Bog, lokal AI og PyLabs til gymnasiet", "Et nybrud i gymnasiets Python-undervisning: lærebog, 100% lokal VygotskAI Tutor og integrerede PyLabs. Læs forordet gratis eller vælg e-bogen til 149 kr."),
+    "index": ("Bog, lokal AI og PyLabs til gymnasiet og folkeskolen", "Python-undervisning til gymnasiet og folkeskolen: lærebog, 100% lokal VygotskAI Tutor og integrerede PyLabs. Læs forordet gratis eller vælg e-bogen til 149 kr."),
     "bogen": ("Lærebogen", "Se bogens 16 kapitler, opgavetyper og den faglige progression fra dit første program til større projekter."),
     "laeseproeve": ("Læs en prøve", "Læs forordet og det første kapitel fra Introduktion til Python i Gymnasiet."),
     "vygotskai": ("VygotskAI", "Se hvordan bog, Python-opgaver, kode og lokal AI-tutor mødes i VygotskAI."),
     "laboratorier": ("Python-laboratorier", "Find et interaktivt Python-laboratorium om Turtle, kode, algoritmer, maskinlæring eller robotter."),
     "undervisere": ("Til undervisere", "Se bogens faglige progression, afprøv et forløbsforslag og udforsk laboratorier og lærerstøtte."),
     "kom-i-gang": ("Kom i gang med Python", "Vælg en begynderrute med læseprøve, Python-laboratorier eller den lokale VygotskAI-app."),
-    "om": ("Om Pythonbogen", "Mød forfatterne bag Introduktion til Python i Gymnasiet og find kontaktoplysninger."),
+    "om": ("Forfattere og kontakt", "Mød Kathrine Bohus Madsen og Henrik Sterner: undervisere med erfaring i læring, programmering og AI. Kontakt os om Pythonbogen til gymnasiet og folkeskolen."),
 }
 
 CHAPTERS = [
@@ -64,7 +64,7 @@ def copy_tree(source: Path, destination: Path) -> None:
 
 
 def render_inline(text: str) -> str:
-    text = html.escape(text, quote=False)
+    text = html.escape(text.replace("kontakt@pythonbog.dk", "kontakt@pythonbogen.dk"), quote=False)
     text = re.sub(r"&lt;u&gt;(.+?)&lt;/u&gt;", r"<u>\1</u>", text)
     text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
     text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
@@ -309,7 +309,7 @@ def main() -> None:
             raise SystemExit(f"Manglende sideindhold: {body_path}")
         active = "index" if page == "index" else page
         header = header_tpl.replace("{{ACTIVE}}", active)
-        for section in ["bogen", "vygotskai", "laboratorier", "undervisere", "kom-i-gang"]:
+        for section in ["bogen", "vygotskai", "laboratorier", "undervisere", "kom-i-gang", "om"]:
             marker = "{{ACTIVE_ATTR:" + section + "}}"
             header = header.replace(marker, ' aria-current="page"' if section == active else "")
         body = body_path.read_text(encoding="utf-8").replace("{{LAB_CARDS}}", lab_cards_html).replace("{{FEATURED_LABS}}", featured_html).replace("{{CHAPTER_CARDS}}", chapter_cards_html)

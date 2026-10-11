@@ -45,7 +45,7 @@ Værktøjet »Lav en undervisningsplan« er et lokalt, redigerbart udkast. Lære
 
 ## Kontakt, bestilling og udgivelser
 
-- `kontakt@pythonbog.dk` findes i bogens forord. Hjemmesiden bruger adressen til mailhenvendelser om bogen og undervisningsbrug.
+- `kontakt@pythonbogen.dk` er hjemmesidens kontaktadresse, opdateret efter forfatterens instruktion den 11. oktober 2026. Den bruges også i hjemmesidens læseprøve; manuskriptets kontaktadresse ændres ikke af webbygget.
 - Der er ikke implementeret betaling, ordre, klassesætbestilling eller webformular, fordi en faktisk modtagertjeneste ikke findes i målprojektet.
 - Priser og leveringsoplysninger fra den tidligere hjemmeside er ikke brugt som aktuelle salgsfakta.
 - Den gennemgåede tutorprojektmappe indeholder ingen verificeret installer eller offlinepakke under `release/`. Hjemmesiden linker derfor ikke til en udgivelsesfil.
@@ -66,3 +66,12 @@ De publicerede labfiler er browseraktiviteter fra den tidligere bogside. De kør
 - Interaktioner i webkoden omfatter søgning, filtre, modal lukning med Escape, lokale kodeskridt og print af planudkast.
 
 En interaktiv browserafprøvning og direkte afprøvning af alle otte laboratoriers faglige kontroller skal udføres i den publicerede hostingkontekst. Projektet beholder valideringsværktøjet `tools/check_site.py` til links, centrale sider og lokale afhængigheder.
+
+
+## Forfatterprofiler (11. oktober 2026)
+
+Kontaktsidens faglige profiler er skrevet ud fra disse kilder:
+
+- Kathrine: bogens forord (lektorbetegnelse og illustrationer), [EMU om fagkonsulentarbejdet](https://emu.dk/stx/informatik/fra-fagkonsulenten/nyt-fra-fagkonsulenten-i-it-fagene-maj-2025) og [hendes offentlige LinkedIn-opslag om AI i undervisningen](https://dk.linkedin.com/posts/kathrine-bohus-madsen-9901a441_inspirerende-at-holde-opl%C3%A6g-om-kunstig-intelligens-activity-7226594388276097027-T6yK). Den fulde LinkedIn-profil kunne ikke læses. Forfatteren har efterfølgende leveret profilens uddannelsesoplysninger: cand.scient. i matematik og statistik, Københavns Universitet (1984–1993), og M.I.T.S. i softwareudvikling, IT-Universitetet i København (1999–2006). Disse oplysninger er tilføjet på kontaktsiden.
+- Henrik: forfatterens vedlagte `cv_hst_lang.pdf` (dateret august 2025) og [hans faglige hjemmeside](https://henriksterner.github.io/). CV'et er brugt som baggrund og er ikke kopieret til hjemmesiden. Privatadresse, fødselsdato, telefonnummer og karakterer er udeladt. CV'ets igangværende master omtales ikke som en gennemført uddannelse.
+- Afsnittene om bidraget til Pythonbogen er redaktionelle koblinger mellem dokumenteret erfaring og materialets læringsform.
