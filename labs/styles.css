@@ -1,23 +1,23 @@
 /* Shared visual language for every py-laboratorium. */
 :root {
-  --ink: #172033;
-  --muted: #667386;
-  --paper: #fffdf9;
+  --ink: #1c292a;
+  --muted: #687374;
+  --paper: #f6f5f1;
   --panel: #ffffff;
-  --line: #d8ddd5;
-  --blue: #285aa9;
-  --blue-soft: #edf3ff;
-  --orange: #d17836;
-  --green: #2e8b67;
-  --shadow: 0 18px 50px rgb(30 42 58 / 12%);
+  --line: #dce1da;
+  --blue: #0d565c;
+  --blue-soft: #e7efea;
+  --orange: #0d565c;
+  --green: #367d67;
+  --shadow: 0 18px 50px rgb(22 54 51 / 10%);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { background: #e8edf3; }
+html { background: var(--paper); }
 body {
   color: var(--ink);
-  background: radial-gradient(circle at top left, #f4f7fb 0, #e8edf3 48%, #dfe6ee 100%);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--paper);
+  font-family: "DM Sans", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 button, input, textarea, select { font: inherit; }
@@ -25,7 +25,7 @@ button, select, input, textarea { border-radius: 9px; }
 button { transition: border-color .18s ease, background .18s ease, transform .18s ease; }
 button:hover { transform: translateY(-1px); }
 button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
-  outline: 3px solid rgb(40 90 169 / 28%);
+  outline: 3px solid rgb(13 86 92 / 30%);
   outline-offset: 2px;
 }
 
@@ -35,13 +35,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .topbar {
-  background: linear-gradient(110deg, #fffdf9, #f1f6ff) !important;
+  background: var(--paper) !important;
   border-bottom-color: var(--line) !important;
 }
 .brand-mark, .logo {
   color: #fff !important;
   background: var(--blue) !important;
-  box-shadow: 4px 4px 0 #c8d6f2 !important;
+  box-shadow: 4px 4px 0 #c7dbcf !important;
 }
 .brand-mark {
   width: auto !important;
@@ -55,14 +55,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .home { color: var(--blue); font-weight: 700; }
 
 .hero, .intro {
-  background: linear-gradient(112deg, #fffdf9, #f1f6ff) !important;
+  background: linear-gradient(112deg, #f6f5f1, #e7efea) !important;
   border-bottom-color: var(--line) !important;
 }
 .eyebrow { color: var(--orange) !important; }
 .mission-card, .emergence-card, .rule-card, .hint, .about {
-  border-color: #d7e2f2 !important;
-  color: #536073 !important;
-  background: #f7faff !important;
+  border-color: #d2e1d6 !important;
+  color: #52635e !important;
+  background: #f1f6ef !important;
 }
 .mission-card strong, .emergence-card strong, .rule-card strong { color: var(--blue) !important; }
 
@@ -75,7 +75,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   color: #fff !important;
   background: var(--blue) !important;
 }
-.secondary, button.secondary { border-color: #cbd5e1; color: var(--ink); background: #fff; }
+.secondary, button.secondary { border-color: #cbd8cf; color: var(--ink); background: #fff; }
 
 footer, .copyright {
   border-top-color: var(--line) !important;
@@ -95,7 +95,91 @@ footer, .copyright {
 .diagram-editor .topbar, .app .topbar { color: var(--ink); }
 .app > .topbar .brand { font-weight: 800; letter-spacing: -.025em; }
 
+/* Catalogue landing page: the same calm shell as the main book site. */
+.page > header:not(.topbar) {
+  padding: 0 42px 34px;
+  background: var(--paper) !important;
+  border-bottom-color: var(--line) !important;
+}
+.pylab-site-nav {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  min-height: 76px;
+  margin: 0 -42px 43px;
+  padding: 0 42px;
+  border-bottom: 1px solid var(--line);
+}
+.pylab-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font: 700 18px/1 "Space Grotesk", "DM Sans", sans-serif;
+  letter-spacing: -.055em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pylab-brand > span {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  background: var(--blue);
+  color: white;
+  font: 600 16px/1 "Space Grotesk", sans-serif;
+  letter-spacing: -.15em;
+}
+.pylab-brand em { font-style: normal; font-weight: 500; }
+.pylab-site-nav nav { display: flex; gap: 28px; margin-left: auto; }
+.pylab-site-nav nav a { color: #526061; font-size: 13px; font-weight: 700; text-decoration: none; }
+.pylab-site-nav nav a:hover { color: var(--blue); }
+.pylab-home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px 15px;
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.pylab-home:hover { background: var(--blue); color: white; }
+.page > header:not(.topbar) .eyebrow { color: var(--blue) !important; }
+.page > header:not(.topbar) .heading h1,
+.page > header:not(.topbar) .section-heading h2,
+.page > header:not(.topbar) .topic-heading h3,
+.page > header:not(.topbar) .tool h4 { font-family: "Space Grotesk", "DM Sans", sans-serif; }
+.page > header:not(.topbar) .logo {
+  border-radius: 8px;
+  box-shadow: none !important;
+  font-family: "Space Grotesk", sans-serif;
+}
+.page > header:not(.topbar) .book-cover { box-shadow: 12px 18px 28px rgb(19 43 38 / 16%), 4px 4px 0 #c7dbcf; }
+.page > header:not(.topbar) .heading p,
+.page > header:not(.topbar) .info-link span { color: var(--muted); }
+.page > header:not(.topbar) .info-link,
+.page > header:not(.topbar) .teacher-link { border-color: #cbd8cf; color: var(--blue); background: white; }
+.page > header:not(.topbar) .info-link:hover,
+.page > header:not(.topbar) .teacher-link:hover { border-color: var(--blue); background: var(--blue-soft); }
+.page > .content { background: var(--paper); }
+.page > .content .section-heading h2,
+.page > .content .topic-heading h3 { font-family: "Space Grotesk", "DM Sans", sans-serif; }
+.page > .content .tool { border-radius: 8px; box-shadow: none; }
+.page > .content .tool:hover { box-shadow: 0 18px 28px rgb(19 43 38 / 10%); }
+.page > .content .tool-arrow { color: var(--blue); background: #edf4ee; }
+.page > .content .chapters { color: #466258; background: #eef4ed; }
+.page > footer { background: var(--paper); }
+
 @media (max-width: 700px) {
   .topbar { padding-left: 18px !important; padding-right: 18px !important; }
   .hero { grid-template-columns: 1fr !important; }
+  .page > header:not(.topbar) { padding: 0 20px 26px; }
+  .pylab-site-nav { gap: 14px; min-height: 66px; margin: 0 -20px 30px; padding: 0 20px; }
+  .pylab-site-nav nav { display: none; }
+  .pylab-home { margin-left: auto; min-width: 0; padding: 8px 10px; font-size: 12px; }
 }

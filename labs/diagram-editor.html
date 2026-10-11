@@ -509,6 +509,30 @@ if ready:
       return points.map((p, i) => `${i ? 'L' : 'M'} ${Math.round(p.x)} ${Math.round(p.y)}`).join(' ');
     }
 
+    function pathMidpoint(points) {
+      const segments = [];
+      let totalLength = 0;
+      for (let i = 1; i < points.length; i++) {
+        const from = points[i - 1], to = points[i];
+        const length = Math.hypot(to.x - from.x, to.y - from.y);
+        if (length) {
+          segments.push({from, to, length});
+          totalLength += length;
+        }
+      }
+      if (!segments.length) return points[0] || {x: 0, y: 0};
+
+      let remaining = totalLength / 2;
+      for (const {from, to, length} of segments) {
+        if (remaining <= length) {
+          const fraction = remaining / length;
+          return {x: from.x + (to.x - from.x) * fraction, y: from.y + (to.y - from.y) * fraction};
+        }
+        remaining -= length;
+      }
+      return segments[segments.length - 1].to;
+    }
+
     function markerFor(type) {
       if (type === 'inheritance' || type === 'dependency') return type;
       return null;
@@ -572,7 +596,7 @@ if ready:
         if (endMarker) group.append(exportMarker(edge.type, points[points.length - 1], unitDirection(points[points.length - 2], points[points.length - 1])));
         if (startMarker) group.append(exportMarker(edge.type, points[0], unitDirection(points[1], points[0])));
         if (edge.label) {
-          const mid = points[Math.floor(points.length / 2)];
+          const mid = pathMidpoint(points);
           group.append(el('text', {x: mid.x + 7, y: mid.y - 7, class: 'relation-label'}, edge.label));
         }
         edgesLayer.append(group);

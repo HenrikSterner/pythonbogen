@@ -12,7 +12,6 @@ Hjemmesidens produkttekster følger den aktuelle bog, tutorapp og de browserbase
 | AI-niveauer | Etiketterne i `../PYTHONBook/template.typ` |
 | VygotskAI-funktioner, platform og praktiske oplysninger | `../VygotskAI-Tutor/README.md`, `docs/IMPLEMENTATION.md` og `docs/INSTALLATION.md` |
 | Produktbilleder | De otte aktuelle kildebuild-skærmbilleder beskrevet i `../VygotskAI-Tutor/docs/marketing/billeder.json` |
-| Den oprindelige håndtegnede forsideillustration | `../python-i-gymnasiet/assets/forside.jpeg` |
 | Laboratoriernes titler, beskrivelser og kategori | `../VygotskAI-Tutor/resources/content/pylabs.json` |
 | Browserlaboratorier og deres statiske afhængigheder | De udvalgte `.html`-filer og understøttende assets i `../python-i-gymnasiet/pyLab/` |
 | Mål og kapitelkoblinger til læreroversigten | `../python-i-gymnasiet/data/faglige_maal_med_kapiteldaekning.csv` |
@@ -63,7 +62,7 @@ De publicerede labfiler er browseraktiviteter fra den tidligere bogside. De kør
 
 - Sider, kapiteluddrag, datafiler, lokale billeder og valgte labfiler samles i `pythonbogen` uden at ændre kildeprojekterne.
 - Kapitel- og laboratoriekataloger genereres fra aktuelle projektfiler og de dokumenterede, redaktionelle metadata.
-- Appens lokale skærmbilleder, bogomslag, kapitelillustration og den oprindelige hjemmesides håndtegnede forside indgår som lokale webassets.
+- Appens lokale skærmbilleder, bogomslag og kapitelillustration indgår som lokale webassets.
 - Interaktioner i webkoden omfatter søgning, filtre, modal lukning med Escape, lokale kodeskridt og print af planudkast.
 
 En interaktiv browserafprøvning og direkte afprøvning af alle otte laboratoriers faglige kontroller skal udføres i den publicerede hostingkontekst. Projektet beholder valideringsværktøjet `tools/check_site.py` til links, centrale sider og lokale afhængigheder.

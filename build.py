@@ -16,7 +16,7 @@ TUTOR = CODE / "VygotskAI-Tutor"
 SOURCE = ROOT / "site_src"
 
 PAGE_TITLES = {
-    "index": ("Pythonbog, tutor og laboratorier", "Læs, afprøv og forstå Python med en dansk lærebog, VygotskAI og interaktive laboratorier."),
+    "index": ("Pythonbogen · Bog, lokal AI og PyLabs til gymnasiet", "Et nybrud i gymnasiets Python-undervisning: lærebog, 100% lokal VygotskAI Tutor og integrerede PyLabs. Læs forordet gratis eller vælg e-bogen til 149 kr."),
     "bogen": ("Lærebogen", "Se bogens 16 kapitler, opgavetyper og den faglige progression fra dit første program til større projekter."),
     "laeseproeve": ("Læs en prøve", "Læs forordet og det første kapitel fra Introduktion til Python i Gymnasiet."),
     "vygotskai": ("VygotskAI", "Se hvordan bog, Python-opgaver, kode og lokal AI-tutor mødes i VygotskAI."),
@@ -218,6 +218,8 @@ def main() -> None:
 
     (ROOT / "labs").mkdir(exist_ok=True)
     copy_tree(OLD / "pyLab" / "vendor", ROOT / "labs" / "vendor")
+    # The 3D agent lab links to this alternate 2D view, so keep that route local too.
+    shutil.copy2(OLD / "pyLab" / "agent-simulator-2d.html", ROOT / "labs" / "agent-simulator-2d.html")
     if (OLD / "pyLab" / "assets").is_dir():
         copy_tree(OLD / "pyLab" / "assets", ROOT / "labs" / "assets")
     shutil.copy2(OLD / "pyLab" / "styles.css", ROOT / "labs" / "styles.css")
@@ -225,11 +227,12 @@ def main() -> None:
 
     cover = BOOK / "assets" / "cover" / "sand-cover.jpeg"
     shutil.copy2(cover, ROOT / "assets" / "images" / "bogomslag.jpeg")
-    shutil.copy2(OLD / "assets" / "forside.jpeg", ROOT / "assets" / "images" / "forside-kunst.jpeg")
     marketing = TUTOR / "docs" / "marketing"
     (ROOT / "assets" / "images" / "vygotskai").mkdir(exist_ok=True)
     for jpg in sorted((marketing / "billeder").glob("*.jpg")):
         shutil.copy2(jpg, ROOT / "assets" / "images" / "vygotskai" / jpg.name)
+    for name in ["01-python-og-tutor.jpg", "03-pylabs-oversigt.jpg"]:
+        shutil.copy2(marketing / "lyse-skaermbilleder" / name, ROOT / "assets" / "images" / "vygotskai" / name)
 
     for name in ["chapter-01-dit-foerste-program.jpg"]:
         shutil.copy2(BOOK / "assets" / "chapter-art" / name, ROOT / "assets" / "book" / name)

@@ -1,0 +1,1857 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentlaboratorium – levende 2D/3D-simulator</title>
+<style>
+:root{--ink:#172033;--muted:#657083;--paper:#fffdf9;--panel:#f2f0eb;--line:#d8d3c8;--blue:#2757a5;--soft:#eaf1ff;--orange:#d27638;--green:#237653;--red:#b7444a;--shadow:0 18px 50px rgb(37 50 70/12%)}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}body{color:var(--ink);background:#e7e3db;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a9c4fa;outline-offset:2px}
+.app{width:min(1540px,calc(100% - 28px));min-height:100vh;margin:auto;background:var(--paper);box-shadow:var(--shadow)}
+.topbar{display:flex;align-items:center;gap:14px;padding:17px 26px;border-bottom:1px solid var(--line);background:#fff}.brand-mark{display:grid;place-items:center;width:43px;height:43px;border-radius:13px;color:#fff;background:var(--blue);box-shadow:4px 4px 0 #c5d3f2;font:800 22px/1 Consolas,monospace}.brand h1{margin:0;font-size:clamp(20px,3vw,29px);letter-spacing:-.04em}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}.home{margin-left:auto;color:var(--blue);font-size:13px;text-decoration:none}.home:hover{text-decoration:underline}
+.intro{display:flex;gap:24px;align-items:flex-start;padding:25px 28px 21px;background:linear-gradient(112deg,#fffdf9,#f3f7ff)}.eyebrow{margin:0 0 5px;color:var(--orange);font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.intro h2{margin:0;font-size:clamp(24px,4vw,40px);letter-spacing:-.055em}.intro p:not(.eyebrow){max-width:790px;margin:8px 0 0;color:#4f5b6c;line-height:1.55}.emergence-card{margin-left:auto;min-width:220px;padding:13px 15px;border:1px solid #c5d3ef;border-radius:13px;color:#34517e;background:#f6f9ff;font-size:12px;line-height:1.45}.emergence-card strong{display:block;margin-bottom:3px;color:var(--blue);font-size:13px}
+.case-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:15px 28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}.case-tab{padding:9px 13px;border:1px solid #c9c5bd;border-radius:8px;color:#566173;background:#fff;font-weight:750;font-size:13px}.case-tab:hover{border-color:#8aa8df;background:#f7faff}.case-tab.active{border-color:var(--blue);color:var(--blue);background:var(--soft)}
+.workspace{display:grid;grid-template-columns:270px minmax(450px,1fr) 295px;min-height:690px}.sidebar,.learn{padding:20px;background:var(--panel)}.sidebar{border-right:1px solid var(--line)}.learn{border-left:1px solid var(--line)}.stage{min-width:0;padding:20px clamp(17px,3vw,31px) 30px}.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 11px}.section-title h3{margin:0;font-size:14px}.section-title span{color:var(--muted);font-size:11px}.controls{display:grid;gap:15px}.control-group{padding-bottom:13px;border-bottom:1px solid #d8d4cb}.control-group h4{margin:0 0 10px;color:#756f66;font-size:10px;letter-spacing:.12em;text-transform:uppercase}.control{margin:9px 0}.control-row{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#3f4b5d;font-size:12px}.control-row output{min-width:45px;color:var(--blue);font:700 12px Consolas,monospace;text-align:right}input[type=range]{width:100%;margin:7px 0 0;accent-color:var(--blue)}select{width:100%;margin-top:7px;padding:7px 8px;border:1px solid #c8cdd5;border-radius:7px;color:var(--ink);background:#fff;font-size:12px}.button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.primary,.secondary{padding:9px 12px;border-radius:8px;font-weight:800;font-size:12px}.primary{border:1px solid var(--blue);color:#fff;background:var(--blue)}.primary:hover{background:#1d4384}.secondary{border:1px solid #c8c3b9;color:#536073;background:#fff}.secondary:hover{border-color:#9da8bb;background:#fafafa}.keyboard-hint,.side-note{color:var(--muted);font-size:11px;line-height:1.45}.keyboard-hint{margin:12px 0 0}
+.canvas-wrap{position:relative;overflow:hidden;border:1px solid #cbd1da;border-radius:13px;background:#102239;box-shadow:0 5px 0 #d9e0ec}.canvas-wrap canvas{display:block;width:100%;height:auto;aspect-ratio:16/9}.canvas-label{position:absolute;top:11px;left:13px;padding:5px 8px;border-radius:6px;color:#e7efff;background:rgb(11 23 40/72%);font:700 11px Consolas,monospace}.status-pill{position:absolute;right:13px;top:11px;padding:5px 8px;border-radius:999px;color:#dff4e9;background:rgb(27 92 65/85%);font-size:11px;font-weight:800}.status-pill.paused{color:#fff0cf;background:rgb(126 83 28/88%)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}.stat{padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff}.stat-label{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}.stat-value{margin-top:3px;font:800 19px/1.1 Consolas,monospace}.stat-value.blue{color:var(--blue)}.stat-value.red{color:var(--red)}.stat-value.green{color:var(--green)}
+.chart-card{margin-top:15px;padding:13px;border:1px solid var(--line);border-radius:11px;background:#fff}.chart-card h3{margin:0 0 8px;font-size:13px}#chart{width:100%;height:130px}.legend{display:flex;gap:13px;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:10px}.legend span:before{content:"";display:inline-block;width:8px;height:8px;margin-right:4px;border-radius:50%;background:currentColor}.legend .susceptible{color:#5c91dc}.legend .infected{color:#e15b5b}.legend .recovered{color:#53b486}.legend .sheep{color:#d8a64c}.legend .wolves{color:#a96cce}.legend .fish{color:#5d9fd7}.legend .predator{color:#eb8055}
+.learn h3{margin:0 0 10px;font-size:14px}.learn h4{margin:18px 0 6px;color:var(--orange);font-size:11px;letter-spacing:.1em;text-transform:uppercase}.learn p{margin:0;color:#536073;font-size:12px;line-height:1.52}.learn ul{margin:7px 0 0;padding-left:17px;color:#536073;font-size:12px;line-height:1.55}.rule-card{margin-top:10px;padding:10px;border:1px solid #d2dcea;border-radius:9px;background:#f8fbff}.rule-card code{display:block;margin-bottom:3px;color:var(--blue);font:700 12px Consolas,monospace}.python-card{margin-top:13px;padding:11px;border:1px solid #d9d3c9;border-radius:9px;background:#fff}.python-card pre{overflow:auto;margin:0;color:#39485e;font:11px/1.5 Consolas,monospace;white-space:pre-wrap}.footer-note{padding:16px 28px 22px;border-top:1px solid var(--line);color:var(--muted);font-size:11px;line-height:1.5}
+@media(max-width:1120px){.workspace{grid-template-columns:240px minmax(400px,1fr)}.learn{grid-column:1/-1;border-top:1px solid var(--line);border-left:0}}@media(max-width:760px){.app{width:100%}.topbar,.intro,.case-tabs,.footer-note{padding-left:17px;padding-right:17px}.intro{display:block}.emergence-card{margin:16px 0 0}.workspace{display:block}.sidebar,.learn{border:0;border-bottom:1px solid var(--line)}.stats{grid-template-columns:repeat(2,1fr)}}
+.code-lab{padding:22px 28px 26px;border-top:1px solid var(--line);background:#fff}.code-lab-header{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.code-lab h3{margin:0;font-size:16px}.code-lab-header p{margin:4px 0 0;color:var(--muted);font-size:12px}.code-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.code-tab{padding:7px 10px;border:1px solid #c9c5bd;border-radius:7px;color:#536073;background:#fff;font-size:12px;font-weight:750}.code-tab.active{border-color:var(--blue);color:var(--blue);background:var(--soft)}.code-panel{display:none}.code-panel.active{display:block}.code-panel pre,.agent-editor{width:100%;min-height:250px;margin:0;padding:15px;border:1px solid #c9d2df;border-radius:10px;color:#e7efff;background:#0f1d30;font:12px/1.6 Consolas,"Courier New",monospace;white-space:pre;tab-size:4;overflow:auto}.agent-editor{min-height:285px;resize:vertical;white-space:pre;background:#0f1d30}.code-line{display:block;min-height:1.6em}.line-number{display:inline-block;width:3.2em;margin-right:1.2em;border-right:1px solid #2c405b;color:#7183a1;text-align:right;user-select:none}.tok-comment{color:#8194ad;font-style:italic}.tok-string{color:#b9dc8a}.tok-keyword{color:#d79cff;font-weight:700}.tok-class{color:#72c8ff;font-weight:700}.tok-number{color:#ffbc77}.control-help{margin:4px 0 0;color:#687588;font-size:10px;line-height:1.4}.code-caption{margin:8px 0 0;color:#536073;font-size:12px;line-height:1.5}.agent-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:10px}.agent-status{color:var(--muted);font-size:12px}.agent-status.error{color:var(--red)}.agent-status.ok{color:var(--green)}.user-agent-note{margin-top:8px;color:#536073;font-size:11px;line-height:1.45}
+@media(max-width:760px){.code-lab{padding:19px 17px}.code-lab-header{display:block}}
+.agent-template-title{margin:0 0 7px;color:#536073;font-size:12px;font-weight:700}.agent-editor-wrap{position:relative;display:grid;min-height:285px}.agent-editor-wrap .agent-highlight,.agent-editor-wrap .agent-editor{grid-area:1/1;width:100%;height:100%;margin:0;padding:15px;border:1px solid #c9d2df;border-radius:10px;font:12px/1.6 Consolas,"Courier New",monospace;tab-size:4;white-space:pre-wrap;overflow:auto}.agent-highlight{z-index:0;pointer-events:none;color:#e7efff;background:#0f1d30}.agent-editor{z-index:1;min-height:285px!important;resize:vertical!important;border-color:transparent!important;color:transparent!important;background:transparent!important;caret-color:#fff;-webkit-text-fill-color:transparent}.agent-editor::selection{background:rgb(135 170 255 / 35%)}.agent-editor:focus{border-color:#83aaf4!important}
+.code-toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:0 0 9px}.file-pill{padding:5px 8px;border:1px solid #cbd6e7;border-radius:999px;color:#34517e;background:#f5f8ff;font:700 11px Consolas,monospace}.code-toolbar .secondary{margin-left:auto}.builder-intro{margin:0 0 12px;color:#536073;font-size:12px;line-height:1.5}.builder-grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:10px;margin-bottom:13px}.builder-field{display:grid;gap:5px;color:#536073;font-size:11px;font-weight:700}.builder-field input,.builder-field select{width:100%;margin:0;padding:8px;border:1px solid #c8cdd5;border-radius:7px;background:#fff}.python-editor-wrap{position:relative;display:grid;min-height:360px}.python-editor-wrap .agent-highlight,.python-editor-wrap .agent-editor{grid-area:1/1;width:100%;height:100%;margin:0;padding:15px;border:1px solid #c9d2df;border-radius:10px;font:12px/1.6 Consolas,"Courier New",monospace;tab-size:4;white-space:pre;overflow:auto}.python-editor-wrap .agent-highlight{z-index:0;pointer-events:none;color:#e7efff;background:#0f1d30}.python-editor-wrap .agent-editor{z-index:1;min-height:360px!important;resize:vertical!important;border-color:transparent!important;color:transparent!important;background:transparent!important;caret-color:#fff;-webkit-text-fill-color:transparent}.python-editor-wrap .agent-editor::selection{background:rgb(135 170 255 / 35%)}.python-editor-wrap .agent-editor:focus{border-color:#83aaf4!important}#run-agent{display:none}
+@media(max-width:900px){.builder-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.builder-grid{grid-template-columns:1fr}.code-toolbar .secondary{margin-left:0}}
+.view-toggle{position:absolute;right:13px;bottom:13px;display:flex;align-items:center;gap:3px;padding:4px;border:1px solid rgb(210 225 249/35%);border-radius:9px;background:rgb(11 23 40/78%);color:#cbdaf3;font-size:10px;font-weight:800}.view-toggle[hidden]{display:none}.view-toggle-label{padding:0 5px}.view-toggle button,.view-toggle a{padding:5px 8px;border:0;border-radius:6px;color:#cbdaf3;background:transparent;font-size:10px;font-weight:800;text-decoration:none}.view-toggle button.active{color:#172033;background:#fff}.view-toggle button:hover,.view-toggle a:hover{background:rgb(255 255 255/18%)}
+.canvas-wrap .three-layer{position:absolute;inset:0;z-index:1;display:none;width:100%;height:100%;aspect-ratio:auto;cursor:grab;filter:saturate(1.08) contrast(1.03)}.canvas-wrap .three-layer:active{cursor:grabbing}.canvas-label,.status-pill,.view-toggle{z-index:3}.three-hint{position:absolute;left:50%;bottom:14px;z-index:3;transform:translateX(-50%);padding:6px 10px;border:1px solid rgb(210 250 242/24%);border-radius:999px;color:rgb(231 255 250/82%);background:rgb(3 26 43/70%);font-size:10px;pointer-events:none;transition:opacity .25s}.three-hint.hidden{opacity:0}
+</style>
+  <style>
+  /* Indlejret fælles styling: siden kan åbnes uden styles.css. */
+  :root{--ink:#172033;--muted:#667386;--paper:#fffdf9;--panel:#fff;--line:#d8ddd5;--blue:#285aa9;--blue-soft:#edf3ff;--orange:#d17836;--green:#2e8b67;--shadow:0 18px 50px rgb(30 42 58 / 12%)}
+  *,*::before,*::after{box-sizing:border-box}html{background:#e8edf3}body{color:var(--ink);background:radial-gradient(circle at top left,#f4f7fb 0,#e8edf3 48%,#dfe6ee 100%)}
+  button,input,textarea,select{font:inherit}button,select,input,textarea{border-radius:9px}button{transition:border-color .18s ease,background .18s ease,transform .18s ease}button:hover{transform:translateY(-1px)}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid rgb(40 90 169 / 28%);outline-offset:2px}
+  .app,.page{border:1px solid rgb(255 255 255 / 65%);box-shadow:var(--shadow)}.topbar{background:linear-gradient(110deg,#fffdf9,#f1f6ff)!important;border-bottom-color:var(--line)!important}.brand-mark,.logo{color:#fff!important;background:var(--blue)!important;box-shadow:4px 4px 0 #c8d6f2!important}.brand-mark{width:auto!important;min-width:42px;padding:0 8px;font-size:12px!important;letter-spacing:-.04em}.brand h1,.brand{color:var(--ink)}.brand p,.home,.theme-badge{color:var(--muted)}.home{color:var(--blue);font-weight:700}
+  .hero,.intro{background:linear-gradient(112deg,#fffdf9,#f1f6ff)!important;border-bottom-color:var(--line)!important}.eyebrow{color:var(--orange)!important}.mission-card,.emergence-card,.rule-card,.hint,.about{border-color:#d7e2f2!important;color:#536073!important;background:#f7faff!important}.mission-card strong,.emergence-card strong,.rule-card strong{color:var(--blue)!important}.panel,.sidebar,.inspector,.chart-card,.code-lab,.learn,.controls-panel,.section,.card,.workspace-card,.result-card,.preview-card{border-color:var(--line)!important}.primary,button.primary,.mode-tab.active,.case-tab.active{border-color:var(--blue)!important;color:#fff!important;background:var(--blue)!important}.secondary,button.secondary{border-color:#cbd5e1;color:var(--ink);background:#fff}footer,.copyright{border-top-color:var(--line)!important;color:var(--muted)!important}.site-copyright{padding:13px 20px 17px;border-top:1px solid var(--line);color:var(--muted);background:#fff;font-size:11px;line-height:1.45;text-align:center}
+  @media(max-width:700px){.topbar{padding-left:18px!important;padding-right:18px!important}.hero{grid-template-columns:1fr!important}}
+  </style>
+</head>
+<body>
+<main class="app">
+<header class="topbar"><div class="brand-mark" aria-hidden="true">pyAgents</div><div class="brand"><h1>Agentlaboratorium</h1><p>En levende 2D/3D-simulator for komplekse systemer</p></div><a class="home" href="index.html">← Til værktøjerne</a></header>
+<section class="intro"><div><p class="eyebrow">Laboratorium · Modellér · Eksperimentér · Forklar</p><h2>Små regler. Store mønstre.</h2><p>Byg en intuition for agentbaseret modellering. Hver agent følger lokale regler, men sammen kan de skabe smittekurver, bestands-cykler eller en levende fiskestime med individuel bevægelse.</p></div><div class="emergence-card"><strong>Din opgave</strong>Vælg en case, ændr én parameter ad gangen, og skriv ned hvad der sker med systemet.</div></section>
+<nav class="case-tabs" aria-label="Vælg simulation"><button class="case-tab active" data-case="epidemic">🦠 Epidemi</button><button class="case-tab" data-case="ecosystem">🐺 Økosystem</button><button class="case-tab" data-case="fish">🐟 Fiskestime</button></nav>
+<section class="workspace">
+<aside class="sidebar"><div class="section-title"><h3>Modelparametre</h3><span id="case-name">Epidemi</span></div><div class="controls" id="controls"></div><div class="button-row"><button class="primary" id="toggle-btn">⏸ Pause</button><button class="secondary" id="step-btn">Ét step</button><button class="secondary" id="reset-btn">↻ Nulstil</button></div><p class="keyboard-hint">Mellemrum: pause / start · Pil højre: ét step</p></aside>
+<section class="stage"><div class="canvas-wrap"><canvas id="simulation" width="960" height="540" aria-label="Animation af agentbaseret model"></canvas><div class="canvas-label" id="canvas-label">STEP 0</div><div class="status-pill" id="status-pill">KØRER</div></div><div class="stats" id="stats"></div><div class="chart-card"><h3>Udvikling over tid</h3><canvas id="chart" width="800" height="150" aria-label="Graf over populationer"></canvas><div class="legend" id="legend"></div></div></section>
+<aside class="learn" id="learn"></aside>
+</section>
+<section class="code-lab" aria-labelledby="code-title">
+  <div class="code-lab-header"><div><h3 id="code-title">Kodeværksted: vektorer og egne agenter</h3><p>Alle cases bruger det samme vektorbibliotek til position, hastighed, retning og afstand.</p></div></div>
+  <nav class="code-tabs" aria-label="Vælg kodeeksempel">
+    <button class="code-tab active" data-code-tab="vector">Vector-biblioteket</button>
+    <button class="code-tab" data-code-tab="case">Aktuel case</button>
+    <button class="code-tab" data-code-tab="agent">Min egen agent</button>
+    <button class="code-tab" data-code-tab="environment">Nyt miljø fra bunden</button>
+  </nav>
+  <section class="code-panel active" data-code-panel="vector">
+    <div class="code-toolbar"><span class="file-pill">vector.py</span><button class="secondary" id="download-vector">↓ Download vector.py</button></div>
+    <pre id="vector-code"></pre>
+    <p class="code-caption">Gem filen som <code>vector.py</code> ved siden af case-programmet. Klassen er det fælles sprog mellem miljøet og alle agenter.</p>
+  </section>
+  <section class="code-panel" data-code-panel="case">
+    <div class="code-toolbar"><span class="file-pill" id="case-filename">epidemi.py</span><button class="secondary download-vector-copy">↓ vector.py</button><button class="secondary" id="download-case">↓ Download hele casen</button></div>
+    <pre id="case-code"></pre>
+    <p class="code-caption" id="case-caption"></p>
+  </section>
+  <section class="code-panel" data-code-panel="agent">
+    <p class="agent-template-title" id="agent-template-title"></p>
+    <div class="agent-editor-wrap">
+      <pre class="agent-highlight" id="agent-highlight" aria-hidden="true"></pre>
+      <textarea class="agent-editor" id="agent-editor" spellcheck="false" aria-label="Kode til egen agent"></textarea>
+    </div>
+    <div class="agent-actions"><button class="primary" id="run-agent" aria-hidden="true" tabindex="-1">Kør</button><button class="primary" id="download-agent">↓ Download agent.py</button><button class="secondary" id="reset-agent">↻ Gendan skabelon</button><span class="agent-status" id="agent-status">Python-skabelonen er klar.</span></div>
+    <p class="user-agent-note">Skabelonen er Python og passer til den valgte case. Den viser især agentens beslutning og bevægelse med <code>Vector</code>. Download den, og flyt klassen ind i case-programmet, eller brug den som udgangspunkt for din egen løsning.</p>
+  </section>
+  <section class="code-panel" data-code-panel="environment">
+    <p class="builder-intro">Opret et selvstændigt Python/pygame-miljø med bevægelige agenter. Ret indstillingerne, generér koden, og byg derefter dine egne lokale regler ind i <code>Agent.decide()</code>.</p>
+    <div class="builder-grid">
+      <label class="builder-field">Projektnavn<input id="environment-name" value="mit_agentmiljoe" maxlength="40"></label>
+      <label class="builder-field">Bredde<input id="environment-width" type="number" min="320" max="1920" value="960"></label>
+      <label class="builder-field">Højde<input id="environment-height" type="number" min="240" max="1080" value="540"></label>
+      <label class="builder-field">Agenter<input id="environment-count" type="number" min="1" max="500" value="40"></label>
+      <label class="builder-field">Kantregel<select id="environment-boundary"><option value="bounce">Vend ved kanten</option><option value="wrap">Fortsæt på modsatte side</option></select></label>
+    </div>
+    <div class="python-editor-wrap">
+      <pre class="agent-highlight" id="environment-highlight" aria-hidden="true"></pre>
+      <textarea class="agent-editor" id="environment-editor" spellcheck="false" aria-label="Python-kode til nyt agentmiljø"></textarea>
+    </div>
+    <div class="agent-actions"><button class="primary" id="generate-environment">⚙ Generér kode</button><button class="secondary" id="download-environment">↓ Download miljø.py</button><button class="secondary download-vector-copy">↓ Download vector.py</button><span class="agent-status" id="environment-status">Ret indstillingerne eller begynd direkte i koden.</span></div>
+    <p class="user-agent-note">Kør først <code>python -m pip install pygame</code>. Gem også <code>vector.py</code> i samme mappe. Start derefter programmet med <code>python mit_agentmiljoe.py</code>.</p>
+  </section>
+</section>
+<p class="footer-note">En simulation er en model – ikke en forudsigelse. Beskriv altid dine antagelser, og undersøg hvordan resultatet ændrer sig, når du varierer parametrene.</p>
+</main>
+<script>
+"use strict";
+class Vector{
+  constructor(x=0,y=0){this.x=x;this.y=y}
+  add(v){return new Vector(this.x+v.x,this.y+v.y)} sub(v){return new Vector(this.x-v.x,this.y-v.y)}
+  mul(n){return new Vector(this.x*n,this.y*n)} div(n){return n===0?new Vector():new Vector(this.x/n,this.y/n)}
+  length(){return Math.hypot(this.x,this.y)} normalize(){const n=this.length();return n===0?new Vector():this.div(n)}
+  distance(v){return this.sub(v).length()} dotProduct(v){return this.x*v.x+this.y*v.y}
+  limit(max){return this.length()>max?this.normalize().mul(max):new Vector(this.x,this.y)}
+  toString(){return "("+this.x+","+this.y+")"}
+}
+const W=960,H=540,random=(a,b)=>Math.random()*(b-a)+a,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const randomVector=(speed=1)=>{const a=random(0,Math.PI*2);return new Vector(Math.cos(a),Math.sin(a)).mul(speed)};
+class EpidemicAgent{
+  constructor(fixed=false){this.position=new Vector(random(18,W-18),random(18,H-18));this.velocity=fixed?new Vector():randomVector(random(.65,1.8));this.state="S";this.infectedAt=-1;this.fixed=fixed}
+  infect(step){if(this.state==="S"){this.state="I";this.infectedAt=step}}
+  update(){if(this.fixed)return;this.position=this.position.add(this.velocity);if(this.position.x<10||this.position.x>W-10){this.velocity.x*=-1;this.position.x=clamp(this.position.x,10,W-10)}if(this.position.y<10||this.position.y>H-10){this.velocity.y*=-1;this.position.y=clamp(this.position.y,10,H-10)}}
+  draw(c){const colors={S:"#5c91dc",I:"#e15b5b",R:"#53b486"};c.beginPath();c.arc(this.position.x,this.position.y,5.2,0,Math.PI*2);c.fillStyle=colors[this.state];c.fill();if(this.state==="I"){c.beginPath();c.arc(this.position.x,this.position.y,8,0,Math.PI*2);c.strokeStyle="rgb(225 91 91/35%)";c.stroke()}}
+}
+class Sheep{
+  constructor(){this.position=new Vector(random(20,W-20),random(20,H-20));this.velocity=randomVector(random(.55,1.2));this.energy=random(55,100);this.dead=false}
+  update(energyCost=1){this.position=this.position.add(this.velocity);this.velocity=this.velocity.add(randomVector(.2)).limit(1.4);this.bounce();this.energy-=energyCost;if(this.energy<=0)this.dead=true}
+  bounce(){if(this.position.x<10||this.position.x>W-10)this.velocity.x*=-1;if(this.position.y<10||this.position.y>H-10)this.velocity.y*=-1;this.position.x=clamp(this.position.x,10,W-10);this.position.y=clamp(this.position.y,10,H-10)}
+  draw(c){c.save();c.translate(this.position.x,this.position.y);c.fillStyle="#e6bd67";c.beginPath();c.arc(0,0,6,0,Math.PI*2);c.fill();c.fillStyle="#fff4d5";c.beginPath();c.arc(-2,-1,4,0,Math.PI*2);c.fill();c.restore()}
+}
+class Wolf{
+  constructor(){this.position=new Vector(random(20,W-20),random(20,H-20));this.velocity=randomVector(1.1);this.energy=random(70,100);this.dead=false}
+  update(sheep,energyCost=1.2){this.energy-=energyCost;const target=sheep.reduce((best,item)=>!best||this.position.distance(item.position)<this.position.distance(best.position)?item:best,null);if(target)this.velocity=this.velocity.add(target.position.sub(this.position).normalize().mul(.45)).limit(2.2);this.position=this.position.add(this.velocity);this.bounce();if(this.energy<=0)this.dead=true}
+  bounce(){if(this.position.x<10||this.position.x>W-10)this.velocity.x*=-1;if(this.position.y<10||this.position.y>H-10)this.velocity.y*=-1;this.position.x=clamp(this.position.x,10,W-10);this.position.y=clamp(this.position.y,10,H-10)}
+  draw(c){c.save();c.translate(this.position.x,this.position.y);c.fillStyle="#aa70c8";c.beginPath();c.arc(0,0,8,0,Math.PI*2);c.fill();c.fillStyle="#fff";c.beginPath();c.arc(-3,-2,1.5,0,Math.PI*2);c.arc(3,-2,1.5,0,Math.PI*2);c.fill();c.restore()}
+}
+class Fish{
+  constructor(kind="fish",position=null,velocity=null){this.kind=kind;this.position=position||new Vector(random(20,W-20),random(20,H-20));this.velocity=velocity||randomVector(random(1,1.9));this.wander=randomVector(.2);this.dead=false;this.radius=kind==="predator"?10:5}
+  neighbors(fishes,distance){return fishes.filter(other=>other!==this&&this.position.distance(other.position)<distance)}
+  separation(neighbors,tooClose){let steer=new Vector();for(const other of neighbors){const d=Math.max(.01,this.position.distance(other.position));if(d<tooClose)steer=steer.add(this.position.sub(other.position).normalize().mul((tooClose-d)/tooClose))}return steer}
+  alignment(neighbors){if(!neighbors.length)return new Vector();return neighbors.reduce((sum,other)=>sum.add(other.velocity),new Vector()).div(neighbors.length).sub(this.velocity)}
+  cohesion(neighbors){if(!neighbors.length)return new Vector();const centre=neighbors.reduce((sum,other)=>sum.add(other.position),new Vector()).div(neighbors.length);return centre.sub(this.position)}
+  screenConfinementBounce(){const change=new Vector(),margin=90;if(this.position.x<margin)change.x+=(margin-this.position.x)/margin;if(this.position.x>W-margin)change.x-=(this.position.x-(W-margin))/margin;if(this.position.y<margin)change.y+=(margin-this.position.y)/margin;if(this.position.y>H-margin)change.y-=(this.position.y-(H-margin))/margin;return change}
+  update(fishes,predators,s){const near=this.neighbors(fishes,s.visibleDistance);let change=this.separation(near,s.tooClose).mul(s.separationFactor);change=change.add(this.alignment(near).mul(s.alignmentFactor));change=change.add(this.cohesion(near).normalize().mul(s.cohesionFactor/100));change=change.add(this.screenConfinementBounce().mul(.42));if(this.kind!=="predator"){this.wander=this.wander.add(randomVector(.12)).limit(.38);change=change.add(this.wander);const threats=this.neighbors(predators,s.visibleDistance);change=change.add(this.separation(threats,s.visibleDistance))}else{const prey=fishes.filter(f=>f.kind!=="predator"),target=prey.reduce((nearest,fish)=>!nearest||this.position.distance(fish.position)<this.position.distance(nearest.position)?fish:nearest,null);if(target)change=change.add(target.position.sub(this.position).normalize().mul(s.predatorStrength/48))}this.velocity=this.velocity.add(change).limit(this.kind==="predator"?3.6:3);if(this.velocity.length()<1)this.velocity=this.velocity.length()?this.velocity.normalize().mul(1):randomVector(1);this.position=this.position.add(this.velocity);if(s.confinement==="bounce"){if(this.position.x<this.radius||this.position.x>W-this.radius){this.position.x=clamp(this.position.x,this.radius,W-this.radius);this.velocity.x=(this.position.x<=this.radius?Math.abs(this.velocity.x):-Math.abs(this.velocity.x))*.72}if(this.position.y<this.radius||this.position.y>H-this.radius){this.position.y=clamp(this.position.y,this.radius,H-this.radius);this.velocity.y=(this.position.y<=this.radius?Math.abs(this.velocity.y):-Math.abs(this.velocity.y))*.72}}else{this.position.x=(this.position.x+W)%W;this.position.y=(this.position.y+H)%H}}
+  draw(c){const color=this.kind==="predator"?"#eb8055":"#5d9fd7";c.save();c.translate(this.position.x,this.position.y);c.rotate(Math.atan2(this.velocity.y,this.velocity.x));c.fillStyle=color;c.beginPath();c.ellipse(0,0,this.radius+3,this.radius*.62,0,0,Math.PI*2);c.fill();c.beginPath();c.moveTo(-this.radius,0);c.lineTo(-this.radius-7,-5);c.lineTo(-this.radius-7,5);c.closePath();c.fill();c.fillStyle="#fff";c.beginPath();c.arc(this.radius*.55,-this.radius*.22,2,0,Math.PI*2);c.fill();c.restore()}
+}
+class Flock{
+  constructor(number,predators){const centre=new Vector(W/2,H/2),heading=random(0,Math.PI*2);this.fishes=Array.from({length:number},()=>new Fish("fish",centre.add(randomVector(random(0,115))),new Vector(Math.cos(heading+random(-.3,.3)),Math.sin(heading+random(-.3,.3))).mul(random(1.7,2.2))));this.predators=Array.from({length:predators},()=>new Fish("predator",null,randomVector(2)))}
+  update(s){const prey=[...this.fishes],predators=[...this.predators];this.fishes.forEach(f=>f.update(prey,predators,s));this.predators.forEach(f=>f.update(prey,predators,s));for(const predator of this.predators){const target=this.fishes.find(f=>predator.position.distance(f.position)<13);if(target)target.dead=true}this.fishes=this.fishes.filter(f=>!f.dead)}
+  draw(c){this.fishes.forEach(f=>f.draw(c));this.predators.forEach(f=>f.draw(c))}
+}
+const FISH_WORKER_SOURCE=String.raw`"use strict";
+const W=960,H=540;
+let fishes=[],predators=[];
+const random=(a,b)=>Math.random()*(b-a)+a;
+const length=(x,y)=>Math.hypot(x,y);
+const normalized=(x,y)=>{const n=length(x,y);return n?[x/n,y/n]:[0,0]};
+const limited=(x,y,max)=>{const n=length(x,y);return n>max?[(x/n)*max,(y/n)*max]:[x,y]};
+function makeFish(item){return{x:item.x,y:item.y,vx:item.vx,vy:item.vy,kind:item.kind,wanderX:item.wanderX||0,wanderY:item.wanderY||0,radius:item.kind==="predator"?10:5,dead:false}}
+function distance(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function separation(me,others,distanceLimit){let x=0,y=0;for(const other of others){const dx=me.x-other.x,dy=me.y-other.y,d=Math.max(.01,Math.hypot(dx,dy));if(d<distanceLimit){x+=(dx/d)*(distanceLimit-d)/distanceLimit;y+=(dy/d)*(distanceLimit-d)/distanceLimit}}return[x,y]}
+function updateFish(me,allFish,allPredators,s){const near=allFish.filter(other=>other!==me&&distance(me,other)<s.visibleDistance);let [changeX,changeY]=separation(me,near,s.tooClose);changeX*=s.separationFactor;changeY*=s.separationFactor;if(near.length){let averageX=0,averageY=0,centreX=0,centreY=0;for(const other of near){averageX+=other.vx;averageY+=other.vy;centreX+=other.x;centreY+=other.y}averageX/=near.length;averageY/=near.length;const alignmentX=averageX-me.vx,alignmentY=averageY-me.vy;changeX+=alignmentX*s.alignmentFactor;changeY+=alignmentY*s.alignmentFactor;const [cohesionX,cohesionY]=normalized(centreX/near.length-me.x,centreY/near.length-me.y);changeX+=cohesionX*s.cohesionFactor/100;changeY+=cohesionY*s.cohesionFactor/100}const margin=90;if(me.x<margin)changeX+=(margin-me.x)/margin*.42;if(me.x>W-margin)changeX-=(me.x-(W-margin))/margin*.42;if(me.y<margin)changeY+=(margin-me.y)/margin*.42;if(me.y>H-margin)changeY-=(me.y-(H-margin))/margin*.42;if(me.kind!=="predator"){const [wanderX,wanderY]=limited(me.wanderX+random(-.12,.12),me.wanderY+random(-.12,.12),.38);me.wanderX=wanderX;me.wanderY=wanderY;changeX+=wanderX;changeY+=wanderY;const [threatX,threatY]=separation(me,allPredators,s.visibleDistance);changeX+=threatX;changeY+=threatY}else{let target=null;for(const prey of allFish){if(!target||distance(me,prey)<distance(me,target))target=prey}if(target){const [chaseX,chaseY]=normalized(target.x-me.x,target.y-me.y);changeX+=chaseX*s.predatorStrength/48;changeY+=chaseY*s.predatorStrength/48}}[me.vx,me.vy]=limited(me.vx+changeX,me.vy+changeY,me.kind==="predator"?3.6:3);if(length(me.vx,me.vy)<1){const [x,y]=normalized(me.vx,me.vy);if(x||y){me.vx=x;me.vy=y}else{const angle=random(0,Math.PI*2);me.vx=Math.cos(angle);me.vy=Math.sin(angle)}}me.x+=me.vx;me.y+=me.vy;if(s.confinement==="bounce"){if(me.x<me.radius||me.x>W-me.radius){me.x=Math.max(me.radius,Math.min(W-me.radius,me.x));me.vx=(me.x<=me.radius?Math.abs(me.vx):-Math.abs(me.vx))*.72}if(me.y<me.radius||me.y>H-me.radius){me.y=Math.max(me.radius,Math.min(H-me.radius,me.y));me.vy=(me.y<=me.radius?Math.abs(me.vy):-Math.abs(me.vy))*.72}}else{me.x=(me.x+W)%W;me.y=(me.y+H)%H}}
+function snapshot(list){return list.map(item=>({x:item.x,y:item.y,vx:item.vx,vy:item.vy,kind:item.kind}))}
+self.onmessage=event=>{const message=event.data;if(message.type==="init"){fishes=(message.fishes||[]).map(makeFish);predators=(message.predators||[]).map(makeFish);self.postMessage({type:"ready",generation:message.generation})}if(message.type==="step"){const prey=[...fishes],hunters=[...predators];fishes.forEach(fish=>updateFish(fish,prey,hunters,message.params));predators.forEach(predator=>updateFish(predator,prey,hunters,message.params));for(const predator of predators){const target=fishes.find(fish=>distance(predator,fish)<13);if(target)target.dead=true}fishes=fishes.filter(fish=>!fish.dead);self.postMessage({type:"snapshot",generation:message.generation,fishes:snapshot(fishes),predators:snapshot(predators)})}}`;
+let fishWorker=null,fishWorkerReady=false,fishWorkerBusy=false,fishWorkerGeneration=0;window.__fishWorkerActive=false;
+function syncFishList(target,source){while(target.length<source.length)target.push(new Fish(source[target.length].kind));target.length=source.length;source.forEach((item,index)=>{const fish=target[index];fish.kind=item.kind;fish.position.x=item.x;fish.position.y=item.y;fish.velocity.x=item.vx;fish.velocity.y=item.vy;fish.dead=false})}
+function applyFishSnapshot(snapshot){if(state.mode!=="fish"||!state.flock)return;syncFishList(state.flock.fishes,snapshot.fishes);syncFishList(state.flock.predators,snapshot.predators)}
+function initFishWorker(){if(!fishWorkerReady||!state.flock)return;fishWorkerGeneration++;fishWorkerBusy=false;fishWorker.postMessage({type:"init",generation:fishWorkerGeneration,fishes:state.flock.fishes.map(f=>({x:f.position.x,y:f.position.y,vx:f.velocity.x,vy:f.velocity.y,kind:f.kind})),predators:state.flock.predators.map(f=>({x:f.position.x,y:f.position.y,vx:f.velocity.x,vy:f.velocity.y,kind:f.kind}))})}
+if(typeof Worker!=="undefined"){try{const workerUrl=URL.createObjectURL(new Blob([FISH_WORKER_SOURCE],{type:"application/javascript"}));fishWorker=new Worker(workerUrl);URL.revokeObjectURL(workerUrl);fishWorkerReady=true;fishWorker.onmessage=event=>{const message=event.data;if(message.generation!==fishWorkerGeneration)return;if(message.type!=="snapshot")return;fishWorkerBusy=false;window.__fishWorkerActive=true;if(state.mode!=="fish")return;applyFishSnapshot(message);state.step++;recordHistory();draw()};fishWorker.onerror=()=>{fishWorkerReady=false;fishWorkerBusy=false;window.__fishWorkerActive=false}}catch(error){fishWorker=null}}
+const CASES={
+  epidemic:{label:"Epidemi",defaults:{population:120,pressure:.28,recovery:140,fixed:0},controls:[["Befolkning","population",20,180,1,"","population"],["Smitterisiko","pressure",0,.8,.01,"","pressure"],["Tid til restitution","recovery",50,400,10," steps","integer"],["Social afstand","fixed",0,1,.05,"","percent"]],legend:[["Modtagelige (S)","susceptible"],["Smittede (I)","infected"],["Restituerede (R)","recovered"]]},
+  ecosystem:{label:"Økosystem",defaults:{sheep:100,wolves:5,reproduction:.035,sheepCost:1,wolfCost:1.2,capacity:320},controls:[["Startfår","sheep",10,180,5,"","integer"],["Startulve","wolves",1,25,1,"","integer"],["Reproduktion pr. step","reproduction",0,.12,.005,"","pressure"],["Fårets energiforbrug","sheepCost",.2,2,.1,"","decimal"],["Ulvens energiforbrug","wolfCost",.4,3,.1,"","decimal"],["Miljøets bæreevne","capacity",100,600,20,"","integer"]],legend:[["Får","sheep"],["Ulve","wolves"]]},
+  fish:{label:"Fiskestime",defaults:{fish:55,predators:1,separationFactor:1.45,alignmentFactor:.72,cohesionFactor:46,tooClose:24,visibleDistance:175,predatorStrength:55,confinement:"bounce"},controls:[["Antal fisk","fish",10,130,5,"","integer"],["Rovfisk","predators",0,5,1,"","integer"],["Separation","separationFactor",0,3,.05,"","decimal"],["Alignment","alignmentFactor",0,2,.05,"","decimal"],["Cohesion","cohesionFactor",0,80,1,"","integer"],["For tæt på","tooClose",5,45,1," px","integer"],["Synsafstand","visibleDistance",30,180,5," px","integer"],["Rovfiskens jagt","predatorStrength",0,100,5,"","strength"]],legend:[["Fisk","fish"],["Rovfisk","predator"]]}
+};
+const state={mode:"epidemic",view:"2d",params:{},agents:[],flock:null,step:0,running:true,history:[],lastTime:0,accumulator:0};
+const canvas=document.querySelector("#simulation"),ctx=canvas.getContext("2d"),chart=document.querySelector("#chart"),chartCtx=chart.getContext("2d"),controlsEl=document.querySelector("#controls"),statsEl=document.querySelector("#stats"),learnEl=document.querySelector("#learn");
+canvas.parentElement.insertAdjacentHTML("beforeend",`<div class="view-toggle" role="group" aria-label="Vælg visning" hidden><span class="view-toggle-label">Visning</span><button type="button" class="active" data-view="2d" aria-pressed="true">2D</button><a data-view="3d" href="agent-simulator.html" aria-label="Åbn 3D-fiskesimulator">3D</a></div>`);
+const viewButtons=document.querySelectorAll("[data-view]");
+const viewToggle=document.querySelector(".view-toggle");
+function setView(view){if(view==="3d"&&state.mode!=="fish")view="2d";state.view=view;viewButtons.forEach(button=>{const active=button.dataset.view===view;button.classList.toggle("active",active);button.setAttribute("aria-pressed",String(active))});canvas.setAttribute("aria-label",view==="3d"?"3D-animation af agentbaseret model":"2D-animation af agentbaseret model");document.dispatchEvent(new CustomEvent("simulationviewchange",{detail:view}));draw()}
+viewButtons.forEach(button=>button.addEventListener("click",()=>setView(button.dataset.view)));
+function formatValue(v,kind,suffix){if(kind==="percent"||kind==="pressure"){const value=Math.round(v*1000)/10;return (Number.isInteger(value)?value:value.toFixed(1))+"%"}if(kind==="strength")return Math.round(v)+"%";if(kind==="integer"||kind==="population")return Math.round(v)+suffix;return Number(v).toFixed(1)+suffix}
+function renderControls(){const config=CASES[state.mode];controlsEl.innerHTML=`<div class="control-group"><h4>Startbetingelser</h4>${config.controls.map(([label,key,min,max,step,suffix,kind])=>`<div class="control"><div class="control-row"><label for="control-${key}">${label}</label><output id="output-${key}"></output></div><input id="control-${key}" data-key="${key}" data-kind="${kind}" data-suffix="${suffix}" type="range" min="${min}" max="${max}" step="${step}" value="${config.defaults[key]}"></div>`).join("")}</div>`;if(state.mode==="fish")controlsEl.insertAdjacentHTML("beforeend",`<div class="control-group"><h4>Bevægelse</h4><div class="control"><div class="control-row"><label for="control-confinement">Kantadfærd</label></div><select id="control-confinement" data-key="confinement"><option value="bounce">Bounce ved kanten</option><option value="wrap">Wrap-around</option></select></div></div>`);controlsEl.querySelectorAll("input,select").forEach(input=>input.addEventListener("input",()=>{state.params[input.dataset.key]=input.type==="range"?Number(input.value):input.value;updateOutputs();resetSimulation()}));updateOutputs()}
+function updateOutputs(){controlsEl.querySelectorAll("input[type=range]").forEach(input=>{const out=document.querySelector("#output-"+input.dataset.key);if(out)out.textContent=formatValue(Number(input.value),input.dataset.kind,input.dataset.suffix)})}
+function readParams(){const p={};controlsEl.querySelectorAll("input,select").forEach(i=>p[i.dataset.key]=i.type==="range"?Number(i.value):i.value);return p}
+function createSimulation(){state.params=readParams();state.step=0;state.history=[];if(state.mode==="epidemic"){state.agents=Array.from({length:state.params.population},()=>new EpidemicAgent(Math.random()<state.params.fixed));const initialInfected=Math.max(1,Math.round(state.params.population*.025));state.agents.slice(0,initialInfected).forEach(agent=>agent.infect(0))}if(state.mode==="ecosystem")state.agents=[...Array.from({length:state.params.sheep},()=>new Sheep),...Array.from({length:state.params.wolves},()=>new Wolf)];if(state.mode==="fish"){state.flock=new Flock(state.params.fish,state.params.predators);initFishWorker()}recordHistory();draw()}
+function resetSimulation(){state.params=readParams();createSimulation()}
+function fishParamsForView(){if(state.view!=="3d")return state.params;return {...state.params,separationFactor:Math.min(3,state.params.separationFactor*1.1),alignmentFactor:Math.max(.62,state.params.alignmentFactor),cohesionFactor:Math.max(42,state.params.cohesionFactor),tooClose:Math.max(12,state.params.tooClose),visibleDistance:Math.max(165,state.params.visibleDistance)}}
+function stepSimulation(){
+ if(state.mode==="epidemic"){state.agents.forEach(a=>a.update());const infected=state.agents.filter(a=>a.state==="I");for(const source of infected)for(const target of state.agents)if(target.state==="S"&&source.position.distance(target.position)<24&&Math.random()<state.params.pressure)target.infect(state.step);state.agents.filter(a=>a.state==="I"&&state.step-a.infectedAt>=state.params.recovery).forEach(a=>a.state="R")}
+ else if(state.mode==="ecosystem"){const sheep=state.agents.filter(a=>a instanceof Sheep),wolves=state.agents.filter(a=>a instanceof Wolf);sheep.forEach(a=>a.update(state.params.sheepCost));wolves.forEach(a=>a.update(sheep,state.params.wolfCost));for(const wolf of wolves){const meal=sheep.find(s=>!s.dead&&wolf.position.distance(s.position)<17);if(meal){meal.dead=true;wolf.energy=Math.min(100,wolf.energy+42)}}const habitatFactor=Math.max(0,1-sheep.length/state.params.capacity),newborns=[];for(const s of sheep)if(!s.dead&&s.energy>35&&Math.random()<state.params.reproduction*habitatFactor)newborns.push(new Sheep);state.agents=state.agents.filter(a=>!a.dead).concat(newborns)}
+ else if(state.mode==="fish"&&fishWorkerReady){if(fishWorkerBusy)return;fishWorkerBusy=true;fishWorker.postMessage({type:"step",generation:fishWorkerGeneration,params:fishParamsForView()});return}
+ else state.flock.update(fishParamsForView());
+ state.step++;recordHistory();draw()
+}
+function recordHistory(){const row={step:state.step};if(state.mode==="epidemic"){row.s=state.agents.filter(a=>a.state==="S").length;row.i=state.agents.filter(a=>a.state==="I").length;row.r=state.agents.filter(a=>a.state==="R").length}if(state.mode==="ecosystem"){row.sheep=state.agents.filter(a=>a instanceof Sheep).length;row.wolves=state.agents.filter(a=>a instanceof Wolf).length}if(state.mode==="fish"){row.fish=state.flock.fishes.length;row.predator=state.flock.predators.length}state.history.push(row);if(state.history.length>260)state.history.shift()}
+function project3D(position,height=0){const depth=Math.max(0,Math.min(1,position.y/H)),scale=.68+depth*.48;return{x:W/2+(position.x-W/2)*scale,y:112+depth*365-height*scale,scale,depth}}
+function draw3DBackground(){ctx.fillStyle=state.mode==="fish"?"#0b263d":"#0b1c32";ctx.fillRect(0,0,W,H);const horizon=112;ctx.strokeStyle="rgb(157 201 240/18%)";ctx.lineWidth=1;for(let row=0;row<=9;row++){const t=row/9,y=horizon+Math.pow(t,1.65)*(H-horizon);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(let column=-10;column<=10;column++){const topX=W/2+column*54;const bottomX=W/2+column*82;ctx.beginPath();ctx.moveTo(topX,horizon);ctx.lineTo(bottomX,H);ctx.stroke()}ctx.strokeStyle="rgb(215 235 255/35%)";ctx.beginPath();ctx.moveTo(0,horizon);ctx.lineTo(W,horizon);ctx.stroke();ctx.fillStyle="rgb(215 235 255/70%)";ctx.font="700 10px Consolas, monospace";ctx.fillText("3D · perspektivisk visning",15,22)}
+function fishDepth(agent,index,time){return .12+.76*(.5+.5*Math.sin(agent.position.x*.024+agent.position.y*.017+index*1.73+time*.18))}
+function projectFish3D(position,depth,lift=0){const scale=.72+depth*.38;return{x:W/2+(position.x-W/2)*scale,y:96+position.y*.69+depth*106-lift,scale,depth}}
+function draw3DFishAquarium(time){const water=ctx.createLinearGradient(0,0,0,H);water.addColorStop(0,"#041827");water.addColorStop(.38,"#07516b");water.addColorStop(1,"#021a31");ctx.fillStyle=water;ctx.fillRect(0,0,W,H);const glow=ctx.createRadialGradient(W*.52,H*.18,8,W*.52,H*.18,H*.76);glow.addColorStop(0,"rgb(100 225 226/26%)");glow.addColorStop(1,"rgb(4 62 94/0%)");ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);ctx.globalAlpha=.16;for(let beam=0;beam<5;beam++){const x=80+beam*205+Math.sin(time*.22+beam)*22;ctx.fillStyle=beam%2?"#8ce8e0":"#b0f5eb";ctx.beginPath();ctx.moveTo(x-28,0);ctx.lineTo(x+24,0);ctx.lineTo(x+108,H*.78);ctx.lineTo(x-128,H*.78);ctx.closePath();ctx.fill()}ctx.globalAlpha=1;ctx.strokeStyle="rgb(164 240 226/18%)";ctx.lineWidth=1.2;for(let band=0;band<8;band++){const y=90+band*48+Math.sin(time*.5+band)*5;ctx.beginPath();for(let x=-20;x<=W+20;x+=24){const wave=y+Math.sin(x*.025+time*.42+band)*7; x===-20?ctx.moveTo(x,wave):ctx.lineTo(x,wave)}ctx.stroke()}ctx.fillStyle="rgb(3 20 36/78%)";ctx.beginPath();ctx.moveTo(0,H-52);ctx.lineTo(W,H-52);ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();ctx.fill();ctx.fillStyle="rgb(95 213 190/16%)";for(let rock=0;rock<18;rock++){const x=rock*58+18, y=H-26+(rock%3)*5;ctx.beginPath();ctx.ellipse(x,y,18+(rock%4)*4,5+(rock%3)*2,0,0,Math.PI*2);ctx.fill()}ctx.strokeStyle="rgb(184 239 236/26%)";ctx.lineWidth=1;for(let row=0;row<5;row++){const y=H-52+row*13;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(let column=-7;column<=7;column++){ctx.beginPath();ctx.moveTo(W/2+column*54,H-52);ctx.lineTo(W/2+column*88,H);ctx.stroke()}ctx.fillStyle="rgb(207 249 244/30%)";for(let bubble=0;bubble<24;bubble++){const x=(bubble*83+Math.sin(time*.32+bubble)*32)%W;const y=H-58-((time*24+bubble*41)%390);const radius=1.5+(bubble%3);ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.strokeStyle="rgb(207 249 244/35%)";ctx.stroke()}ctx.fillStyle="rgb(212 254 250/76%)";ctx.font="700 10px Consolas, monospace";ctx.fillText("3D AQUARIUM",15,22);ctx.fillStyle="rgb(225 255 249/45%)";ctx.font="10px Inter, sans-serif";ctx.fillText("dybde · lys · bevægelse",15,38)}
+function draw3DFish(fish,index,time){const predator=fish.kind==="predator",depth=fishDepth(fish,index,time),lift=8+Math.sin(time*.9+index)*3,point=projectFish3D(fish.position,depth,lift),shadow=projectFish3D(fish.position,depth,0),scale=point.scale,size=(predator?12:7)*scale,angle=Math.atan2(fish.velocity.y,fish.velocity.x);ctx.save();ctx.globalAlpha=.42;ctx.fillStyle="#001522";ctx.beginPath();ctx.ellipse(shadow.x,shadow.y+4,size*1.45,size*.35,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;ctx.strokeStyle=predator?"rgb(255 169 120/24%)":"rgb(151 235 255/24%)";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(shadow.x,shadow.y);ctx.lineTo(point.x,point.y);ctx.stroke();ctx.translate(point.x,point.y);ctx.rotate(angle);const body=ctx.createLinearGradient(-size,0,size,0);body.addColorStop(0,predator?"#b84448":"#176ea5");body.addColorStop(.45,predator?"#ef8055":"#4fc1dc");body.addColorStop(1,predator?"#ffd19c":"#b6f5e6");ctx.shadowColor=predator?"#ff775d":"#5ad9e5";ctx.shadowBlur=12*scale;ctx.fillStyle=body;ctx.beginPath();ctx.ellipse(0,0,size*1.18,size*.58,0,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle=predator?"#f39a70":"#8fe7ee";ctx.beginPath();ctx.moveTo(-size*.82,0);ctx.lineTo(-size*1.72,-size*.72);ctx.lineTo(-size*1.72,size*.72);ctx.closePath();ctx.fill();ctx.fillStyle=predator?"#ffcf9f":"#baf8ec";ctx.beginPath();ctx.moveTo(-size*.05,-size*.35);ctx.lineTo(size*.36,-size*1.02);ctx.lineTo(size*.52,-size*.1);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(-size*.05,size*.34);ctx.lineTo(size*.35,size*.92);ctx.lineTo(size*.55,size*.1);ctx.closePath();ctx.fill();ctx.fillStyle="#f5ffff";ctx.beginPath();ctx.arc(size*.68,-size*.2,size*.22,0,Math.PI*2);ctx.fill();ctx.fillStyle="#08283a";ctx.beginPath();ctx.arc(size*.75,-size*.2,size*.1,0,Math.PI*2);ctx.fill();ctx.strokeStyle="rgb(235 255 251/72%)";ctx.lineWidth=Math.max(1,scale);ctx.beginPath();ctx.moveTo(-size*.35,-size*.25);ctx.quadraticCurveTo(size*.15,-size*.5,size*.56,-size*.28);ctx.stroke();ctx.restore();if(index%7===0){ctx.fillStyle="rgb(224 255 249/55%)";ctx.beginPath();ctx.arc(point.x-size*.9,point.y-size*.6,Math.max(1,scale*1.2),0,Math.PI*2);ctx.fill()}}
+function draw3DFishGlass(time){const shine=ctx.createLinearGradient(0,0,W,0);shine.addColorStop(0,"rgb(205 255 250/15%)");shine.addColorStop(.18,"rgb(255 255 255/0%)");shine.addColorStop(.82,"rgb(255 255 255/0%)");shine.addColorStop(1,"rgb(205 255 250/12%)");ctx.fillStyle=shine;ctx.fillRect(0,0,W,H);ctx.strokeStyle="rgb(206 255 249/34%)";ctx.lineWidth=2;ctx.strokeRect(7,7,W-14,H-14);ctx.strokeStyle="rgb(255 255 255/16%)";ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(34,28);ctx.lineTo(38,H-48);ctx.stroke();ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(W-45,32);ctx.lineTo(W-48,H-72);ctx.stroke();ctx.fillStyle="rgb(226 255 249/60%)";ctx.font="10px Inter, sans-serif";ctx.fillText("GLASS / 3D DEPTH",W-126,H-18)}
+function drawBackground(){if(state.view==="3d"){draw3DBackground();return}ctx.fillStyle=state.mode==="fish"?"#102c43":"#102239";ctx.fillRect(0,0,W,H);ctx.strokeStyle=state.mode==="fish"?"rgb(129 196 223/9%)":"rgb(182 207 238/8%)";for(let x=0;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}if(state.mode==="fish"){ctx.fillStyle="rgb(89 170 198/8%)";for(let y=60;y<H;y+=82){ctx.beginPath();ctx.arc(80,y,2,0,Math.PI*2);ctx.arc(420,y+27,2,0,Math.PI*2);ctx.arc(780,y+12,2,0,Math.PI*2);ctx.fill()}}}
+function renderStats(){let cards=[];if(state.mode==="epidemic"){const s=state.agents.filter(a=>a.state==="S").length,i=state.agents.filter(a=>a.state==="I").length,r=state.agents.filter(a=>a.state==="R").length;cards=[["Modtagelige",s,"blue"],["Smittede",i,"red"],["Restituerede",r,"green"],["I alt",state.agents.length,""]]}if(state.mode==="ecosystem"){const s=state.agents.filter(a=>a instanceof Sheep).length,w=state.agents.filter(a=>a instanceof Wolf).length;cards=[["Får",s,"blue"],["Ulve",w,"red"],["I alt",s+w,""],["Step",state.step,""]]}if(state.mode==="fish")cards=[["Fisk",state.flock.fishes.length,"blue"],["Rovfisk",state.flock.predators.length,"red"],["Synsafstand",state.params.visibleDistance+"px",""],["Step",state.step,""]];statsEl.innerHTML=cards.map(([l,v,c])=>`<div class="stat"><div class="stat-label">${l}</div><div class="stat-value ${c}">${v}</div></div>`).join("")}
+function drawChart(){const width=chart.width,height=chart.height;chartCtx.clearRect(0,0,width,height);chartCtx.fillStyle="#fff";chartCtx.fillRect(0,0,width,height);chartCtx.strokeStyle="#e4e7eb";for(let y=20;y<height;y+=28){chartCtx.beginPath();chartCtx.moveTo(0,y);chartCtx.lineTo(width,y);chartCtx.stroke()}const keys=state.mode==="epidemic"?[["s","#5c91dc"],["i","#e15b5b"],["r","#53b486"]]:state.mode==="ecosystem"?[["sheep","#d8a64c"],["wolves","#a96cce"]]:[["fish","#5d9fd7"],["predator","#eb8055"]];const max=Math.max(10,...state.history.flatMap(row=>keys.map(([key])=>row[key]||0))),len=Math.max(1,state.history.length-1);keys.forEach(([key,color])=>{chartCtx.beginPath();state.history.forEach((row,index)=>{const x=index/len*(width-8)+4,y=height-8-(row[key]||0)/max*(height-22);index?chartCtx.lineTo(x,y):chartCtx.moveTo(x,y)});chartCtx.strokeStyle=color;chartCtx.lineWidth=2.4;chartCtx.stroke()});document.querySelector("#legend").innerHTML=CASES[state.mode].legend.map(([label,klass])=>`<span class="${klass}">${label}</span>`).join("")}
+function renderLearn(){const common="<h3>Sådan læser du modellen</h3><p>Et step er én opdatering af hele verden. Kig efter mønstre, der ikke står skrevet som én samlet regel: det er emergens.</p>";if(state.mode==="epidemic")learnEl.innerHTML=common+'<h4>Agenter</h4><p>Hver person har position, hastighed og tilstand: <code>S</code> (modtagelig), <code>I</code> (smittet) eller <code>R</code> (restitueret).</p><div class="rule-card"><code>S + I tæt på hinanden</code>Smittes med den valgte sandsynlighed.</div><div class="rule-card"><code>I i recovery steps</code>Skifter til R.</div><h4>Eksperiment</h4><p>Prøv først høj smitterisiko uden social afstand. Sæt derefter Social afstand højt. Hvad sker der med toppen af den røde kurve?</p>';if(state.mode==="ecosystem")learnEl.innerHTML=common+'<h4>Lokale regler</h4><ul><li>Får bevæger sig tilfældigt og bruger energi.</li><li>Får med energi kan formere sig.</li><li>Ulve søger mod nærmeste får og spiser ved kollision.</li><li>Begge arter dør, når energien slipper op.</li></ul><h4>Eksperiment</h4><p>Start med 100 får og 5 ulve. Justér energiforbrug og reproduktion, indtil du kan se en stabil cyklus.</p>';if(state.mode==="fish")learnEl.innerHTML=common+'<h4>Fiskecasen</h4><p>Modellen følger Vector/Fish/Flock-opdelingen fra kapitlet. Fisken har position og velocity, og Flock opdaterer alle fisk i hvert step.</p><div class="rule-card"><code>Separation</code>Skub væk fra naboer, der er for tæt på.</div><div class="rule-card"><code>Alignment</code>Tilpas velocity til naboernes gennemsnit.</div><div class="rule-card"><code>Cohesion</code>Svøm mod naboernes gennemsnitlige midtpunkt.</div><div class="python-card"><pre>class Fish:\n    position: Vector\n    velocity: Vector\n    update(neighbors)\n    draw(screen)\n\nclass Flock:\n    fishes: list\n    update()\n    draw(screen)</pre></div><h4>Eksperiment</h4><p>Sæt Separation eller Cohesion til 0. Tilføj en rovfisk, og observer hvordan byttefiskene flygter.</p>'}
+function publishSimulationFrame(){const fishes=state.mode==="fish"&&state.flock?[...state.flock.fishes,...state.flock.predators].map((fish,index)=>({x:fish.position.x,y:fish.position.y,vx:fish.velocity.x,vy:fish.velocity.y,kind:fish.kind,index})):[];document.dispatchEvent(new CustomEvent("simulationrender",{detail:{mode:state.mode,view:state.view,fishes}}))}
+function draw(){const time=performance.now()/1000,useThree=Boolean(window.__threeAquariumReady);if(!(state.view==="3d"&&state.mode==="fish"))drawBackground();if(state.view==="3d"&&state.mode==="fish"&&!useThree){draw3DFishAquarium(time);const fish=[...state.flock.fishes,...state.flock.predators];fish.map((agent,index)=>({agent,index,depth:fishDepth(agent,index,time)})).sort((a,b)=>a.depth-b.depth).forEach(item=>draw3DFish(item.agent,item.index,time));draw3DFishGlass(time)}else if(state.view==="3d"&&state.mode==="fish"){}else if(state.view==="3d"){const items=state.mode==="fish"?[...state.flock.fishes,...state.flock.predators]:state.agents;items.map((agent,index)=>({agent,index,depth:agent.position.y})).sort((a,b)=>a.depth-b.depth).forEach(item=>draw3DAgent(item.agent,item.index))}else if(state.mode==="epidemic"||state.mode==="ecosystem")state.agents.forEach(a=>a.draw(ctx));else state.flock.draw(ctx);document.querySelector("#canvas-label").textContent="STEP "+state.step;document.querySelector("#status-pill").textContent=state.running?"KØRER":"PAUSET";document.querySelector("#status-pill").classList.toggle("paused",!state.running);renderStats();drawChart();publishSimulationFrame()}
+function selectMode(mode){state.mode=mode;if(mode!=="fish"&&state.view!=="2d")setView("2d");viewToggle.hidden=mode!=="fish";document.querySelectorAll(".case-tab").forEach(t=>t.classList.toggle("active",t.dataset.case===mode));document.querySelector("#case-name").textContent=CASES[mode].label;renderControls();renderLearn();createSimulation()}
+document.querySelectorAll(".case-tab").forEach(t=>t.addEventListener("click",()=>selectMode(t.dataset.case)));
+document.querySelector("#toggle-btn").addEventListener("click",()=>{state.running=!state.running;document.querySelector("#toggle-btn").textContent=state.running?"⏸ Pause":"▶ Start";draw()});
+document.querySelector("#step-btn").addEventListener("click",()=>{state.running=false;document.querySelector("#toggle-btn").textContent="▶ Start";stepSimulation()});
+document.querySelector("#reset-btn").addEventListener("click",resetSimulation);
+document.addEventListener("keydown",e=>{if(e.target.matches("input,select"))return;if(e.code==="Space"){e.preventDefault();document.querySelector("#toggle-btn").click()}if(e.code==="ArrowRight"){state.running=false;document.querySelector("#toggle-btn").textContent="▶ Start";stepSimulation()}});
+function animate(time){const delta=Math.min(100,time-state.lastTime);state.lastTime=time;if(state.running){state.accumulator+=delta;while(state.accumulator>75){stepSimulation();state.accumulator-=75}}requestAnimationFrame(animate)}
+selectMode("epidemic");requestAnimationFrame(animate);
+</script>
+<script>
+(() => {
+  const vectorCode = [
+    "class Vector {",
+    "  constructor(x = 0, y = 0) { this.x = x; this.y = y; }",
+    "  add(v) { return new Vector(this.x + v.x, this.y + v.y); }",
+    "  sub(v) { return new Vector(this.x - v.x, this.y - v.y); }",
+    "  mul(n) { return new Vector(this.x * n, this.y * n); }",
+    "  div(n) { return n === 0 ? new Vector() : new Vector(this.x / n, this.y / n); }",
+    "  length() { return Math.hypot(this.x, this.y); }",
+    "  normalize() { return this.length() === 0 ? new Vector() : this.div(this.length()); }",
+    "  distance(v) { return this.sub(v).length(); }",
+    "  limit(max) { return this.length() > max ? this.normalize().mul(max) : new Vector(this.x, this.y); }",
+    "}"
+  ].join("\n");
+  const caseExamples = {
+    epidemic: {
+      caption: "Epidemi: Vector styrer bevægelse, og distance() afgør om to personer er tæt nok på til smitte.",
+      code: [
+        "// I EpidemicAgent.update()",
+        "this.position = this.position.add(this.velocity);",
+        "",
+        "// I hvert step: undersøg afstand mellem to agenter",
+        "if (source.position.distance(target.position) < infectionDistance) {",
+        "  target.infect(step);",
+        "}"
+      ].join("\n")
+    },
+    ecosystem: {
+      caption: "Økosystem: ulven finder en retning mod et får med sub(), normalize() og mul().",
+      code: [
+        "// I Wolf.update(sheep)",
+        "const directionToPrey = target.position.sub(this.position).normalize();",
+        "const chaseForce = directionToPrey.mul(0.35);",
+        "",
+        "this.velocity = this.velocity.add(chaseForce).limit(1.55);",
+        "this.position = this.position.add(this.velocity);"
+      ].join("\n")
+    },
+    fish: {
+      caption: "Fiskestime: hver regel returnerer en Vector. De tre ændringer lægges sammen før fiskens position opdateres.",
+      code: [
+        "// I Fish.update(neighbors)",
+        "const separation = this.separation(neighbors, tooClose).mul(separationFactor);",
+        "const alignment = this.alignment(neighbors).mul(alignmentFactor);",
+        "const cohesion = this.cohesion(neighbors).mul(cohesionFactor / 100);",
+        "",
+        "this.velocity = this.velocity.add(separation).add(alignment).add(cohesion).limit(maxSpeed);",
+        "this.position = this.position.add(this.velocity);"
+      ].join("\n")
+    }
+  };
+  const starterAgent = [
+    "// Koden kører én gang for hvert step.",
+    "// agent.position og agent.velocity er Vector-objekter.",
+    "",
+    "// 1. Beregn en lille kraft mod højre",
+    "const force = new Vector(0.06, 0);",
+    "",
+    "// 2. Opdater velocity og position med Vector-metoder",
+    "agent.velocity = agent.velocity.add(force).limit(2.5);",
+    "agent.position = agent.position.add(agent.velocity);",
+    "",
+    "// 3. Bounce, så agenten bliver inde i miljøet",
+    "if (agent.position.x < 10 || agent.position.x > world.width - 10) {",
+    "  agent.velocity = new Vector(-agent.velocity.x, agent.velocity.y);",
+    "}",
+    "if (agent.position.y < 10 || agent.position.y > world.height - 10) {",
+    "  agent.velocity = new Vector(agent.velocity.x, -agent.velocity.y);",
+    "}",
+    "agent.position.x = clamp(agent.position.x, 10, world.width - 10);",
+    "agent.position.y = clamp(agent.position.y, 10, world.height - 10);"
+  ].join("\n");
+  const vectorEl = document.querySelector("#vector-code");
+  const caseEl = document.querySelector("#case-code");
+  const caseCaption = document.querySelector("#case-caption");
+  const editor = document.querySelector("#agent-editor");
+  const status = document.querySelector("#agent-status");
+  vectorEl.textContent = vectorCode;
+  editor.value = starterAgent;
+
+  function updateCaseCode(mode) {
+    const example = caseExamples[mode];
+    caseEl.textContent = example.code;
+    caseCaption.textContent = example.caption;
+  }
+  function setTab(name) {
+    document.querySelectorAll(".code-tab").forEach(tab => tab.classList.toggle("active", tab.dataset.codeTab === name));
+    document.querySelectorAll(".code-panel").forEach(panel => panel.classList.toggle("active", panel.dataset.codePanel === name));
+  }
+  document.querySelectorAll(".code-tab").forEach(tab => tab.addEventListener("click", () => setTab(tab.dataset.codeTab)));
+  document.querySelectorAll(".case-tab").forEach(tab => tab.addEventListener("click", () => updateCaseCode(tab.dataset.case)));
+  updateCaseCode("epidemic");
+
+  const own = {
+    active: false,
+    update: null,
+    agent: { position: new Vector(W / 2, H / 2), velocity: new Vector(1.2, -0.7) },
+    next: 0
+  };
+  function resetOwnAgent() {
+    own.agent = { position: new Vector(W / 2, H / 2), velocity: new Vector(1.2, -0.7) };
+  }
+  function compileOwnAgent() {
+    try {
+      own.update = new Function("agent", "Vector", "world", "random", "clamp", '"use strict";\n' + editor.value);
+      own.active = true;
+      own.next = 0;
+      resetOwnAgent();
+      status.textContent = "Agenten kører nu i simulationen.";
+      status.className = "agent-status ok";
+      setTab("agent");
+    } catch (error) {
+      own.active = false;
+      status.textContent = "Kodefejl: " + error.message;
+      status.className = "agent-status error";
+    }
+  }
+  document.querySelector("#run-agent").addEventListener("click", compileOwnAgent);
+  document.querySelector("#reset-agent").addEventListener("click", () => {
+    editor.value = starterAgent;
+    own.active = false;
+    status.textContent = "Skabelonen er gendannet.";
+    status.className = "agent-status";
+  });
+  function drawOwnAgent() {
+    if (!own.active) return;
+    const agent = own.agent;
+    ctx.save();
+    ctx.translate(agent.position.x, agent.position.y);
+    ctx.fillStyle = "#d65ac4";
+    ctx.beginPath(); ctx.arc(0, 0, 8, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "#ffdafa"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(agent.velocity.x * 9, agent.velocity.y * 9); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = "#ffdafa"; ctx.font = "700 11px Consolas, monospace"; ctx.fillText("MIN AGENT", agent.position.x + 11, agent.position.y - 10);
+  }
+  function drawOwnAgent() {
+    if (!own.active) return;
+    const agent = own.agent;
+    if (state.view === "3d") {
+      const base = project3D(agent.position), point = project3D(agent.position, 58);
+      ctx.save();
+      ctx.strokeStyle = "rgb(255 218 250/45%)";
+      ctx.beginPath(); ctx.moveTo(base.x, base.y); ctx.lineTo(point.x, point.y); ctx.stroke();
+      ctx.translate(point.x, point.y); ctx.fillStyle = "#d65ac4";
+      ctx.shadowColor = "#d65ac4"; ctx.shadowBlur = 14;
+      ctx.beginPath(); ctx.arc(0, 0, 9 * point.scale, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+      ctx.fillStyle = "#ffdafa"; ctx.font = "700 11px Consolas, monospace";
+      ctx.fillText("MIN AGENT", point.x + 12, point.y - 10);
+      return;
+    }
+    ctx.save();
+    ctx.translate(agent.position.x, agent.position.y);
+    ctx.fillStyle = "#d65ac4";
+    ctx.beginPath(); ctx.arc(0, 0, 8, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = "#ffdafa"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(agent.velocity.x * 9, agent.velocity.y * 9); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = "#ffdafa"; ctx.font = "700 11px Consolas, monospace"; ctx.fillText("MIN AGENT", agent.position.x + 11, agent.position.y - 10);
+  }
+  function getWorld() {
+    return {
+      width: W, height: H, mode: state.mode,
+      people: state.mode === "epidemic" ? state.agents : [],
+      sheep: state.mode === "ecosystem" ? state.agents.filter(agent => agent instanceof Sheep) : [],
+      wolves: state.mode === "ecosystem" ? state.agents.filter(agent => agent instanceof Wolf) : [],
+      fish: state.mode === "fish" ? state.flock.fishes : [],
+      predators: state.mode === "fish" ? state.flock.predators : []
+    };
+  }
+  function advanceOwnAgent() {
+    try {
+      own.update(own.agent, Vector, getWorld(), random, clamp);
+    } catch (error) {
+      own.active = false;
+      status.textContent = "Kørselsfejl: " + error.message;
+      status.className = "agent-status error";
+    }
+  }
+  function ownAgentLoop(now) {
+    if (own.active && state.running && now >= own.next) {
+      advanceOwnAgent();
+      own.next = now + 75;
+    }
+    if (own.active) drawOwnAgent();
+    requestAnimationFrame(ownAgentLoop);
+  }
+  document.querySelector("#step-btn").addEventListener("click", () => { if (own.active) advanceOwnAgent(); });
+  document.querySelector("#reset-btn").addEventListener("click", resetOwnAgent);
+  document.querySelectorAll(".case-tab").forEach(tab => tab.addEventListener("click", () => { own.active = false; resetOwnAgent(); }));
+  requestAnimationFrame(ownAgentLoop);
+})();
+</script>
+<script>
+(() => {
+  const pythonVector = [
+    "class Vector:",
+    "    def __init__(self, x, y):",
+    "        self.__x = x",
+    "        self.__y = y",
+    "",
+    "    @property",
+    "    def x(self):",
+    "        return self.__x",
+    "    @property",
+    "    def y(self):",
+    "        return self.__y",
+    "",
+    "    def __str__(self):",
+    "        return f\"({self.x}, {self.y})\"",
+    "",
+    "    def __add__(self, other):",
+    "        return Vector(self.x + other.x, self.y + other.y)",
+    "    def __sub__(self, other):",
+    "        return Vector(self.x - other.x, self.y - other.y)",
+    "    def __mul__(self, number):",
+    "        return Vector(self.x * number, self.y * number)",
+    "    def get_length(self):",
+    "        return (self.x ** 2 + self.y ** 2) ** 0.5",
+    "    def normalize(self):",
+    "        return self / self.get_length() if self.get_length() else Vector(0, 0)",
+    "    def __truediv__(self, number):",
+    "        return Vector(self.x / number, self.y / number)",
+    "    def distance(self, other):",
+    "        return (self - other).get_length()",
+    "    def dotProduct(self, other):",
+    "        return self.x * other.x + self.y * other.y",
+    "    def limit(self, maximum):",
+    "        return self.normalize() * maximum if self.get_length() > maximum else self"
+  ].join("\n");
+  const pythonCases = {
+    epidemic: {
+      caption: "Python / epidemi: position og velocity er Vector-objekter, og distance() afgør om personer er tæt nok på til smitte.",
+      code: [
+        "# I EpidemicAgent.update()",
+        "self.position = self.position + self.velocity",
+        "",
+        "# I hvert step",
+        "if infected.position.distance(susceptible.position) < infection_distance:",
+        "    susceptible.infect(step)"
+      ].join("\n")
+    },
+    ecosystem: {
+      caption: "Python / økosystem: ulven finder en retningsvektor mod et får og lægger den til sin velocity.",
+      code: [
+        "# I Wolf.update(sheep)",
+        "direction_to_prey = (target.position - self.position).normalize()",
+        "chase_force = direction_to_prey * 0.35",
+        "",
+        "self.velocity = (self.velocity + chase_force).limit(2.2)",
+        "self.position = self.position + self.velocity"
+      ].join("\n")
+    },
+    fish: {
+      caption: "Python / fiskestime: separation, alignment og cohesion returnerer hver en Vector, som lægges til velocity.",
+      code: [
+        "# I Fish.update(neighbours)",
+        "separation = self.separation(neighbours, too_close) * separation_factor",
+        "alignment = self.alignment(neighbours) * alignment_factor",
+        "cohesion = self.cohesion(neighbours) * cohesion_factor",
+        "",
+        "self.velocity = (self.velocity + separation + alignment + cohesion).limit(max_speed)",
+        "self.position = self.position + self.velocity"
+      ].join("\n")
+    }
+  };
+  const vector = document.querySelector("#vector-code");
+  const code = document.querySelector("#case-code");
+  const caption = document.querySelector("#case-caption");
+  vector.textContent = pythonVector;
+  function showPythonCase(mode) {
+    code.textContent = pythonCases[mode].code;
+    caption.textContent = pythonCases[mode].caption;
+  }
+  document.querySelectorAll(".case-tab").forEach(tab => tab.addEventListener("click", () => showPythonCase(tab.dataset.case)));
+  showPythonCase("epidemic");
+})();
+</script>
+<script>
+(() => {
+  const escapeHtml = value => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const tokenPattern = /(#.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(class|def|return|if|else|elif|for|in|self|True|False|None|and|or|not)\b|\b(Vector|Fish|Flock|Wolf|Sheep|EpidemicAgent)\b|\b(\d+(?:\.\d+)?)\b/g;
+  function colourLine(line) {
+    let html = "", cursor = 0, match;
+    while ((match = tokenPattern.exec(line))) {
+      html += escapeHtml(line.slice(cursor, match.index));
+      const token = escapeHtml(match[0]);
+      const type = match[1] ? "comment" : match[2] ? "string" : match[3] ? "keyword" : match[4] ? "class" : "number";
+      html += '<span class="tok-' + type + '">' + token + "</span>";
+      cursor = match.index + match[0].length;
+    }
+    return html + escapeHtml(line.slice(cursor));
+  }
+  function highlight(element) {
+    const alreadyHighlighted = element.querySelector(".code-line");
+    const source = alreadyHighlighted ? element.dataset.source || element.textContent : element.textContent;
+    if (!alreadyHighlighted) element.dataset.source = source;
+    element.innerHTML = source.split("\n").map((line, index) =>
+      '<span class="code-line"><span class="line-number">' + String(index + 1).padStart(2, "0") + '</span>' + colourLine(line || " ") + "</span>"
+    ).join("");
+  }
+  function highlightAll() {
+    document.querySelectorAll("#vector-code, #case-code, .python-card pre").forEach(highlight);
+  }
+  document.querySelectorAll(".case-tab").forEach(tab => tab.addEventListener("click", () => requestAnimationFrame(highlightAll)));
+  highlightAll();
+})();
+</script>
+<script>
+(() => {
+  const sliderHelp = {
+    population: "Hvor mange personer der starter i miljøet. Flere personer giver flere mulige smittekontakter.",
+    pressure: "Sandsynligheden for smitte, når en modtagelig og en smittet person mødes tæt på hinanden.",
+    recovery: "Antal steps en person er smittet, før personen bliver restitueret og immun.",
+    fixed: "Andelen af personer, der ikke bevæger sig. En høj værdi modellerer mere social afstand.",
+    sheep: "Antal får ved start. Fårene er byttedyr og kan formere sig.",
+    wolves: "Antal ulve ved start. Ulve jager får og mister energi over tid.",
+    reproduction: "Grundsandsynligheden for et nyt lam. Den faktiske sandsynlighed falder, når bestanden nærmer sig miljøets bæreevne.",
+    sheepCost: "Energi, som hvert får bruger i et step. Højere værdi giver kortere levetid.",
+    wolfCost: "Energi, som hver ulv bruger i et step. Højere værdi gør det sværere for ulvene at overleve.",
+    capacity: "Det omtrentlige antal får, miljøet kan bære. Når bestanden nærmer sig grænsen, falder reproduktionen.",
+    fish: "Antal byttefisk i stimen ved start.",
+    predators: "Antal rovfisk. Rovfisk jager stimen og får fiskene til at flygte.",
+    separationFactor: "Hvor kraftigt fisken styrer væk fra naboer, der er for tæt på.",
+    alignmentFactor: "Hvor kraftigt fisken tilpasser retning og fart til naboernes gennemsnit.",
+    cohesionFactor: "Hvor kraftigt fisken søger mod naboernes fælles midtpunkt, så stimen holder sammen.",
+    tooClose: "Afstanden i pixels, hvor en anden fisk tæller som for tæt på.",
+    visibleDistance: "Radius i pixels, hvor fisken kan se og reagere på andre fisk.",
+    predatorStrength: "Hvor kraftigt rovfisken styrer mod den nærmeste byttefisk.",
+    confinement: "Vælger om fisk vender ved kanten eller fortsætter ud på den modsatte side."
+  };
+  function addHelpText() {
+    document.querySelectorAll("#controls .control").forEach(control => {
+      const input = control.querySelector("[data-key]");
+      if (!input || control.querySelector(".control-help")) return;
+      const text = sliderHelp[input.dataset.key];
+      if (!text) return;
+      const help = document.createElement("p");
+      help.className = "control-help";
+      help.textContent = text;
+      control.append(help);
+    });
+  }
+  const controls = document.querySelector("#controls");
+  new MutationObserver(addHelpText).observe(controls, { childList: true, subtree: true });
+  addHelpText();
+})();
+</script>
+<script>
+(() => {
+  const templates = {
+    epidemic: {
+      title: "Epidemi-agent: hold afstand til smittede",
+      code: [
+        "// En lilla person, der bevæger sig og undgår smittede personer.",
+        "const infected = world.people.filter(person => person.state === \"I\");",
+        "const closest = infected.reduce((nearest, person) =>",
+        "  !nearest || agent.position.distance(person.position) < agent.position.distance(nearest.position)",
+        "    ? person : nearest, null);",
+        "",
+        "if (closest && agent.position.distance(closest.position) < 95) {",
+        "  const away = agent.position.sub(closest.position).normalize().mul(0.32);",
+        "  agent.velocity = agent.velocity.add(away);",
+        "}",
+        "agent.velocity = agent.velocity.add(new Vector(random(-0.08, 0.08), random(-0.08, 0.08))).limit(2.8);",
+        "agent.position = agent.position.add(agent.velocity);",
+        "",
+        "if (agent.position.x < 10 || agent.position.x > world.width - 10) agent.velocity.x *= -1;",
+        "if (agent.position.y < 10 || agent.position.y > world.height - 10) agent.velocity.y *= -1;",
+        "agent.position.x = clamp(agent.position.x, 10, world.width - 10);",
+        "agent.position.y = clamp(agent.position.y, 10, world.height - 10);"
+      ].join("\n")
+    },
+    ecosystem: {
+      title: "Økosystem-agent: søg mod nærmeste får",
+      code: [
+        "// En lilla ulv, der finder og følger det nærmeste får.",
+        "const target = world.sheep.reduce((nearest, sheep) =>",
+        "  !nearest || agent.position.distance(sheep.position) < agent.position.distance(nearest.position)",
+        "    ? sheep : nearest, null);",
+        "",
+        "if (target) {",
+        "  const direction = target.position.sub(agent.position).normalize();",
+        "  agent.velocity = agent.velocity.add(direction.mul(0.38)).limit(3.0);",
+        "}",
+        "agent.position = agent.position.add(agent.velocity);",
+        "",
+        "if (agent.position.x < 10 || agent.position.x > world.width - 10) agent.velocity.x *= -1;",
+        "if (agent.position.y < 10 || agent.position.y > world.height - 10) agent.velocity.y *= -1;",
+        "agent.position.x = clamp(agent.position.x, 10, world.width - 10);",
+        "agent.position.y = clamp(agent.position.y, 10, world.height - 10);"
+      ].join("\n")
+    },
+    fish: {
+      title: "Fiske-agent: følg stimen, men undgå rovfisk",
+      code: [
+        "// En lilla fisk, der svømmer mod stimens midte og væk fra rovfisk.",
+        "const neighbours = world.fish.filter(fish => agent.position.distance(fish.position) < 130);",
+        "if (neighbours.length) {",
+        "  const middle = neighbours.reduce((sum, fish) => sum.add(fish.position), new Vector()).div(neighbours.length);",
+        "  const towardSchool = middle.sub(agent.position).normalize().mul(0.16);",
+        "  agent.velocity = agent.velocity.add(towardSchool);",
+        "}",
+        "",
+        "const predator = world.predators.reduce((nearest, fish) =>",
+        "  !nearest || agent.position.distance(fish.position) < agent.position.distance(nearest.position)",
+        "    ? fish : nearest, null);",
+        "if (predator && agent.position.distance(predator.position) < 150) {",
+        "  const away = agent.position.sub(predator.position).normalize().mul(0.42);",
+        "  agent.velocity = agent.velocity.add(away);",
+        "}",
+        "agent.velocity = agent.velocity.limit(3.0);",
+        "agent.position = agent.position.add(agent.velocity);",
+        "",
+        "if (agent.position.x < 10 || agent.position.x > world.width - 10) agent.velocity.x *= -1;",
+        "if (agent.position.y < 10 || agent.position.y > world.height - 10) agent.velocity.y *= -1;",
+        "agent.position.x = clamp(agent.position.x, 10, world.width - 10);",
+        "agent.position.y = clamp(agent.position.y, 10, world.height - 10);"
+      ].join("\n")
+    }
+  };
+  const editor = document.querySelector("#agent-editor");
+  const highlight = document.querySelector("#agent-highlight");
+  const title = document.querySelector("#agent-template-title");
+  const status = document.querySelector("#agent-status");
+  const drafts = {};
+  let currentMode = state.mode;
+  const jsTokens = /(\/\/.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(const|let|new|if|else|return|function|true|false|null)\b|\b(Vector|Fish|Wolf|Sheep)\b|\b(\d+(?:\.\d+)?)\b/g;
+  const escapeHtml = value => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  function colour(line) {
+    let html = "", cursor = 0, match;
+    jsTokens.lastIndex = 0;
+    while ((match = jsTokens.exec(line))) {
+      html += escapeHtml(line.slice(cursor, match.index));
+      const kind = match[1] ? "comment" : match[2] ? "string" : match[3] ? "keyword" : match[4] ? "class" : "number";
+      html += '<span class="tok-' + kind + '">' + escapeHtml(match[0]) + "</span>";
+      cursor = match.index + match[0].length;
+    }
+    return html + escapeHtml(line.slice(cursor));
+  }
+  function renderEditor() {
+    highlight.innerHTML = editor.value.split("\n").map(line => '<span class="code-line">' + colour(line || " ") + "</span>").join("");
+  }
+  function syncHeight() { highlight.style.height = editor.offsetHeight + "px"; }
+  function loadTemplate(mode, keepDraft) {
+    if (keepDraft) drafts[currentMode] = editor.value;
+    currentMode = mode;
+    editor.value = drafts[mode] || templates[mode].code;
+    title.textContent = "Skabelon: " + templates[mode].title;
+    status.textContent = "Skabelonen passer til den valgte case. Ret den og klik “Kør min agent”.";
+    status.className = "agent-status";
+    renderEditor();
+    syncHeight();
+  }
+  editor.addEventListener("input", () => { drafts[currentMode] = editor.value; renderEditor(); });
+  editor.addEventListener("scroll", () => { highlight.scrollTop = editor.scrollTop; highlight.scrollLeft = editor.scrollLeft; });
+  document.querySelectorAll(".case-tab").forEach(tab => tab.addEventListener("click", () => loadTemplate(tab.dataset.case, true)));
+  document.querySelector("#reset-agent").addEventListener("click", () => {
+    delete drafts[currentMode];
+    loadTemplate(currentMode, false);
+  });
+  new ResizeObserver(syncHeight).observe(editor);
+  loadTemplate(currentMode, false);
+})();
+</script>
+<script>
+(() => {
+  "use strict";
+
+  const VECTOR_PY = String.raw`"""Et lille 2D-vektorbibliotek til alle simulatorens agenter."""
+from __future__ import annotations
+from math import hypot
+
+
+class Vector:
+    def __init__(self, x: float = 0, y: float = 0):
+        self.x = float(x)
+        self.y = float(y)
+
+    def __repr__(self) -> str:
+        return f"Vector({self.x:.2f}, {self.y:.2f})"
+
+    def __add__(self, other: Vector) -> Vector:
+        return Vector(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other: Vector) -> Vector:
+        return Vector(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, number: float) -> Vector:
+        return Vector(self.x * number, self.y * number)
+
+    def __rmul__(self, number: float) -> Vector:
+        return self * number
+
+    def __truediv__(self, number: float) -> Vector:
+        if number == 0:
+            raise ZeroDivisionError("En vektor kan ikke divideres med 0")
+        return Vector(self.x / number, self.y / number)
+
+    def length(self) -> float:
+        return hypot(self.x, self.y)
+
+    def normalize(self) -> Vector:
+        return self / self.length() if self.length() else Vector()
+
+    def distance(self, other: Vector) -> float:
+        return (self - other).length()
+
+    def dot_product(self, other: Vector) -> float:
+        return self.x * other.x + self.y * other.y
+
+    def limit(self, maximum: float) -> Vector:
+        return self.normalize() * maximum if self.length() > maximum else Vector(self.x, self.y)
+
+    def copy(self) -> Vector:
+        return Vector(self.x, self.y)`;
+
+  const VECTOR_PY_3D = String.raw`"""Et lille 3D-vektorbibliotek til agenternes positioner og bevægelse."""
+from __future__ import annotations
+from math import sqrt
+
+
+class Vector:
+    def __init__(self, x: float = 0, y: float = 0, z: float = 0):
+        self.x = float(x)
+        self.y = float(y)
+        self.z = float(z)
+
+    def __repr__(self) -> str:
+        return f"Vector({self.x:.2f}, {self.y:.2f}, {self.z:.2f})"
+
+    def __add__(self, other: Vector) -> Vector:
+        return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __sub__(self, other: Vector) -> Vector:
+        return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def __mul__(self, number: float) -> Vector:
+        return Vector(self.x * number, self.y * number, self.z * number)
+
+    def __rmul__(self, number: float) -> Vector:
+        return self * number
+
+    def __truediv__(self, number: float) -> Vector:
+        if number == 0:
+            raise ZeroDivisionError("En vektor kan ikke divideres med 0")
+        return Vector(self.x / number, self.y / number, self.z / number)
+
+    def length(self) -> float:
+        return sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+
+    def normalize(self) -> Vector:
+        return self / self.length() if self.length() else Vector()
+
+    def distance(self, other: Vector) -> float:
+        return (self - other).length()
+
+    def dot_product(self, other: Vector) -> float:
+        return self.x * other.x + self.y * other.y + self.z * other.z
+
+    def cross_product(self, other: Vector) -> Vector:
+        return Vector(self.y * other.z - self.z * other.y,
+                      self.z * other.x - self.x * other.z,
+                      self.x * other.y - self.y * other.x)
+
+    def limit(self, maximum: float) -> Vector:
+        return self.normalize() * maximum if self.length() > maximum else Vector(self.x, self.y, self.z)
+
+    def copy(self) -> Vector:
+        return Vector(self.x, self.y, self.z)`;
+
+  const CASES = {
+    epidemic: {
+      filename: "epidemi.py",
+      caption: "Komplet Python/pygame-program. Vector bruges til position, hastighed, afstand ved smitte og bevægelse ved kanten.",
+      source: String.raw`"""Case 1: Epidemi. Kræver pygame og vector.py i samme mappe."""
+import random
+import pygame
+from vector import Vector
+
+WIDTH, HEIGHT = 960, 540
+POPULATION = 120
+INFECTION_PROBABILITY = 0.28
+INFECTION_DISTANCE = 24
+RECOVERY_STEPS = 140
+SOCIAL_DISTANCE = 0.0  # Andel personer, der står stille: 0.0 til 1.0
+FPS = 60
+
+COLORS = {"S": (92, 145, 220), "I": (225, 91, 91), "R": (83, 180, 134)}
+
+
+def random_velocity(min_speed=0.8, max_speed=2.0):
+    direction = Vector(random.uniform(-1, 1), random.uniform(-1, 1)).normalize()
+    return direction * random.uniform(min_speed, max_speed)
+
+
+class Person:
+    def __init__(self, fixed=False):
+        self.position = Vector(random.uniform(12, WIDTH - 12), random.uniform(12, HEIGHT - 12))
+        self.velocity = Vector() if fixed else random_velocity()
+        self.fixed = fixed
+        self.state = "S"
+        self.infected_at = None
+
+    def infect(self, step):
+        if self.state == "S":
+            self.state = "I"
+            self.infected_at = step
+
+    def update(self):
+        if self.fixed:
+            return
+        self.position = self.position + self.velocity
+        if self.position.x < 8 or self.position.x > WIDTH - 8:
+            self.velocity.x *= -1
+            self.position.x = max(8, min(WIDTH - 8, self.position.x))
+        if self.position.y < 8 or self.position.y > HEIGHT - 8:
+            self.velocity.y *= -1
+            self.position.y = max(8, min(HEIGHT - 8, self.position.y))
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, COLORS[self.state], (round(self.position.x), round(self.position.y)), 5)
+
+
+def create_population():
+    people = [Person(random.random() < SOCIAL_DISTANCE) for _ in range(POPULATION)]
+    for person in random.sample(people, k=max(1, round(POPULATION * 0.025))):
+        person.infect(0)
+    return people
+
+
+def simulation_step(people, step):
+    for person in people:
+        person.update()
+
+    infected = [person for person in people if person.state == "I"]
+    susceptible = [person for person in people if person.state == "S"]
+    newly_infected = set()
+    for sick_person in infected:
+        for healthy_person in susceptible:
+            # distance() beregner længden af forskellen mellem to positionsvektorer.
+            if sick_person.position.distance(healthy_person.position) < INFECTION_DISTANCE:
+                if random.random() < INFECTION_PROBABILITY:
+                    newly_infected.add(healthy_person)
+
+    for person in newly_infected:
+        person.infect(step)
+    for person in infected:
+        if step - person.infected_at >= RECOVERY_STEPS:
+            person.state = "R"
+
+
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Epidemi-simulator")
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont("consolas", 18)
+    people = create_population()
+    running, paused, step = True, False, 0
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    paused = not paused
+                elif event.key == pygame.K_r:
+                    people, step = create_population(), 0
+
+        if not paused:
+            step += 1
+            simulation_step(people, step)
+
+        screen.fill((16, 34, 57))
+        for person in people:
+            person.draw(screen)
+        counts = {state: sum(p.state == state for p in people) for state in "SIR"}
+        text = font.render(f"Step {step}   S: {counts['S']}   I: {counts['I']}   R: {counts['R']}", True, (235, 242, 255))
+        screen.blit(text, (15, 14))
+        pygame.display.flip()
+        clock.tick(FPS)
+
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    main()`
+    },
+    ecosystem: {
+      filename: "oekosystem.py",
+      caption: "Komplet Python/pygame-program. Får og ulve bruger Vector til tilfældig bevægelse, afstand, retning og jagt.",
+      source: String.raw`"""Case 2: Rovdyr og får. Kræver pygame og vector.py i samme mappe."""
+import random
+import pygame
+from vector import Vector
+
+WIDTH, HEIGHT = 960, 540
+START_SHEEP, START_WOLVES = 100, 5
+SHEEP_COST, WOLF_COST = 1.0, 1.2
+REPRODUCTION_CHANCE = 0.035
+CARRYING_CAPACITY = 320
+FPS = 60
+
+
+def random_velocity(speed):
+    return Vector(random.uniform(-1, 1), random.uniform(-1, 1)).normalize() * speed
+
+
+class Animal:
+    def __init__(self, speed, energy):
+        self.position = Vector(random.uniform(15, WIDTH - 15), random.uniform(15, HEIGHT - 15))
+        self.velocity = random_velocity(speed)
+        self.energy = energy
+
+    def move_and_bounce(self):
+        self.position = self.position + self.velocity
+        if self.position.x < 10 or self.position.x > WIDTH - 10:
+            self.velocity.x *= -1
+            self.position.x = max(10, min(WIDTH - 10, self.position.x))
+        if self.position.y < 10 or self.position.y > HEIGHT - 10:
+            self.velocity.y *= -1
+            self.position.y = max(10, min(HEIGHT - 10, self.position.y))
+
+
+class Sheep(Animal):
+    def __init__(self, position=None, energy=None):
+        super().__init__(random.uniform(0.7, 1.3), energy or random.uniform(65, 105))
+        if position:
+            self.position = position.copy()
+
+    def update(self):
+        # En lille tilfældig Vector giver organisk vandring.
+        self.velocity = (self.velocity + random_velocity(0.15)).limit(1.5)
+        self.move_and_bounce()
+        self.energy -= SHEEP_COST
+
+    def draw(self, screen):
+        point = (round(self.position.x), round(self.position.y))
+        pygame.draw.circle(screen, (230, 189, 103), point, 7)
+        pygame.draw.circle(screen, (255, 244, 213), point, 4)
+
+
+class Wolf(Animal):
+    def __init__(self):
+        super().__init__(1.5, random.uniform(80, 115))
+
+    def update(self, sheep):
+        self.energy -= WOLF_COST
+        if sheep:
+            target = min(sheep, key=lambda prey: self.position.distance(prey.position))
+            direction_to_prey = (target.position - self.position).normalize()
+            self.velocity = (self.velocity + direction_to_prey * 0.38).limit(2.7)
+        self.move_and_bounce()
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, (169, 108, 206), (round(self.position.x), round(self.position.y)), 9)
+
+
+def simulation_step(sheep, wolves):
+    lambs = []
+    habitat_factor = max(0.0, 1 - len(sheep) / CARRYING_CAPACITY)
+    for animal in sheep:
+        animal.update()
+        if animal.energy > 45 and random.random() < REPRODUCTION_CHANCE * habitat_factor:
+            animal.energy *= 0.62
+            lambs.append(Sheep(animal.position, energy=55))
+    sheep.extend(lambs)
+    sheep[:] = [animal for animal in sheep if animal.energy > 0]
+
+    eaten = set()
+    for wolf in wolves:
+        wolf.update(sheep)
+        available = [prey for prey in sheep if prey not in eaten]
+        if available:
+            target = min(available, key=lambda prey: wolf.position.distance(prey.position))
+            if wolf.position.distance(target.position) < 13:
+                eaten.add(target)
+                wolf.energy = min(145, wolf.energy + 58)
+    sheep[:] = [animal for animal in sheep if animal not in eaten]
+    wolves[:] = [wolf for wolf in wolves if wolf.energy > 0]
+
+    # En energirig ulv kan få en unge. Kopien tilføjes efter løkken.
+    pups = []
+    for wolf in wolves:
+        if wolf.energy > 125 and random.random() < 0.002:
+            wolf.energy *= 0.65
+            pup = Wolf()
+            pup.position = wolf.position.copy()
+            pups.append(pup)
+    wolves.extend(pups)
+
+
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Økosystem: ulve og får")
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont("consolas", 18)
+    sheep = [Sheep() for _ in range(START_SHEEP)]
+    wolves = [Wolf() for _ in range(START_WOLVES)]
+    running, paused, step = True, False, 0
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                paused = not paused
+        if not paused:
+            step += 1
+            simulation_step(sheep, wolves)
+
+        screen.fill((16, 34, 57))
+        for animal in sheep + wolves:
+            animal.draw(screen)
+        label = font.render(f"Step {step}   Får: {len(sheep)}   Ulve: {len(wolves)}", True, (235, 242, 255))
+        screen.blit(label, (15, 14))
+        pygame.display.flip()
+        clock.tick(FPS)
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    main()`
+    },
+    fish: {
+      filename: "fiskestime.py",
+      caption: "Komplet Python/pygame-program. Hver fisk kombinerer separation, alignment, cohesion, individuel variation og flugt som Vector-kræfter.",
+      source: String.raw`"""Case 3: Fiskestime og rovfisk. Kræver pygame og vector.py."""
+import random
+import pygame
+from vector import Vector
+
+WIDTH, HEIGHT = 960, 540
+FISH_COUNT, PREDATOR_COUNT = 55, 1
+VISIBLE_DISTANCE, TOO_CLOSE = 150, 32
+SEPARATION_WEIGHT = 2.2
+ALIGNMENT_WEIGHT = 0.08  # Lav værdi: fiskene bliver ikke mekanisk synkrone.
+COHESION_WEIGHT = 0.36
+PREDATOR_AVOIDANCE = 2.4
+FPS = 60
+
+
+def random_vector(strength=1.0):
+    return Vector(random.uniform(-1, 1), random.uniform(-1, 1)).normalize() * strength
+
+
+class Fish:
+    def __init__(self):
+        self.position = Vector(random.uniform(30, WIDTH - 30), random.uniform(30, HEIGHT - 30))
+        self.velocity = random_vector(random.uniform(1.7, 2.7))
+        self.wander = random_vector(0.2)
+        self.acceleration = Vector()
+
+    def neighbours(self, fish):
+        return [other for other in fish if other is not self and self.position.distance(other.position) < VISIBLE_DISTANCE]
+
+    def separation(self, neighbours):
+        force = Vector()
+        for other in neighbours:
+            distance = self.position.distance(other.position)
+            if 0 < distance < TOO_CLOSE:
+                force += (self.position - other.position).normalize() * ((TOO_CLOSE - distance) / TOO_CLOSE)
+        return force
+
+    def alignment(self, neighbours):
+        if not neighbours:
+            return Vector()
+        average_velocity = sum((other.velocity for other in neighbours), Vector()) / len(neighbours)
+        return average_velocity - self.velocity
+
+    def cohesion(self, neighbours):
+        if not neighbours:
+            return Vector()
+        centre = sum((other.position for other in neighbours), Vector()) / len(neighbours)
+        return (centre - self.position).normalize()
+
+    def decide(self, fish, predators):
+        nearby = self.neighbours(fish)
+        steering = self.separation(nearby) * SEPARATION_WEIGHT
+        steering += self.alignment(nearby) * ALIGNMENT_WEIGHT
+        steering += self.cohesion(nearby) * COHESION_WEIGHT
+
+        # Individuel variation forhindrer perfekt synkron bevægelse.
+        self.wander = (self.wander + random_vector(0.09)).limit(0.34)
+        steering += self.wander
+
+        for predator in predators:
+            distance = self.position.distance(predator.position)
+            if 0 < distance < VISIBLE_DISTANCE:
+                urgency = 1 - distance / VISIBLE_DISTANCE
+                steering += (self.position - predator.position).normalize() * (PREDATOR_AVOIDANCE * urgency)
+        self.acceleration = steering.limit(0.75)
+
+    def move(self):
+        self.velocity = (self.velocity + self.acceleration).limit(3.6)
+        if self.velocity.length() < 1.4:
+            self.velocity = self.velocity.normalize() * 1.4
+        self.position += self.velocity
+        self.bounce()
+
+    def bounce(self):
+        if self.position.x < 12 or self.position.x > WIDTH - 12:
+            self.velocity.x *= -1
+            self.position.x = max(12, min(WIDTH - 12, self.position.x))
+        if self.position.y < 12 or self.position.y > HEIGHT - 12:
+            self.velocity.y *= -1
+            self.position.y = max(12, min(HEIGHT - 12, self.position.y))
+
+    def draw(self, screen):
+        direction = self.velocity.normalize()
+        side = Vector(-direction.y, direction.x)
+        nose = self.position + direction * 10
+        left = self.position - direction * 7 + side * 5
+        right = self.position - direction * 7 - side * 5
+        pygame.draw.polygon(screen, (93, 159, 215), [(nose.x, nose.y), (left.x, left.y), (right.x, right.y)])
+
+
+class Predator:
+    def __init__(self):
+        self.position = Vector(random.uniform(50, WIDTH - 50), random.uniform(50, HEIGHT - 50))
+        self.velocity = random_vector(2.3)
+
+    def update(self, fish):
+        if fish:
+            # Rovfisken søger den nærmeste fisk i hele miljøet.
+            target = min(fish, key=lambda prey: self.position.distance(prey.position))
+            chase = (target.position - self.position).normalize() * 0.42
+            self.velocity = (self.velocity + chase).limit(4.1)
+        self.position += self.velocity
+        if self.position.x < 14 or self.position.x > WIDTH - 14:
+            self.velocity.x *= -1
+        if self.position.y < 14 or self.position.y > HEIGHT - 14:
+            self.velocity.y *= -1
+        self.position.x = max(14, min(WIDTH - 14, self.position.x))
+        self.position.y = max(14, min(HEIGHT - 14, self.position.y))
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, (235, 128, 85), (round(self.position.x), round(self.position.y)), 11)
+
+
+def simulation_step(fish, predators):
+    # Beslut først for alle fisk; flyt bagefter. Så ser alle samme øjebliksbillede.
+    for swimmer in fish:
+        swimmer.decide(fish, predators)
+    for swimmer in fish:
+        swimmer.move()
+    for predator in predators:
+        predator.update(fish)
+
+    caught = {swimmer for swimmer in fish for predator in predators
+              if swimmer.position.distance(predator.position) < 12}
+    fish[:] = [swimmer for swimmer in fish if swimmer not in caught]
+
+
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Fiskestime")
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont("consolas", 18)
+    fish = [Fish() for _ in range(FISH_COUNT)]
+    predators = [Predator() for _ in range(PREDATOR_COUNT)]
+    running, paused, step = True, False, 0
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                paused = not paused
+        if not paused:
+            step += 1
+            simulation_step(fish, predators)
+        screen.fill((16, 34, 57))
+        for swimmer in fish:
+            swimmer.draw(screen)
+        for predator in predators:
+            predator.draw(screen)
+        label = font.render(f"Step {step}   Fisk: {len(fish)}   Rovfisk: {len(predators)}", True, (235, 242, 255))
+        screen.blit(label, (15, 14))
+        pygame.display.flip()
+        clock.tick(FPS)
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    main()`
+    }
+  };
+
+  const AGENT_TEMPLATES = {
+    epidemic: {
+      title: "Epidemi-agent: en person, der holder afstand til smittede",
+      source: String.raw`"""Egen agent til epidemi.py. Flyt klassen ind i case-programmet."""
+import random
+import pygame
+from vector import Vector
+
+
+class MyPerson:
+    def __init__(self, x, y):
+        self.position = Vector(x, y)
+        self.velocity = Vector(1.6, 0.8)
+        self.state = "S"
+
+    def decide(self, people):
+        infected = [person for person in people if person.state == "I"]
+        if infected:
+            closest = min(infected, key=lambda person: self.position.distance(person.position))
+            distance = self.position.distance(closest.position)
+            if 0 < distance < 95:
+                away = (self.position - closest.position).normalize()
+                self.velocity += away * 0.32
+
+        variation = Vector(random.uniform(-0.08, 0.08), random.uniform(-0.08, 0.08))
+        self.velocity = (self.velocity + variation).limit(2.8)
+
+    def move(self, width, height):
+        self.position += self.velocity
+        if self.position.x < 10 or self.position.x > width - 10:
+            self.velocity.x *= -1
+        if self.position.y < 10 or self.position.y > height - 10:
+            self.velocity.y *= -1
+        self.position.x = max(10, min(width - 10, self.position.x))
+        self.position.y = max(10, min(height - 10, self.position.y))
+
+    def update(self, people, width, height):
+        self.decide(people)
+        self.move(width, height)
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, (214, 90, 196), (round(self.position.x), round(self.position.y)), 8)
+
+
+# I case-programmets løkke:
+# my_agent.update(people, WIDTH, HEIGHT)
+# my_agent.draw(screen)`
+    },
+    ecosystem: {
+      title: "Økosystem-agent: en ulv, der søger det nærmeste får",
+      source: String.raw`"""Egen agent til oekosystem.py. Flyt klassen ind i case-programmet."""
+import random
+import pygame
+from vector import Vector
+
+
+class MyWolf:
+    def __init__(self, x, y):
+        self.position = Vector(x, y)
+        self.velocity = Vector(1.4, -0.6)
+        self.energy = 100
+
+    def decide(self, sheep):
+        if sheep:
+            target = min(sheep, key=lambda prey: self.position.distance(prey.position))
+            direction = (target.position - self.position).normalize()
+            self.velocity = (self.velocity + direction * 0.38).limit(3.0)
+        else:
+            wander = Vector(random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1))
+            self.velocity = (self.velocity + wander).limit(2.0)
+
+    def move(self, width, height):
+        self.position += self.velocity
+        if self.position.x < 10 or self.position.x > width - 10:
+            self.velocity.x *= -1
+        if self.position.y < 10 or self.position.y > height - 10:
+            self.velocity.y *= -1
+        self.position.x = max(10, min(width - 10, self.position.x))
+        self.position.y = max(10, min(height - 10, self.position.y))
+        self.energy -= 1.2
+
+    def update(self, sheep, width, height):
+        self.decide(sheep)
+        self.move(width, height)
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, (214, 90, 196), (round(self.position.x), round(self.position.y)), 9)
+
+
+# I case-programmets løkke:
+# my_wolf.update(sheep, WIDTH, HEIGHT)
+# my_wolf.draw(screen)`
+    },
+    fish: {
+      title: "Fiske-agent: hold sammen lokalt, men flygt individuelt",
+      source: String.raw`"""Egen agent til fiskestime.py. Flyt klassen ind i case-programmet."""
+import random
+import pygame
+from vector import Vector
+
+
+class MyFish:
+    def __init__(self, x, y):
+        self.position = Vector(x, y)
+        self.velocity = Vector(2.0, 0.5)
+
+    def decide(self, fish, predators):
+        neighbours = [other for other in fish
+                      if other is not self and self.position.distance(other.position) < 120]
+        steering = Vector()
+
+        if neighbours:
+            centre = sum((other.position for other in neighbours), Vector()) / len(neighbours)
+            steering += (centre - self.position).normalize() * 0.18
+
+            too_close = [other for other in neighbours if self.position.distance(other.position) < 28]
+            for other in too_close:
+                steering += (self.position - other.position).normalize() * 0.55
+
+        for predator in predators:
+            distance = self.position.distance(predator.position)
+            if 0 < distance < 160:
+                steering += (self.position - predator.position).normalize() * 1.1
+
+        # Lidt tilfældighed gør, at alle fisk ikke svømmer helt ens.
+        steering += Vector(random.uniform(-0.12, 0.12), random.uniform(-0.12, 0.12))
+        self.velocity = (self.velocity + steering).limit(3.5)
+
+    def move(self, width, height):
+        self.position += self.velocity
+        if self.position.x < 12 or self.position.x > width - 12:
+            self.velocity.x *= -1
+        if self.position.y < 12 or self.position.y > height - 12:
+            self.velocity.y *= -1
+        self.position.x = max(12, min(width - 12, self.position.x))
+        self.position.y = max(12, min(height - 12, self.position.y))
+
+    def update(self, fish, predators, width, height):
+        self.decide(fish, predators)
+        self.move(width, height)
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, (214, 90, 196), (round(self.position.x), round(self.position.y)), 7)
+
+
+# I case-programmets løkke:
+# my_fish.update(fish, predators, WIDTH, HEIGHT)
+# my_fish.draw(screen)`
+    }
+  };
+
+  function makeEnvironment() {
+    const width = Math.max(320, Math.min(1920, Number(document.querySelector("#environment-width").value) || 960));
+    const height = Math.max(240, Math.min(1080, Number(document.querySelector("#environment-height").value) || 540));
+    const count = Math.max(1, Math.min(500, Number(document.querySelector("#environment-count").value) || 40));
+    const boundary = document.querySelector("#environment-boundary").value;
+    const boundaryCode = boundary === "wrap" ? String.raw`        self.position.x %= width
+        self.position.y %= height` : String.raw`        if self.position.x < self.radius or self.position.x > width - self.radius:
+            self.velocity.x *= -1
+        if self.position.y < self.radius or self.position.y > height - self.radius:
+            self.velocity.y *= -1
+        self.position.x = max(self.radius, min(width - self.radius, self.position.x))
+        self.position.y = max(self.radius, min(height - self.radius, self.position.y))`;
+
+    return String.raw`"""Startmiljø til din egen agentbaserede model. Kræver pygame og vector.py."""
+import random
+import pygame
+from vector import Vector
+
+WIDTH, HEIGHT = ${width}, ${height}
+AGENT_COUNT = ${count}
+FPS = 60
+
+
+def random_velocity(speed=2.2):
+    direction = Vector(random.uniform(-1, 1), random.uniform(-1, 1)).normalize()
+    return direction * speed
+
+
+class Agent:
+    def __init__(self):
+        # Tilstand: det agenten ved om sig selv.
+        self.position = Vector(random.uniform(20, WIDTH - 20), random.uniform(20, HEIGHT - 20))
+        self.velocity = random_velocity(random.uniform(1.4, 2.8))
+        self.radius = 7
+        self.color = (93, 159, 215)
+
+    def decide(self, agents):
+        """Beregn agentens næste lokale beslutning.
+
+        Udbyg denne metode: find naboer med distance(), og lav en Vector,
+        der ændrer retning eller fart. Her giver vi blot lidt variation.
+        """
+        variation = Vector(random.uniform(-0.10, 0.10), random.uniform(-0.10, 0.10))
+        self.velocity = (self.velocity + variation).limit(3.2)
+
+    def move(self, width, height):
+        # Bevægelse: ny position = gammel position + hastighed.
+        self.position = self.position + self.velocity
+${boundaryCode}
+
+    def update(self, agents, width, height):
+        self.decide(agents)
+        self.move(width, height)
+
+    def draw(self, screen):
+        point = (round(self.position.x), round(self.position.y))
+        pygame.draw.circle(screen, self.color, point, self.radius)
+        direction = self.velocity.normalize() * 12
+        end = (round(self.position.x + direction.x), round(self.position.y + direction.y))
+        pygame.draw.line(screen, (225, 239, 255), point, end, 2)
+
+
+class Environment:
+    def __init__(self):
+        self.agents = [Agent() for _ in range(AGENT_COUNT)]
+        self.step_number = 0
+
+    def step(self):
+        self.step_number += 1
+        for agent in self.agents:
+            agent.update(self.agents, WIDTH, HEIGHT)
+
+    def draw(self, screen):
+        screen.fill((16, 34, 57))
+        for agent in self.agents:
+            agent.draw(screen)
+
+
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Mit agentmiljø")
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont("consolas", 18)
+    environment = Environment()
+    running, paused = True, False
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    paused = not paused
+                elif event.key == pygame.K_RIGHT and paused:
+                    environment.step()
+
+        if not paused:
+            environment.step()
+        environment.draw(screen)
+        label = font.render(f"Step {environment.step_number}   Agenter: {len(environment.agents)}", True, (235, 242, 255))
+        screen.blit(label, (14, 12))
+        pygame.display.flip()
+        clock.tick(FPS)
+
+    pygame.quit()
+
+
+if __name__ == "__main__":
+    main()`;
+  }
+
+  const escapeHtml = value => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const pythonTokens = /(#.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(and|as|break|class|continue|def|elif|else|False|for|from|if|import|in|is|lambda|None|not|or|pass|return|True|while|with|yield)\b|\b(Vector|Person|Animal|Sheep|Wolf|Fish|Predator|Agent|Environment|MyPerson|MyWolf|MyFish)\b|\b(\d+(?:\.\d+)?)\b/g;
+  function colourPython(line) {
+    let html = "", cursor = 0, match;
+    pythonTokens.lastIndex = 0;
+    while ((match = pythonTokens.exec(line))) {
+      html += escapeHtml(line.slice(cursor, match.index));
+      const kind = match[1] ? "comment" : match[2] ? "string" : match[3] ? "keyword" : match[4] ? "class" : "number";
+      html += '<span class="tok-' + kind + '">' + escapeHtml(match[0]) + "</span>";
+      cursor = match.index + match[0].length;
+    }
+    return html + escapeHtml(line.slice(cursor));
+  }
+  function renderPre(element, source) {
+    element.dataset.source = source;
+    element.innerHTML = source.split("\n").map((line, index) =>
+      '<span class="code-line"><span class="line-number">' + String(index + 1).padStart(3, "0") + "</span>" + colourPython(line || " ") + "</span>"
+    ).join("");
+  }
+  function renderEditor(textarea, highlight) {
+    highlight.innerHTML = textarea.value.split("\n").map(line => '<span class="code-line">' + colourPython(line || " ") + "</span>").join("");
+    highlight.scrollTop = textarea.scrollTop;
+    highlight.scrollLeft = textarea.scrollLeft;
+  }
+  function connectEditor(textarea, highlight, onInput) {
+    textarea.addEventListener("input", () => { onInput?.(); renderEditor(textarea, highlight); });
+    textarea.addEventListener("scroll", () => { highlight.scrollTop = textarea.scrollTop; highlight.scrollLeft = textarea.scrollLeft; });
+    new ResizeObserver(() => { highlight.style.height = textarea.offsetHeight + "px"; }).observe(textarea);
+  }
+  function downloadText(filename, source) {
+    const url = URL.createObjectURL(new Blob(["\ufeff", source], {type: "text/x-python;charset=utf-8"}));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+  function safeFilename(value) {
+    const danish = value.trim().toLowerCase().replace(/æ/g, "ae").replace(/ø/g, "oe").replace(/å/g, "aa");
+    const cleaned = danish.replace(/[^a-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "");
+    return (cleaned || "mit_agentmiljoe") + ".py";
+  }
+
+  const vectorElement = document.querySelector("#vector-code");
+  const caseElement = document.querySelector("#case-code");
+  const caseCaption = document.querySelector("#case-caption");
+  const caseFilename = document.querySelector("#case-filename");
+  const agentEditor = document.querySelector("#agent-editor");
+  const agentHighlight = document.querySelector("#agent-highlight");
+  const agentTitle = document.querySelector("#agent-template-title");
+  const agentStatus = document.querySelector("#agent-status");
+  const environmentEditor = document.querySelector("#environment-editor");
+  const environmentHighlight = document.querySelector("#environment-highlight");
+  const environmentStatus = document.querySelector("#environment-status");
+  const vectorFilePill = vectorElement.closest(".code-panel").querySelector(".file-pill");
+  const vectorCaption = vectorElement.closest(".code-panel").querySelector(".code-caption");
+  const drafts = {};
+  let currentMode = state.mode;
+
+  function currentVectorSource() { return state.view === "3d" ? VECTOR_PY_3D : VECTOR_PY; }
+  function renderVectorLibrary() {
+    const is3D = state.view === "3d";
+    renderPre(vectorElement, currentVectorSource());
+    vectorFilePill.textContent = is3D ? "vector.py · 3D-variant" : "vector.py · 2D-variant";
+    vectorCaption.textContent = is3D
+      ? "3D-varianten bruger x, y og z samt afstand, prikprodukt og krydsprodukt. z har standardværdien 0, så de eksisterende cases stadig kan køre."
+      : "Gem filen som vector.py ved siden af case-programmet. Klassen er det fælles sprog mellem miljøet og alle agenter.";
+  }
+
+  function loadMode(mode, saveDraft=true) {
+    if (saveDraft && currentMode) drafts[currentMode] = agentEditor.value;
+    currentMode = mode;
+    const currentCase = CASES[mode];
+    renderPre(caseElement, currentCase.source);
+    caseCaption.textContent = currentCase.caption + " Download også vector.py, og gem de to filer i samme mappe.";
+    caseFilename.textContent = currentCase.filename;
+    agentEditor.value = drafts[mode] || AGENT_TEMPLATES[mode].source;
+    agentTitle.textContent = "Python-skabelon: " + AGENT_TEMPLATES[mode].title;
+    agentStatus.textContent = "Skabelonen passer til " + currentCase.filename + " og er klar til download.";
+    agentStatus.className = "agent-status ok";
+    renderEditor(agentEditor, agentHighlight);
+  }
+
+  renderVectorLibrary();
+  connectEditor(agentEditor, agentHighlight, () => { drafts[currentMode] = agentEditor.value; });
+  connectEditor(environmentEditor, environmentHighlight);
+  environmentEditor.value = makeEnvironment();
+  renderEditor(environmentEditor, environmentHighlight);
+  loadMode(currentMode, false);
+  document.addEventListener("simulationviewchange", renderVectorLibrary);
+
+  document.querySelectorAll(".case-tab").forEach(tab => tab.addEventListener("click", () => loadMode(tab.dataset.case)));
+  document.querySelector("#reset-agent").addEventListener("click", () => {
+    delete drafts[currentMode];
+    agentEditor.value = AGENT_TEMPLATES[currentMode].source;
+    agentStatus.textContent = "Python-skabelonen er gendannet.";
+    agentStatus.className = "agent-status ok";
+    renderEditor(agentEditor, agentHighlight);
+  });
+  document.querySelector("#download-vector").addEventListener("click", () => downloadText("vector.py", currentVectorSource()));
+  document.querySelectorAll(".download-vector-copy").forEach(button => button.addEventListener("click", () => downloadText("vector.py", currentVectorSource())));
+  document.querySelector("#download-case").addEventListener("click", () => downloadText(CASES[currentMode].filename, CASES[currentMode].source));
+  document.querySelector("#download-agent").addEventListener("click", () => {
+    const names = {epidemic: "min_epidemi_agent.py", ecosystem: "min_ulv.py", fish: "min_fisk.py"};
+    downloadText(names[currentMode], agentEditor.value);
+    agentStatus.textContent = names[currentMode] + " er downloadet.";
+    agentStatus.className = "agent-status ok";
+  });
+  document.querySelector("#generate-environment").addEventListener("click", () => {
+    environmentEditor.value = makeEnvironment();
+    renderEditor(environmentEditor, environmentHighlight);
+    environmentStatus.textContent = "Koden er genereret. Tilføj din regel i Agent.decide().";
+    environmentStatus.className = "agent-status ok";
+  });
+  document.querySelector("#download-environment").addEventListener("click", () => {
+    const filename = safeFilename(document.querySelector("#environment-name").value);
+    downloadText(filename, environmentEditor.value);
+    environmentStatus.textContent = filename + " er downloadet. Husk også vector.py.";
+    environmentStatus.className = "agent-status ok";
+  });
+})();
+</script>
+  <script type="text/plain" data-legacy-3d-renderer>
+  import * as THREE from "three";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+  (() => {
+    const WORLD_WIDTH = 960;
+    const WORLD_HEIGHT = 540;
+    const sourceCanvas = document.querySelector("#simulation");
+    const wrap = sourceCanvas.parentElement;
+    const threeCanvas = document.createElement("canvas");
+    threeCanvas.className = "three-layer";
+    threeCanvas.setAttribute("aria-label", "Roterbart 3D-akvarium");
+    const hint = document.createElement("div");
+    hint.className = "three-hint";
+    hint.textContent = "Træk for at rotere · scroll for zoom · højreklik for at flytte";
+    wrap.append(threeCanvas, hint);
+
+    let renderer, scene, camera, controls, fishRoot, bubbleRoot;
+    let fishMeshes = [];
+    let active = false;
+    const fishAssets = {};
+
+    function makeFish(kind) {
+      const predator = kind === "predator";
+      const group = new THREE.Group();
+      const assets = fishAssets[kind];
+      const body = new THREE.Mesh(assets.bodyGeometry, assets.bodyMaterial);
+      body.scale.set(1.18, .58, .42);
+      group.add(body);
+      const tail = new THREE.Mesh(assets.tailGeometry, assets.finMaterial);
+      tail.rotation.z = -Math.PI / 2;
+      tail.position.x = -1.18;
+      group.add(tail);
+      const dorsal = new THREE.Mesh(assets.finGeometry, assets.finMaterial);
+      dorsal.position.set(-.02, .45, 0);
+      dorsal.rotation.z = Math.PI;
+      group.add(dorsal);
+      group.userData.phase = Math.random() * Math.PI * 2;
+      group.userData.kind = kind;
+      group.userData.baseY = 0;
+      group.userData.tail = tail;
+      group.userData.fin = dorsal;
+      return group;
+    }
+
+    function setupScene() {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x031827);
+      scene.fog = new THREE.FogExp2(0x06394e, .045);
+      camera = new THREE.PerspectiveCamera(43, 1, .1, 100);
+      camera.position.set(0, 1.4, 12.5);
+      controls = new OrbitControls(camera, threeCanvas);
+      controls.target.set(0, -.2, 0);
+      controls.enableDamping = true;
+      controls.dampingFactor = .075;
+      controls.enablePan = true;
+      controls.minDistance = 7;
+      controls.maxDistance = 20;
+      controls.minPolarAngle = .35;
+      controls.maxPolarAngle = Math.PI - .35;
+      controls.update();
+
+      scene.add(new THREE.HemisphereLight(0x9cf4ff, 0x03111f, 2.2));
+      const keyLight = new THREE.DirectionalLight(0xd8ffff, 3.8);
+      keyLight.position.set(-4, 8, 7);
+      scene.add(keyLight);
+      const waterLight = new THREE.PointLight(0x31d8d5, 18, 16, 2);
+      waterLight.position.set(0, 3.8, 1.5);
+      scene.add(waterLight);
+      const rimLight = new THREE.PointLight(0x5b8dff, 10, 14, 2);
+      rimLight.position.set(4, -1.5, -4);
+      scene.add(rimLight);
+      const bodyGeometry = new THREE.SphereGeometry(1, 10, 6);
+      const tailGeometry = new THREE.ConeGeometry(.58, 1.05, 3);
+      const finGeometry = new THREE.ConeGeometry(.25, .76, 3);
+      fishAssets.fish = {
+        bodyGeometry,
+        tailGeometry,
+        finGeometry,
+        bodyMaterial: new THREE.MeshLambertMaterial({color: 0x3daed0}),
+        finMaterial: new THREE.MeshLambertMaterial({color: 0x8de0dc, transparent: true, opacity: .82, side: THREE.DoubleSide})
+      };
+      fishAssets.predator = {
+        bodyGeometry,
+        tailGeometry,
+        finGeometry,
+        bodyMaterial: new THREE.MeshLambertMaterial({color: 0xe96f50}),
+        finMaterial: new THREE.MeshLambertMaterial({color: 0xffaa78, transparent: true, opacity: .82, side: THREE.DoubleSide})
+      };
+
+      const tank = new THREE.Group();
+      const tankSize = new THREE.Vector3(11.4, 6, 6);
+      const water = new THREE.Mesh(
+        new THREE.BoxGeometry(tankSize.x, tankSize.y, tankSize.z),
+        new THREE.MeshBasicMaterial({color: 0x087b8b, transparent: true, opacity: .1, depthWrite: false, side: THREE.DoubleSide})
+      );
+      tank.add(water);
+      const edges = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.BoxGeometry(tankSize.x, tankSize.y, tankSize.z)),
+        new THREE.LineBasicMaterial({color: 0xa8fff1, transparent: true, opacity: .38})
+      );
+      tank.add(edges);
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(11.4, 6),
+        new THREE.MeshStandardMaterial({color: 0x082c3c, roughness: .9, metalness: .05})
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.y = -2.95;
+      tank.add(floor);
+      const grid = new THREE.GridHelper(11.4, 14, 0x50c7c4, 0x1a6370);
+      grid.position.y = -2.91;
+      grid.material.transparent = true;
+      grid.material.opacity = .26;
+      tank.add(grid);
+      const surface = new THREE.Mesh(
+        new THREE.PlaneGeometry(11.2, 5.8),
+        new THREE.MeshBasicMaterial({color: 0x55e9df, transparent: true, opacity: .035, side: THREE.DoubleSide})
+      );
+      surface.rotation.x = -Math.PI / 2;
+      surface.position.y = 2.86;
+      tank.add(surface);
+      scene.add(tank);
+
+      const rockMaterial = new THREE.MeshStandardMaterial({color: 0x124657, roughness: .92});
+      for (let i = 0; i < 14; i++) {
+        const rock = new THREE.Mesh(new THREE.IcosahedronGeometry(.16 + (i % 4) * .06, 1), rockMaterial);
+        rock.position.set(-5.1 + (i * 1.09) % 10.2, -2.65 + (i % 3) * .08, -2.4 + (i % 5) * .95);
+        rock.scale.y = .55;
+        tank.add(rock);
+      }
+
+      fishRoot = new THREE.Group();
+      scene.add(fishRoot);
+      bubbleRoot = new THREE.Group();
+      const bubbleMaterial = new THREE.MeshBasicMaterial({color: 0xbafaf2, transparent: true, opacity: .34});
+      const bubbleGeometry = new THREE.SphereGeometry(.04, 5, 4);
+      for (let i = 0; i < 14; i++) {
+        const bubble = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
+        bubble.userData = {phase: i * .71, speed: .35 + (i % 5) * .07, x: -5.1 + (i * 1.43) % 10.2, z: -2.5 + (i % 7) * .78};
+        bubbleRoot.add(bubble);
+      }
+      scene.add(bubbleRoot);
+      const particleRoot = new THREE.Group();
+      const particleMaterial = new THREE.MeshBasicMaterial({color: 0x9ffbf1, transparent: true, opacity: .22});
+      const particleGeometry = new THREE.SphereGeometry(.018, 4, 3);
+      for (let i = 0; i < 28; i++) {
+        const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+        particle.userData = {phase: i * .53, x: -5.3 + (i * 1.17) % 10.6, y: -2.7 + (i * .83) % 5.35, z: -2.7 + (i * .61) % 5.4};
+        particleRoot.add(particle);
+      }
+      scene.add(particleRoot);
+      scene.userData.particleRoot = particleRoot;
+    }
+
+    function resize() {
+      if (!renderer) return;
+      const bounds = wrap.getBoundingClientRect();
+      const width = Math.max(1, Math.round(bounds.width));
+      const height = Math.max(1, Math.round(bounds.height));
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+
+    function updateFish(fishes, time) {
+      while (fishMeshes.length < fishes.length) {
+        const fish = fishes[fishMeshes.length];
+        const mesh = makeFish(fish.kind);
+        fishMeshes.push(mesh);
+        fishRoot.add(mesh);
+      }
+      fishMeshes.forEach((mesh, index) => {
+        const fish = fishes[index];
+        if (!fish) {
+          mesh.visible = false;
+          return;
+        }
+        mesh.visible = true;
+        const depth = .12 + .76 * (.5 + .5 * Math.sin(fish.x * .024 + fish.y * .017 + index * 1.73 + time * .18));
+        const baseY = 2.25 - fish.y / WORLD_HEIGHT * 4.5;
+        const target = mesh.userData.target || (mesh.userData.target = new THREE.Vector3());
+        target.set((fish.x / WORLD_WIDTH - .5) * 10.4, baseY, (depth - .5) * 4.8);
+        if (!mesh.userData.ready) {
+          mesh.position.copy(target);
+          mesh.userData.ready = true;
+        } else {
+          mesh.position.lerp(target, .22);
+        }
+        mesh.position.y += Math.sin(time * 1.3 + mesh.userData.phase) * .045;
+        mesh.userData.baseY = baseY;
+        const heading = -Math.atan2(fish.vy, fish.vx);
+        let turn = heading - mesh.rotation.z;
+        turn = Math.atan2(Math.sin(turn), Math.cos(turn));
+        mesh.rotation.z += turn * .16;
+        mesh.rotation.y = Math.sin(time * .45 + mesh.userData.phase) * .08;
+        const swim = Math.sin(time * 8.5 + mesh.userData.phase);
+        mesh.userData.tail.rotation.y = swim * .22;
+        mesh.userData.fin.rotation.x = Math.PI + swim * .08;
+        const size = fish.kind === "predator" ? .5 : .3;
+        mesh.scale.setScalar(size);
+      });
+    }
+
+    function updateBubbles(time) {
+      bubbleRoot.children.forEach(bubble => {
+        const data = bubble.userData;
+        bubble.position.x = data.x + Math.sin(time * .7 + data.phase) * .12;
+        bubble.position.y = -2.7 + ((time * data.speed + data.phase) % 5.25);
+        bubble.position.z = data.z + Math.cos(time * .45 + data.phase) * .1;
+      });
+      scene.userData.particleRoot.children.forEach(particle => {
+        const data = particle.userData;
+        particle.position.set(
+          data.x + Math.sin(time * .35 + data.phase) * .05,
+          data.y + Math.sin(time * .5 + data.phase) * .08,
+          data.z + Math.cos(time * .3 + data.phase) * .05
+        );
+      });
+    }
+
+    function setActive(next) {
+      active = next;
+      threeCanvas.style.display = active ? "block" : "none";
+      hint.classList.toggle("hidden", !active);
+      sourceCanvas.style.visibility = active ? "hidden" : "visible";
+      if (active) resize();
+    }
+
+    function handleFrame(event) {
+      const detail = event.detail || {};
+      setActive(detail.view === "3d" && detail.mode === "fish");
+      if (active) updateFish(detail.fishes || [], performance.now() / 1000);
+    }
+
+    try {
+      renderer = new THREE.WebGLRenderer({canvas: threeCanvas, antialias: false, alpha: false, powerPreference: "high-performance"});
+      renderer.setPixelRatio(1);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      setupScene();
+      window.__threeAquariumReady = true;
+      new ResizeObserver(resize).observe(wrap);
+      document.addEventListener("simulationrender", handleFrame);
+      document.addEventListener("simulationviewchange", () => setActive(false));
+      window.addEventListener("resize", resize);
+      setActive(false);
+      let lastRender = 0;
+      function animate(now) {
+        requestAnimationFrame(animate);
+        if (!active) return;
+        if (now - lastRender < 33) return;
+        lastRender = now;
+        controls.update();
+        updateBubbles(now / 1000);
+        renderer.render(scene, camera);
+      }
+      requestAnimationFrame(animate);
+    } catch (error) {
+      window.__threeAquariumReady = false;
+      threeCanvas.remove();
+      hint.remove();
+      console.warn("Three.js-akvariet kunne ikke startes; canvas-fallback bruges.", error);
+    }
+  })();
+  </script>
+  <footer class="site-copyright">Copyright (C) Henrik Sterner (udvikler) og Kathrine Bohus Madsen · Værktøj til lærebogen <em>Python i Gymnasiet</em></footer>
+</body>
+</html>

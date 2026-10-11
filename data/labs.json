@@ -1,7 +1,7 @@
 [
   {
-    "id": "pylab-turtle-laboratorium",
-    "title": "Turtle-laboratorium",
+    "id": "pyTur",
+    "title": "pyTur",
     "description": "Tegn med Python Turtle, kør koden trin for trin og udforsk eksempler.",
     "category": "Spil og Interaktive arenaer",
     "topics": [
@@ -17,8 +17,8 @@
     "href": "turtle-laboratorium.html"
   },
   {
-    "id": "pylab-kryds-og-bolle-laboratorium",
-    "title": "Kryds og bolle",
+    "id": "pyKry",
+    "title": "pyKry",
     "description": "Spil mod en ven eller en AI, og undersøg midten, hjørner og gafler.",
     "category": "Spil og Interaktive arenaer",
     "topics": [
@@ -34,8 +34,8 @@
     "href": "kryds-og-bolle-laboratorium.html"
   },
   {
-    "id": "pylab-diagram-editor",
-    "title": "Klassediagram",
+    "id": "pyDia",
+    "title": "pyDia",
     "description": "Skitsér klasser, attributter, metoder og relationer, før du skriver programmet.",
     "category": "Software modellering",
     "topics": [
@@ -51,8 +51,8 @@
     "href": "diagram-editor.html"
   },
   {
-    "id": "pylab-blockly-python",
-    "title": "Blok-programmering til Python",
+    "id": "pyBlk",
+    "title": "pyBlk",
     "description": "Byg logikken med træk-og-slip-blokke og se den tilsvarende Python-kode.",
     "category": "Software modellering",
     "topics": [
@@ -68,8 +68,8 @@
     "href": "blockly-python.html"
   },
   {
-    "id": "pylab-code-visualizer",
-    "title": "Kodevisualisering",
+    "id": "pyViz",
+    "title": "pyViz",
     "description": "Følg variabler, funktioner, kald og output, mens et Python-program kører.",
     "category": "Software modellering",
     "topics": [
@@ -86,8 +86,8 @@
     "href": "code-visualizer.html"
   },
   {
-    "id": "pylab-knn-laboratorium",
-    "title": "KNN-laboratorium",
+    "id": "pyKnn",
+    "title": "pyKnn",
     "description": "Flyt datapunkter, justér k, se naboer stemme og vurder accuracy visuelt.",
     "category": "Maskinlæring og kunstig intelligens",
     "topics": [
@@ -104,8 +104,8 @@
     "href": "knn-laboratorium.html"
   },
   {
-    "id": "pylab-agent-simulator",
-    "title": "Agentlaboratorium",
+    "id": "pyAgt",
+    "title": "pyAgt",
     "description": "Eksperimentér med epidemi, økosystem og fiskestime i en levende simulator.",
     "category": "Agentbaseret modellering, robotter og evolution",
     "topics": [
@@ -121,8 +121,8 @@
     "href": "agent-simulator.html"
   },
   {
-    "id": "pylab-robot-laboratorium",
-    "title": "Robotlaboratorium",
+    "id": "pyRob",
+    "title": "pyRob",
     "description": "Programmér en line follower og en sumorobot med sensorer og strategier.",
     "category": "Agentbaseret modellering, robotter og evolution",
     "topics": [
