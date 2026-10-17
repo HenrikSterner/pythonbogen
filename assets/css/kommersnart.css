@@ -1,4 +1,19 @@
 /* Separate teaser styling; the existing site keeps its own layout. */
+.teaser-film{scroll-margin-top:25px}
+.teaser-film-stage{position:relative;isolation:isolate}
+.film-play[hidden]{display:none}
+.film-play{position:absolute;inset:0;display:flex;align-items:end;gap:24px;width:100%;padding:clamp(22px,4vw,52px);border:0;background:linear-gradient(0deg,#092c30eb,#092c3010 80%);color:#fff;text-align:left;cursor:pointer}
+.film-play-icon{display:grid;place-items:center;flex-shrink:0;width:76px;height:76px;padding-left:4px;border:1px solid #fff7;border-radius:50%;background:#ffffff20;backdrop-filter:blur(10px);font-size:1.6rem;transition:background .2s,transform .2s}
+.film-play-copy{display:grid;gap:8px;padding-bottom:5px}.film-play-copy strong{font-family:Georgia,serif;font-size:clamp(1.25rem,3vw,2.7rem);font-weight:400;letter-spacing:-.025em;line-height:1.15}.film-play-copy>span{color:#e2e9da;font-size:.8rem}
+.film-play:focus-visible{outline:3px solid var(--gold);outline-offset:-6px;border-radius:10px}
+.teaser-film-frame{outline:1px solid #d9dfd8;outline-offset:7px}
+.teaser-contact{padding:8px 14px;border:1px solid #cad5c8;border-radius:99px;background:#fff6;transition:background .2s}
+.teaser-contact:hover{background:#e8eee3}
+.teaser-section-intro h2{max-width:750px}
+.teaser-invitation .button{box-shadow:0 8px 24px #001b1d26;padding:15px 24px}
+@media(hover:hover){.film-play:hover .film-play-icon{background:var(--gold);border-color:var(--gold);color:var(--petrol);transform:scale(1.08)}}
+@media(max-width:600px){.film-play{align-items:center;gap:15px;padding:22px}.film-play-icon{width:52px;height:52px;font-size:1.1rem}.film-play-copy{gap:6px;padding:0}.film-play-copy>span{font-size:.7rem}.teaser-film-frame{outline-offset:4px}}
+@media(prefers-reduced-motion:reduce){.film-play-icon{transition:none}.film-play:hover .film-play-icon{transform:none}}
 .teaser-film{padding:75px 0 0;background:var(--background)}
 .teaser-film-heading{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:28px}
 .teaser-film-heading h2{margin:0;font-size:clamp(2rem,3.6vw,3rem)}
