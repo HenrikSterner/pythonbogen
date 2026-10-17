@@ -20,7 +20,7 @@ PAGE_TITLES = {
     "bogen": ("Lærebogen", "Se bogens 16 kapitler, opgavetyper og den faglige progression fra dit første program til større projekter."),
     "laeseproeve": ("Læs en prøve", "Læs forordet og det første kapitel fra Introduktion til Python i Gymnasiet."),
     "vygotskai": ("VygotskAI", "Se hvordan bog, Python-opgaver, kode og lokal AI-tutor mødes i VygotskAI."),
-    "laboratorier": ("Python-laboratorier", "Find et interaktivt Python-laboratorium om Turtle, kode, algoritmer, maskinlæring eller robotter."),
+    "laboratorier": ("Python-laboratorier", "Læs om alle 41 PyLabs i VygotskAI-Tutorens katalog: spil, softwaremodellering, algoritmer, data, maskinlæring og agentbaserede modeller."),
     "undervisere": ("Til undervisere", "Se bogens faglige progression, afprøv et forløbsforslag og udforsk laboratorier og lærerstøtte."),
     "kom-i-gang": ("Kom i gang med Python", "Vælg en begynderrute med læseprøve, Python-laboratorier eller den lokale VygotskAI-app."),
     "om": ("Forfattere og kontakt", "Mød Kathrine Bohus Madsen og Henrik Sterner: undervisere med erfaring i læring, programmering og AI. Kontakt os om Pythonbogen til gymnasiet og folkeskolen."),
@@ -252,20 +252,38 @@ def main() -> None:
     (ROOT / "data" / "chapters.json").write_text(json.dumps(chapter_json, ensure_ascii=False, indent=2), encoding="utf-8")
 
     current_catalog = json.loads((TUTOR / "resources" / "content" / "pylabs.json").read_text(encoding="utf-8"))
-    source_by_filename = {Path(item["source"]).name: item for item in current_catalog["items"]}
     labs = []
-    (ROOT / "labs" / "tools").mkdir(parents=True, exist_ok=True)
-    for filename, details in LAB_DETAILS.items():
-        source = OLD / "pyLab" / filename
-        if not source.is_file():
-            raise SystemExit(f"Laboratoriets browserfil mangler: {source}")
-        item = source_by_filename.get(filename)
-        if item is None:
-            raise SystemExit(f"Laboratoriet mangler i det aktuelle katalog: {filename}")
-        shutil.copy2(source, ROOT / "labs" / filename)
-        entry = {**{k: item[k] for k in ("id", "title", "description", "category")}, **details,
-                 "source": filename, "href": filename}
-        labs.append(entry)
+    topic_by_category = {
+        "Spil og Interaktive arenaer": ["spil", "algoritmer"],
+        "Software modellering": ["systemer", "visualisering"],
+        "Algoritmer og Datastrukturer": ["algoritmer", "data"],
+        "Maskinlæring og kunstig intelligens": ["ai", "data"],
+        "Agentbaseret modellering, robotter og evolution": ["simulation", "ai"],
+    }
+    level_by_context = {"grundlæggende": "Begynder", "øvet": "Videre", "fordybelse": "Fordybelse"}
+    for item in current_catalog["items"]:
+        category = item["category"]
+        context = item.get("tutor_context", {})
+        source = Path(item["source"]).name
+        level = level_by_context.get(context.get("level", ""), "Videre")
+        topics = list(topic_by_category.get(category, ["algoritmer"]))
+        if level == "Begynder":
+            topics.append("begynder")
+        if category == "Maskinlæring og kunstig intelligens":
+            topics.append("maskinlæring")
+        labs.append({
+            "id": item["id"],
+            "title": item.get("topic_title") or item["title"],
+            "description": item["description"],
+            "category": category,
+            "topics": topics,
+            "level": level,
+            "goal": context.get("exercise", item["description"]),
+            "chapter": item.get("chapter_reference", "Python i Gymnasiet").replace("Læs: ", ""),
+            "feature": item.get("icon", item["id"]),
+            "source": source,
+            "href": source,
+        })
     (ROOT / "data" / "labs.json").write_text(json.dumps(labs, ensure_ascii=False, indent=2), encoding="utf-8")
 
     lab_cards = []
@@ -274,10 +292,10 @@ def main() -> None:
         search_words = " ".join([lab["title"], lab["description"], lab["category"], lab["goal"], lab["chapter"]])
         lab_cards.append(
             f'<article class="lab-card" data-lab-card data-topics="{html.escape(topic_words)}" data-level="{html.escape(lab["level"])}" data-search="{html.escape(search_words, quote=True)}">'
-            f'<a class="lab-card-link" href="labs/{html.escape(lab["source"], quote=True)}"><span class="lab-icon" aria-hidden="true">{html.escape(lab["feature"])}</span>'
+            f'<div class="lab-card-link"><span class="lab-icon" aria-hidden="true">{html.escape(lab["feature"])}</span>'
             f'<span class="lab-card-content"><span class="lab-card-title">{html.escape(lab["title"])}</span><span class="lab-card-description">{html.escape(lab["description"])}</span>'
             f'<span class="lab-meta"><span>{html.escape(lab["level"])}</span><span>{html.escape(lab["chapter"])}</span></span>'
-            f'<span class="lab-goal"><b>Prøv at:</b> {html.escape(lab["goal"])}</span><span class="text-link">Åbn laboratoriet <span aria-hidden="true">→</span></span></span></a></article>'
+            f'<span class="lab-goal"><b>Fagligt fokus:</b> {html.escape(lab["goal"])}</span></span></div></article>'
         )
     lab_cards_html = "\n".join(lab_cards)
     featured_html = "\n".join(lab_cards[i] for i in [0, 4, 5, 6])
@@ -313,6 +331,20 @@ def main() -> None:
             marker = "{{ACTIVE_ATTR:" + section + "}}"
             header = header.replace(marker, ' aria-current="page"' if section == active else "")
         body = body_path.read_text(encoding="utf-8").replace("{{LAB_CARDS}}", lab_cards_html).replace("{{FEATURED_LABS}}", featured_html).replace("{{CHAPTER_CARDS}}", chapter_cards_html)
+        if page == "laboratorier":
+            body = '<style>.lab-icon{min-width:5ch;width:auto;padding-inline:.55rem;white-space:nowrap}</style>' + body
+            body = re.sub(r'<div class="lab-starts">.*?</div>', "", body, count=1, flags=re.S)
+            body = re.sub(r'<section class="section section-tint">.*?</section>', "", body, count=1, flags=re.S)
+            body = body.replace("Udforsk med hænderne", "Udforsk PyLabs")
+            body = body.replace("Flyt et datapunkt. Følg et program. Undersøg hvad der ændrer sig, når du prøver en ny idé.", "Læs her om de mange laboratorier, som er tilgængelige sammen med VygotskAI-tutoren. Du kan blandt andet skifte mellem blok- og tekstkode, tegne figurer med skildpadder samt eksperimentere med maskinlæring og kunstig intelligens.")
+            body = body.replace("Vælg en aktivitet", "Læs om aktiviteterne")
+            body = body.replace("Hvert laboratorium åbner direkte i browseren. Start med de færdige eksempler og læs forudsætningerne, før du går videre.", "Brug søgning og filtre til at finde det laboratorium, der passer til et emne, et niveau eller et bestemt kapitel. Hvert kort forklarer aktivitetens faglige fokus.")
+            body = body.replace("Udvalget består af de otte lokale browserlaboratorier, der er samlet til denne hjemmeside.", "Udvalget består af alle 41 PyLabs fra VygotskAI-Tutorens autoritative katalog.")
+            body = body.replace("8 laboratorier", "41 emner")
+            body = body.replace("Du kan fortsat åbne alle de laboratorier, der er listet ovenfor.", "Kataloget viser beskrivelser af alle PyLabs, men laboratorierne er ikke tilgængelige herfra.")
+            for filename in ("turtle-laboratorium.html", "blockly-python.html", "code-visualizer.html"):
+                body = body.replace(f'<a href="labs/{filename}">', '<span>')
+            body = body.replace("</small></a>", "</small></span>")
         rendered = frame.replace("{{HEAD}}", head).replace("{{TITLE}}", html.escape(title)).replace("{{DESCRIPTION}}", html.escape(description, quote=True)).replace("{{PAGE}}", active).replace("{{HEADER}}", header).replace("{{BODY}}", body).replace("{{FOOTER}}", footer)
         output = ROOT / ("index.html" if page == "index" else f"{page}.html")
         output.write_text(rendered, encoding="utf-8", newline="\n")

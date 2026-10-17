@@ -1,140 +1,674 @@
 [
   {
     "id": "pyTur",
-    "title": "pyTur",
+    "title": "Turtle-laboratorium",
     "description": "Tegn med Python Turtle, kør koden trin for trin og udforsk eksempler.",
     "category": "Spil og Interaktive arenaer",
     "topics": [
-      "begynder",
-      "visualisering"
+      "spil",
+      "algoritmer",
+      "begynder"
     ],
     "level": "Begynder",
-    "prerequisites": "Ingen forudsætninger. Start med enkle instruktioner og eksempler.",
-    "goal": "Undersøg hvordan en sekvens, en løkke eller en funktion kan ændre et tegnet mønster.",
-    "chapter": "Kapitel 1–5",
-    "feature": "🐢",
+    "goal": "Tegn en lukket figur og forklar sammenhængen mellem drejevinkel og antal sider.",
+    "chapter": "kapitel 1–6",
+    "feature": "pyTur",
     "source": "turtle-laboratorium.html",
     "href": "turtle-laboratorium.html"
   },
   {
+    "id": "pySnk",
+    "title": "Snake-laboratorium",
+    "description": "Styr slangen selv, eller afprøv AI-strategier for vejvalg og sikkerhed.",
+    "category": "Spil og Interaktive arenaer",
+    "topics": [
+      "spil",
+      "algoritmer"
+    ],
+    "level": "Videre",
+    "goal": "Lav en strategi som undgår vægge og slangens krop.",
+    "chapter": "kapitel 1–6",
+    "feature": "pySnk",
+    "source": "snake-laboratorium.html",
+    "href": "snake-laboratorium.html"
+  },
+  {
+    "id": "pyPon",
+    "title": "Pong-laboratorium",
+    "description": "Spil 1 mod 1, mod AI eller AI mod AI, og skriv din egen strategi.",
+    "category": "Spil og Interaktive arenaer",
+    "topics": [
+      "spil",
+      "algoritmer"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg hvordan en paddle følger bolden.",
+    "chapter": "kapitel 1–5",
+    "feature": "pyPon",
+    "source": "pong-laboratorium.html",
+    "href": "pong-laboratorium.html"
+  },
+  {
+    "id": "pyFir",
+    "title": "Fire på stribe",
+    "description": "Spil selv, sæt strategier op mod hinanden, og programmér din egen Python-AI.",
+    "category": "Spil og Interaktive arenaer",
+    "topics": [
+      "spil",
+      "algoritmer"
+    ],
+    "level": "Videre",
+    "goal": "Find et vindende træk eller blokér modstanderens næste sejr.",
+    "chapter": "kapitel 1–6",
+    "feature": "pyFir",
+    "source": "fire-paa-stribe-laboratorium.html",
+    "href": "fire-paa-stribe-laboratorium.html"
+  },
+  {
     "id": "pyKry",
-    "title": "pyKry",
+    "title": "Kryds og bolle",
     "description": "Spil mod en ven eller en AI, og undersøg midten, hjørner og gafler.",
     "category": "Spil og Interaktive arenaer",
     "topics": [
       "spil",
       "algoritmer"
     ],
-    "level": "Begynder · videre",
-    "prerequisites": "Du kan begynde med spillet og gå videre med strategier og kode.",
-    "goal": "Afprøv spillets regler, og undersøg hvordan en strategi vælger sit næste træk.",
-    "chapter": "Kapitel 1–5",
-    "feature": "✳",
+    "level": "Videre",
+    "goal": "Vælg et lovligt træk som vinder eller blokerer en sejr.",
+    "chapter": "kapitel 1–5",
+    "feature": "pyKry",
     "source": "kryds-og-bolle-laboratorium.html",
     "href": "kryds-og-bolle-laboratorium.html"
   },
   {
     "id": "pyDia",
-    "title": "pyDia",
+    "title": "Klassediagram",
     "description": "Skitsér klasser, attributter, metoder og relationer, før du skriver programmet.",
     "category": "Software modellering",
     "topics": [
       "systemer",
-      "diagrammer"
+      "visualisering",
+      "begynder"
     ],
-    "level": "Begynder · videre",
-    "prerequisites": "Ingen forudsætninger for at tegne klasser; kode kræver grundlæggende Python.",
-    "goal": "Tegn klasser og relationer, og sammenhold din model med genereret kode.",
-    "chapter": "Kapitel 7–8",
-    "feature": "▱",
+    "level": "Begynder",
+    "goal": "Forbind et klassediagram med Python-klasser.",
+    "chapter": "kapitel 1–7",
+    "feature": "pyDia",
     "source": "diagram-editor.html",
     "href": "diagram-editor.html"
   },
   {
+    "id": "pyFlo",
+    "title": "Rutediagram",
+    "description": "Planlæg programmets rækkefølge med input, beslutninger, processer og slut.",
+    "category": "Software modellering",
+    "topics": [
+      "systemer",
+      "visualisering",
+      "begynder"
+    ],
+    "level": "Begynder",
+    "goal": "Forklar en betingelse og en løkke ved hjælp af et flowdiagram.",
+    "chapter": "kapitel 1–5",
+    "feature": "pyFlo",
+    "source": "flow-diagram.html",
+    "href": "flow-diagram.html"
+  },
+  {
     "id": "pyBlk",
-    "title": "pyBlk",
+    "title": "Blok-programmering til Python",
     "description": "Byg logikken med træk-og-slip-blokke og se den tilsvarende Python-kode.",
     "category": "Software modellering",
     "topics": [
-      "begynder",
-      "visualisering"
+      "systemer",
+      "visualisering",
+      "begynder"
     ],
     "level": "Begynder",
-    "prerequisites": "Ingen forkundskaber. Byg logik med blokke.",
-    "goal": "Flyt og forbind blokke, og undersøg hvilken Python-struktur de beskriver.",
-    "chapter": "Kapitel 1–5",
-    "feature": "▦",
+    "goal": "Byg et lille Python-program med blokke og forklar den genererede kode.",
+    "chapter": "kapitel 1–5",
+    "feature": "pyBlk",
     "source": "blockly-python.html",
     "href": "blockly-python.html"
   },
   {
     "id": "pyViz",
-    "title": "pyViz",
+    "title": "Kodevisualisering",
     "description": "Følg variabler, funktioner, kald og output, mens et Python-program kører.",
     "category": "Software modellering",
     "topics": [
-      "begynder",
+      "systemer",
       "visualisering",
-      "algoritmer"
+      "begynder"
     ],
-    "level": "Begynder · videre",
-    "prerequisites": "Vælg et af eksemplerne, eller følg programmets trin.",
-    "goal": "Følg en Python-eksekvering trin for trin, og se variabler, kald og output ændre sig.",
-    "chapter": "Kapitel 1–6",
-    "feature": "⌁",
+    "level": "Begynder",
+    "goal": "Forudsig variabelværdier og følg programmet ét trin ad gangen.",
+    "chapter": "kapitel 1–5",
+    "feature": "pyViz",
     "source": "code-visualizer.html",
     "href": "code-visualizer.html"
   },
   {
-    "id": "pyKnn",
-    "title": "pyKnn",
-    "description": "Flyt datapunkter, justér k, se naboer stemme og vurder accuracy visuelt.",
+    "id": "pyLag",
+    "title": "3-lags-arkitektur",
+    "description": "Følg et bogudlån gennem præsentation, logik og data, og prøv ugyldige lån, dobbeltlån og aflevering.",
+    "category": "Software modellering",
+    "topics": [
+      "systemer",
+      "visualisering"
+    ],
+    "level": "Videre",
+    "goal": "Fordel præsentation, logik og data i tre lag.",
+    "chapter": "systemdesign og funktioner",
+    "feature": "pyLag",
+    "source": "tre-lags-arkitektur-laboratorium.html",
+    "href": "tre-lags-arkitektur-laboratorium.html"
+  },
+  {
+    "id": "pyMvc",
+    "title": "MVC-laboratorium",
+    "description": "Prøv tilføjelse, validering, færdigmarkering og flere views, mens et klik følger Model, View og Controller.",
+    "category": "Software modellering",
+    "topics": [
+      "systemer",
+      "visualisering"
+    ],
+    "level": "Videre",
+    "goal": "Forklar hvordan model, view og controller samarbejder.",
+    "chapter": "systemdesign og brugerinteraktion",
+    "feature": "pyMvc",
+    "source": "mvc-laboratorium.html",
+    "href": "mvc-laboratorium.html"
+  },
+  {
+    "id": "pyUse",
+    "title": "Use Case-laboratorium",
+    "description": "Afgræns systemet med aktører, use cases og include/extend-relationer, og se Mermaid-syntaksen blive skrevet live.",
+    "category": "Software modellering",
+    "topics": [
+      "systemer",
+      "visualisering",
+      "begynder"
+    ],
+    "level": "Begynder",
+    "goal": "Beskriv aktører og deres mål i et use case-diagram.",
+    "chapter": "kravspecifikation og systemdesign",
+    "feature": "pyUse",
+    "source": "use-case-laboratorium.html",
+    "href": "use-case-laboratorium.html"
+  },
+  {
+    "id": "pyReg",
+    "title": "Regex-værksted",
+    "description": "Byg og test regulære udtryk, og se hvilke dele af teksten mønsteret finder.",
+    "category": "Software modellering",
+    "topics": [
+      "systemer",
+      "visualisering"
+    ],
+    "level": "Videre",
+    "goal": "Lav et regulært udtryk og afprøv både match og ikke-match.",
+    "chapter": "kapitel 1–9",
+    "feature": "pyReg",
+    "source": "regex-generator.html",
+    "href": "regex-generator.html"
+  },
+  {
+    "id": "pyWeb",
+    "title": "Webscraping-laboratorium",
+    "description": "Gå fra HTML-tags til strukturerede citater, bogdata og tabeller med Python.",
+    "category": "Software modellering",
+    "topics": [
+      "systemer",
+      "visualisering"
+    ],
+    "level": "Videre",
+    "goal": "Udtræk felter fra HTML og håndtér manglende elementer.",
+    "chapter": "requests og BeautifulSoup",
+    "feature": "pyWeb",
+    "source": "webscraping-laboratorium.html",
+    "href": "webscraping-laboratorium.html"
+  },
+  {
+    "id": "pySek",
+    "title": "Sekvensdiagram-laboratorium",
+    "description": "Byg systeminteraktioner med lifelines, beskeder, alt/loop og Mermaid-syntaks.",
+    "category": "Software modellering",
+    "topics": [
+      "systemer",
+      "visualisering"
+    ],
+    "level": "Videre",
+    "goal": "Beskriv rækkefølgen af beskeder mellem objekter.",
+    "chapter": "systemdesign og sekvenser",
+    "feature": "pySek",
+    "source": "sekvensdiagram-laboratorium.html",
+    "href": "sekvensdiagram-laboratorium.html"
+  },
+  {
+    "id": "pySor",
+    "title": "Sorteringslaboratorium",
+    "description": "Sammenlign otte Python-sorteringer med søjler, stepping og ressourcegraf.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data",
+      "begynder"
+    ],
+    "level": "Begynder",
+    "goal": "Sortér en liste og forklar sammenligninger og ombytninger.",
+    "chapter": "kapitel 1–6",
+    "feature": "pySor",
+    "source": "sorterings-laboratorium.html",
+    "href": "sorterings-laboratorium.html"
+  },
+  {
+    "id": "pyGra",
+    "title": "Grafteori og Netværk",
+    "description": "Tegn grafer, kør netværksalgoritmer og få automatisk NetworkX-kode.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg traversal og veje mellem grafens knuder.",
+    "chapter": "grafer og algoritmer",
+    "feature": "pyGra",
+    "source": "grafteori-laboratorium.html",
+    "href": "grafteori-laboratorium.html"
+  },
+  {
+    "id": "pyGeo",
+    "title": "Algoritmisk geometri",
+    "description": "Placér punkter, og undersøg konvekse hylstre, Delaunay, Voronoi og alpha-former.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg geometriske relationer mellem punkter og linjer.",
+    "chapter": "grafer, geometri og algoritmer",
+    "feature": "pyGeo",
+    "source": "algoritmisk-geometri-laboratorium.html",
+    "href": "algoritmisk-geometri-laboratorium.html"
+  },
+  {
+    "id": "pyGen",
+    "title": "Genetiske algoritmer",
+    "description": "Lad Dino Run- og Flappy Bird-agenter udvikle sig gennem fitness, selektion og mutation.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg hvordan fitness, selektion og mutation ændrer populationen.",
+    "chapter": "algoritmer, AI og modellering",
+    "feature": "pyGen",
+    "source": "genetiske-algoritmer-laboratorium.html",
+    "href": "genetiske-algoritmer-laboratorium.html"
+  },
+  {
+    "id": "pyDb",
+    "title": "Databaselaboratorium",
+    "description": "Forbind ER-diagrammer, tabeller, SQL-forespørgsler og Python med sqlite3.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Skriv en forespørgsel og forklar filtrering og relationer.",
+    "chapter": "databaser, systemdesign og SQL",
+    "feature": "pyDb",
+    "source": "database-laboratorium.html",
+    "href": "database-laboratorium.html"
+  },
+  {
+    "id": "pyNns",
+    "title": "Neurale netværk",
+    "description": "Byg lag, træn på 2D-data, se vægte og beslutningsflader, og få synkroniseret PyTorch-kode.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg hvordan vægte og læringsrate ændrer et netværks fejl.",
+    "chapter": "maskinlæring, funktioner og matricer",
+    "feature": "pyNns",
+    "source": "neurale-netvaerk-laboratorium.html",
+    "href": "neurale-netvaerk-laboratorium.html"
+  },
+  {
+    "id": "pyTre",
+    "title": "Træ-laboratorium",
+    "description": "Byg hierarkier, binære søgetræer og beslutningstræer med visuel Python-kode.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg traversal og beslutninger i en træstruktur.",
+    "chapter": "datastrukturer og AI",
+    "feature": "pyTre",
+    "source": "trae-laboratorium.html",
+    "href": "trae-laboratorium.html"
+  },
+  {
+    "id": "pyKrp",
+    "title": "Krypt-Lab",
+    "description": "Se Cæsar, Vigenère og RSA forvandle en besked gennem konkrete trin.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Forklar hvordan en nøgle påvirker kryptering og dekryptering.",
+    "chapter": "kapitel 1–5",
+    "feature": "pyKrp",
+    "source": "krypt-laboratorium.html",
+    "href": "krypt-laboratorium.html"
+  },
+  {
+    "id": "pyMl",
+    "title": "Maskinlæringslaboratorium",
+    "description": "Træn og sammenlign perceptron, logistisk regression, KNN og træer.",
     "category": "Maskinlæring og kunstig intelligens",
     "topics": [
-      "data",
       "ai",
+      "data",
       "maskinlæring"
     ],
     "level": "Videre",
-    "prerequisites": "Kendskab til koordinater er nyttigt, men ikke et krav for at flytte punkter.",
-    "goal": "Flyt datapunkter og justér k, så du kan undersøge naboer, klassifikation og outliers.",
-    "chapter": "Kapitel 12",
-    "feature": "◎",
+    "goal": "Træn en model og vurder dens generalisering.",
+    "chapter": "kapitel 12",
+    "feature": "pyMl",
+    "source": "maskinlaerings-laboratorium.html",
+    "href": "maskinlaerings-laboratorium.html"
+  },
+  {
+    "id": "pyKnn",
+    "title": "KNN-laboratorium",
+    "description": "Flyt datapunkter, justér k, se naboer stemme og vurder accuracy visuelt.",
+    "category": "Maskinlæring og kunstig intelligens",
+    "topics": [
+      "ai",
+      "data",
+      "maskinlæring"
+    ],
+    "level": "Videre",
+    "goal": "Forudsig en klasse fra de nærmeste naboer.",
+    "chapter": "supervised learning",
+    "feature": "pyKnn",
     "source": "knn-laboratorium.html",
     "href": "knn-laboratorium.html"
   },
   {
+    "id": "pyKme",
+    "title": "K-Means-laboratorium",
+    "description": "Visualisér ikke-superviseret læring, klynger, centroider og albue-metoden i 2D.",
+    "category": "Maskinlæring og kunstig intelligens",
+    "topics": [
+      "ai",
+      "data",
+      "maskinlæring"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg hvordan centroider deler punkter i klynger.",
+    "chapter": "maskinlæring og klyngedannelse",
+    "feature": "pyKme",
+    "source": "k-means-laboratorium.html",
+    "href": "k-means-laboratorium.html"
+  },
+  {
+    "id": "pyRfo",
+    "title": "Random Forest-laboratorium",
+    "description": "Se, hvordan mange beslutningstræer kan stemme sig frem til en robust model.",
+    "category": "Maskinlæring og kunstig intelligens",
+    "topics": [
+      "ai",
+      "data",
+      "maskinlæring"
+    ],
+    "level": "Videre",
+    "goal": "Sammenlign ét beslutningstræ med en skov.",
+    "chapter": "ensemble-læring og klassifikation",
+    "feature": "pyRfo",
+    "source": "random-forest-laboratorium.html",
+    "href": "random-forest-laboratorium.html"
+  },
+  {
+    "id": "pyTxt",
+    "title": "Chatbot og sprogteknologi",
+    "description": "Undersøg regler, ELIZA-mønstre og Markov-statistik i den samme chat.",
+    "category": "Maskinlæring og kunstig intelligens",
+    "topics": [
+      "ai",
+      "data",
+      "maskinlæring"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg hvordan tekst omsættes til features og svar.",
+    "chapter": "NLP og AI-historie",
+    "feature": "pyTxt",
+    "source": "chatbot-sprogteknologi-laboratorium.html",
+    "href": "chatbot-sprogteknologi-laboratorium.html"
+  },
+  {
     "id": "pyAgt",
-    "title": "pyAgt",
+    "title": "Agentlaboratorium",
     "description": "Eksperimentér med epidemi, økosystem og fiskestime i en levende simulator.",
     "category": "Agentbaseret modellering, robotter og evolution",
     "topics": [
       "simulation",
       "ai"
     ],
-    "level": "Videre · fordybelse",
-    "prerequisites": "Start med simulatoren; udvalgte kodeprojekter kræver Python.",
-    "goal": "Ændr agenternes regler, og undersøg hvilke samlede bevægelser og mønstre der opstår.",
-    "chapter": "Kapitel 7–8",
-    "feature": "◌",
+    "level": "Videre",
+    "goal": "Undersøg hvordan agenter følger lokale bevægelsesregler.",
+    "chapter": "kapitel 1–8",
+    "feature": "pyAgt",
     "source": "agent-simulator.html",
     "href": "agent-simulator.html"
   },
   {
+    "id": "pyCon",
+    "title": "Conway’s Game of Life",
+    "description": "Udforsk levende celler, mønstre og generationer, og skriv selv reglen.",
+    "category": "Agentbaseret modellering, robotter og evolution",
+    "topics": [
+      "simulation",
+      "ai",
+      "begynder"
+    ],
+    "level": "Begynder",
+    "goal": "Forudsig næste generation i Game of Life.",
+    "chapter": "kapitel 1–6",
+    "feature": "pyCon",
+    "source": "conway-laboratorium.html",
+    "href": "conway-laboratorium.html"
+  },
+  {
     "id": "pyRob",
-    "title": "pyRob",
+    "title": "Robotlaboratorium",
     "description": "Programmér en line follower og en sumorobot med sensorer og strategier.",
     "category": "Agentbaseret modellering, robotter og evolution",
     "topics": [
       "simulation",
-      "algoritmer"
+      "ai"
     ],
-    "level": "Begynder · videre",
-    "prerequisites": "Start med de færdige roboteksempler og udforsk sensorerne.",
-    "goal": "Sammenhold robotternes sensorinput med de beslutninger, der styrer deres bevægelser.",
-    "chapter": "Programmering og informatik",
-    "feature": "↗",
+    "level": "Videre",
+    "goal": "Styr en robot mod et mål og undgå forhindringer.",
+    "chapter": "kapitel 1–8",
+    "feature": "pyRob",
     "source": "robot-laboratorium.html",
     "href": "robot-laboratorium.html"
+  },
+  {
+    "id": "pyImg",
+    "title": "Billedbehandlingslaboratorium",
+    "description": "Undersøg pixelværdier og anvend et billedfilter.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg pixelværdier og anvend et billedfilter.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyImg",
+    "source": "billedbehandlings-laboratorium.html",
+    "href": "billedbehandlings-laboratorium.html"
+  },
+  {
+    "id": "pyEvo",
+    "title": "Evolutionært algoritmelaboratorium",
+    "description": "Undersøg selektion og mutation i en evolutionær søgning.",
+    "category": "Maskinlæring og kunstig intelligens",
+    "topics": [
+      "ai",
+      "data",
+      "maskinlæring"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg selektion og mutation i en evolutionær søgning.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyEvo",
+    "source": "evolutionaer-algoritme-laboratorium.html",
+    "href": "evolutionaer-algoritme-laboratorium.html"
+  },
+  {
+    "id": "pyDbg",
+    "title": "Fejlfindingslaboratorium",
+    "description": "Find en fejl, forudsig resultatet og kontrollér din rettelse.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data",
+      "begynder"
+    ],
+    "level": "Begynder",
+    "goal": "Find en fejl, forudsig resultatet og kontrollér din rettelse.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyDbg",
+    "source": "fejlfindings-laboratorium.html",
+    "href": "fejlfindings-laboratorium.html"
+  },
+  {
+    "id": "pyFra",
+    "title": "Fraktal-laboratorium",
+    "description": "Sammenlign Sierpinski, Koch og Mandelbrot og forklar base case.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Sammenlign Sierpinski, Koch og Mandelbrot og forklar base case.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyFra",
+    "source": "fraktal-laboratorium.html",
+    "href": "fraktal-laboratorium.html"
+  },
+  {
+    "id": "pyZip",
+    "title": "Komprimeringslaboratorium",
+    "description": "Komprimér tekst og undersøg hvornår RLE sparer plads.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Komprimér tekst og undersøg hvornår RLE sparer plads.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyZip",
+    "source": "komprimerings-laboratorium.html",
+    "href": "komprimerings-laboratorium.html"
+  },
+  {
+    "id": "pyQua",
+    "title": "Kvaternion-laboratorium",
+    "description": "Undersøg 3D-rotation om en akse med en kvaternion.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg 3D-rotation om en akse med en kvaternion.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyQua",
+    "source": "kvaternion-laboratorium.html",
+    "href": "kvaternion-laboratorium.html"
+  },
+  {
+    "id": "pyMon",
+    "title": "Monte Carlo-laboratorium · Python i Gymnasiet",
+    "description": "Estimér pi eller areal ved tilfældige stikprøver.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Estimér pi eller areal ved tilfældige stikprøver.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyMon",
+    "source": "monte-carlo-laboratorium.html",
+    "href": "monte-carlo-laboratorium.html"
+  },
+  {
+    "id": "pyNet",
+    "title": "Netværks- og internetlaboratorium",
+    "description": "Følg en pakkes vej og forklar lagene i internetkommunikation.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Følg en pakkes vej og forklar lagene i internetkommunikation.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyNet",
+    "source": "netvaerk-internet-laboratorium.html",
+    "href": "netvaerk-internet-laboratorium.html"
+  },
+  {
+    "id": "pyNeu",
+    "title": "Neuralt netværk-laboratorium",
+    "description": "Undersøg træning af et enkelt neuralt netværk.",
+    "category": "Maskinlæring og kunstig intelligens",
+    "topics": [
+      "ai",
+      "data",
+      "maskinlæring"
+    ],
+    "level": "Videre",
+    "goal": "Undersøg træning af et enkelt neuralt netværk.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyNeu",
+    "source": "neuralt-netvaerk-laboratorium.html",
+    "href": "neuralt-netvaerk-laboratorium.html"
+  },
+  {
+    "id": "pyRut",
+    "title": "Dijkstra- og A*-laboratorium",
+    "description": "Find en kort rute og forklar hvilke knuder der besøges.",
+    "category": "Algoritmer og Datastrukturer",
+    "topics": [
+      "algoritmer",
+      "data"
+    ],
+    "level": "Videre",
+    "goal": "Find en kort rute og forklar hvilke knuder der besøges.",
+    "chapter": "Python i Gymnasiet",
+    "feature": "pyRut",
+    "source": "rutealgoritmer-laboratorium.html",
+    "href": "rutealgoritmer-laboratorium.html"
   }
 ]
