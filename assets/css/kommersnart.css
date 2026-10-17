@@ -1,4 +1,5 @@
 /* Separate teaser styling; the existing site keeps its own layout. */
+.teaser-film-title{margin:0 auto 18px;color:var(--ink);font-size:1.25rem;font-weight:650;letter-spacing:-.025em;text-align:center}
 .teaser-film{scroll-margin-top:25px}
 .teaser-film-stage{position:relative;isolation:isolate}
 .film-play[hidden]{display:none}
@@ -18,7 +19,7 @@
 .teaser-film-heading{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:28px}
 .teaser-film-heading h2{margin:0;font-size:clamp(2rem,3.6vw,3rem)}
 .teaser-film-heading>p{max-width:300px;margin:0 0 3px;color:var(--muted);font-size:.93rem}
-.teaser-film-frame{width:min(100%,820px);margin:0 auto;overflow:hidden;border:1px solid #b7c6b9;border-radius:16px;background:var(--petrol);box-shadow:0 22px 55px #17343a15}
+.teaser-film-frame{width:min(100%,560px);margin:0 auto;overflow:hidden;border:1px solid #b7c6b9;border-radius:10px;background:var(--petrol);box-shadow:0 12px 30px #17343a12;outline:none}
 .teaser-film-frame video{display:block;width:100%;max-height:75dvh;margin-inline:auto;background:#102c30;object-fit:contain}
 .teaser-film-frame figcaption{display:flex;justify-content:space-between;gap:16px;padding:16px 22px;color:#dce6df;font-size:.75rem}
 .teaser-film-frame figcaption a{color:#dce6df}
