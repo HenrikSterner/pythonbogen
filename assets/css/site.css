@@ -15,15 +15,17 @@
 @media(max-width:420px){.author-profile{padding:22px}.author-profile-top{gap:12px}.author-profile-top .eyebrow{font-size:.65rem}.author-monogram{width:52px;height:52px;border-radius:14px}.contact-card>.button{max-width:100%;font-size:.9rem}}
 
 .hero-video{width:100%;min-width:0;margin:0}.hero-video video{display:block;width:100%;height:auto;aspect-ratio:auto;border:1px solid #577267;border-radius:14px;background:#123d42;box-shadow:0 22px 60px #071c1b3b;object-fit:contain}.hero-video figcaption{margin-top:13px;color:var(--muted);font-size:.84rem;line-height:1.5}.intro-video{max-width:960px;margin:0 auto}
-/* Keep the two VygotskAI section intros centered. */
+/* Keep section intros centered. */
 .video-intro-section .section-heading,
-#lokale-modeller .section-heading {
+#lokale-modeller .section-heading,
+.purchase-heading {
     margin-inline: auto;
     text-align: center;
 }
 
 .video-intro-section .section-heading .eyebrow,
-#lokale-modeller .section-heading .eyebrow {
+#lokale-modeller .section-heading .eyebrow,
+.purchase-heading .eyebrow {
     justify-content: center;
 }
 
